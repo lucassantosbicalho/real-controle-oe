@@ -30,29 +30,29 @@
      will execute in this procedure's storage, and that proper
      cleanup will occur on deletion of the procedure. */
 
-CREATE WIDGET-POOL.
+create widget-pool.
 
 /* ***************************  Definitions  ************************** */
 
 /* Parameters Definitions ---                                           */
 
 /* Local Variable Definitions ---                                       */
-DEFINE TEMP-TABLE ttCtas NO-UNDO
-    FIELD lbl       AS CHAR
-    FIELD banco-cod AS CHAR 
-    FIELD ag        AS CHAR 
-    FIELD conta     AS CHAR 
-    FIELD dCred     AS DECIMAL 
-    FIELD dDeb      AS DECIMAL 
-    FIELD dSaldo    AS DECIMAL.
+define temp-table ttCtas no-undo
+    field lbl       as char
+    field banco-cod as char 
+    field ag        as char 
+    field conta     as char 
+    field dCred     as decimal 
+    field dDeb      as decimal 
+    field dSaldo    as decimal.
 
-DEFINE TEMP-TABLE ttMovto NO-UNDO
-    LIKE movto.
+define temp-table ttMovto no-undo
+    like movto.
 
-DEFINE VARIABLE dCredT  AS DECIMAL   NO-UNDO.
-DEFINE VARIABLE dDebT   AS DECIMAL   NO-UNDO.
-DEFINE VARIABLE dSaldoT AS DECIMAL   NO-UNDO.
-DEFINE VARIABLE cLbl    AS CHARACTER NO-UNDO INIT "Total entre contas".
+define variable dCredT  as decimal   no-undo.
+define variable dDebT   as decimal   no-undo.
+define variable dSaldoT as decimal   no-undo.
+define variable cLbl    as character no-undo init "Total entre contas".
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -101,36 +101,36 @@ DEFINE VARIABLE cLbl    AS CHARACTER NO-UNDO INIT "Total entre contas".
 /* ***********************  Control Definitions  ********************** */
 
 /* Define the widget handle for the window                              */
-DEFINE VAR C-Win AS WIDGET-HANDLE NO-UNDO.
+define var C-Win as widget-handle no-undo.
 
 /* Definitions of the field level widgets                               */
-DEFINE VARIABLE fill-data-saldo AS DATE FORMAT "99/99/9999":U 
-     LABEL "Calcular saldo até a data" 
-     VIEW-AS FILL-IN 
-     SIZE 16 BY .95 TOOLTIP "Escolha a data final para cálculo do saldo das contas" NO-UNDO.
+define variable fill-data-saldo as date format "99/99/9999":U 
+     label "Calcular saldo até a data" 
+     view-as fill-in 
+     size 16 by .95 tooltip "Escolha a data final para cálculo do saldo das contas" no-undo.
 
-DEFINE IMAGE IMAGE-3
-     FILENAME "Telas/menu.bmp":U
-     SIZE 133 BY 22.38.
+define image IMAGE-3
+     filename "Telas/menu.bmp":U
+     size 133 by 22.38.
 
-DEFINE RECTANGLE RECT-3
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 129 BY 15.24.
+define rectangle RECT-3
+     edge-pixels 2 graphic-edge  no-fill   
+     size 129 by 15.24.
 
 /* Query definitions                                                    */
 &ANALYZE-SUSPEND
-DEFINE QUERY BROWSE-4 FOR 
-      ttCtas SCROLLING.
+define query BROWSE-4 for 
+      ttCtas scrolling.
 &ANALYZE-RESUME
 
 /* Browse definitions                                                   */
-DEFINE BROWSE BROWSE-4
+define browse BROWSE-4
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _DISPLAY-FIELDS BROWSE-4 C-Win _FREEFORM
-  QUERY BROWSE-4 DISPLAY
-      ttCtas.lbl COLUMN-LABEL "Conta bancária" FORMAT "x(50)" WIDTH 50 LABEL-FONT 6 
-      ttCtas.dCred COLUMN-LABEL "Crédito" WIDTH 20 LABEL-FONT 6
-      ttCtas.dDeb  COLUMN-LABEL "Débito"  WIDTH 20 LABEL-FONT 6
-      ttCtas.dSaldo COLUMN-LABEL "Saldo"  WIDTH 20 LABEL-FONT 6
+  query BROWSE-4 display
+      ttCtas.lbl column-label "Conta bancária" format "x(50)" width 50 label-font 6 
+      ttCtas.dCred column-label "Crédito" width 20 label-font 6
+      ttCtas.dDeb  column-label "Débito"  width 20 label-font 6
+      ttCtas.dSaldo column-label "Saldo"  width 20 label-font 6
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
     WITH SIZE 122 BY 12.67
@@ -139,17 +139,17 @@ DEFINE BROWSE BROWSE-4
 
 /* ************************  Frame Definitions  *********************** */
 
-DEFINE FRAME DEFAULT-FRAME
-     BROWSE-4 AT ROW 6.86 COL 6.6 WIDGET-ID 200
-     fill-data-saldo AT ROW 19.86 COL 110.6 COLON-ALIGNED WIDGET-ID 4
-     "Saldo consolidado entre contas bancárias:" VIEW-AS TEXT
-          SIZE 41 BY .62 AT ROW 5.62 COL 5.8 WIDGET-ID 8
-     IMAGE-3 AT ROW 1 COL 1 WIDGET-ID 2
-     RECT-3 AT ROW 6 COL 3.2 WIDGET-ID 6
-    WITH 1 DOWN NO-BOX KEEP-TAB-ORDER OVERLAY 
-         SIDE-LABELS NO-UNDERLINE THREE-D 
-         AT COL 1.2 ROW 1
-         SIZE 133 BY 22.38 WIDGET-ID 100.
+define frame DEFAULT-FRAME
+     BROWSE-4 at row 6.86 col 6.6 widget-id 200
+     fill-data-saldo at row 19.86 col 110.6 colon-aligned widget-id 4
+     "Saldo consolidado entre contas bancárias:" view-as text
+          size 41 by .62 at row 5.62 col 5.8 widget-id 8
+     IMAGE-3 at row 1 col 1 widget-id 2
+     RECT-3 at row 6 col 3.2 widget-id 6
+    with 1 down no-box keep-tab-order overlay 
+         side-labels no-underline three-d 
+         at col 1.2 row 1
+         size 133 by 22.38 widget-id 100.
 
 
 /* *********************** Procedure Settings ************************ */
@@ -165,32 +165,32 @@ DEFINE FRAME DEFAULT-FRAME
 /* *************************  Create Window  ************************** */
 
 &ANALYZE-SUSPEND _CREATE-WINDOW
-IF SESSION:DISPLAY-TYPE = "GUI":U THEN
-  CREATE WINDOW C-Win ASSIGN
-         HIDDEN             = YES
-         TITLE              = "Real Controle - Gestão de finanças pessoais"
-         HEIGHT             = 22.38
-         WIDTH              = 133
-         MAX-HEIGHT         = 28.86
-         MAX-WIDTH          = 170
-         VIRTUAL-HEIGHT     = 28.86
-         VIRTUAL-WIDTH      = 170
-         MAX-BUTTON         = NO
-         RESIZE             = NO
-         SCROLL-BARS        = NO
-         STATUS-AREA        = NO
-         BGCOLOR            = ?
-         FGCOLOR            = ?
-         KEEP-FRAME-Z-ORDER = YES
-         THREE-D            = YES
-         MESSAGE-AREA       = NO
-         SENSITIVE          = YES.
-ELSE {&WINDOW-NAME} = CURRENT-WINDOW.
+if session:display-type = "GUI":U then
+  create window C-Win assign
+         hidden             = yes
+         title              = "Real Controle - Gestão de finanças pessoais"
+         height             = 22.38
+         width              = 133
+         max-height         = 28.86
+         max-width          = 170
+         virtual-height     = 28.86
+         virtual-width      = 170
+         max-button         = no
+         resize             = no
+         scroll-bars        = no
+         status-area        = no
+         bgcolor            = ?
+         fgcolor            = ?
+         keep-frame-z-order = yes
+         three-d            = yes
+         message-area       = no
+         sensitive          = yes.
+else {&WINDOW-NAME} = current-window.
 
 &IF '{&WINDOW-SYSTEM}' NE 'TTY' &THEN
-IF NOT C-Win:LOAD-ICON("Telas/icorealcontrole2.ico":U) THEN
-    MESSAGE "Unable to load icon: Telas/icorealcontrole2.ico"
-            VIEW-AS ALERT-BOX WARNING BUTTONS OK.
+if not C-Win:load-icon("Telas/icorealcontrole2.ico":U) then
+    message "Unable to load icon: Telas/icorealcontrole2.ico"
+            view-as alert-box warning buttons ok.
 &ENDIF
 /* END WINDOW DEFINITION                                                */
 &ANALYZE-RESUME
@@ -207,8 +207,8 @@ IF NOT C-Win:LOAD-ICON("Telas/icorealcontrole2.ico":U) THEN
 /* BROWSE-TAB BROWSE-4 RECT-3 DEFAULT-FRAME */
 /* SETTINGS FOR BROWSE BROWSE-4 IN FRAME DEFAULT-FRAME
    NO-ENABLE                                                            */
-IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
-THEN C-Win:HIDDEN = NO.
+if session:display-type = "GUI":U and VALID-HANDLE(C-Win)
+then C-Win:hidden = no.
 
 /* _RUN-TIME-ATTRIBUTES-END */
 &ANALYZE-RESUME
@@ -233,61 +233,65 @@ OPEN QUERY {&SELF-NAME} FOR EACH ttCtas.
 
 &Scoped-define SELF-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON END-ERROR OF C-Win /* Real Controle - Gestão de finanças pessoais */
-OR ENDKEY OF {&WINDOW-NAME} ANYWHERE DO:
+on end-error of C-Win /* Real Controle - Gestão de finanças pessoais */
+or endkey of {&WINDOW-NAME} anywhere do:
   /* This case occurs when the user presses the "Esc" key.
      In a persistently run window, just ignore this.  If we did not, the
      application would exit. */
-  IF THIS-PROCEDURE:PERSISTENT THEN RETURN NO-APPLY.
-END.
+  if this-procedure:persistent then return no-apply.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
+
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON WINDOW-CLOSE OF C-Win /* Real Controle - Gestão de finanças pessoais */
-DO:
+on window-close of C-Win /* Real Controle - Gestão de finanças pessoais */
+do:
   /* This event will close the window and terminate the procedure.  */
-  APPLY "CLOSE":U TO THIS-PROCEDURE.
-  RETURN NO-APPLY.
-END.
+  apply "CLOSE":U to this-procedure.
+  return no-apply.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
+
+
+
 
 
 &Scoped-define BROWSE-NAME BROWSE-4
 &Scoped-define SELF-NAME BROWSE-4
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BROWSE-4 C-Win
-ON ROW-DISPLAY OF BROWSE-4 IN FRAME DEFAULT-FRAME
-DO:
-    DEFINE VARIABLE fg AS INTEGER NO-UNDO INIT 15.
-    DEFINE VARIABLE bg AS INTEGER NO-UNDO INIT 0.
-    DEFINE VARIABLE fn AS INTEGER NO-UNDO INIT 12.
+on row-display of BROWSE-4 in frame DEFAULT-FRAME
+do:
+    define variable fg as integer no-undo init 15.
+    define variable bg as integer no-undo init 0.
+    define variable fn as integer no-undo init 12.
     
-    IF ttCtas.lbl = cLbl THEN DO:
-        ASSIGN 
-            ttCtas.lbl:fgcolor    IN BROWSE BROWSE-4 = bg
-            ttCtas.lbl:bgcolor    IN BROWSE BROWSE-4 = fg
+    if ttCtas.lbl = cLbl then do:
+        assign 
+            ttCtas.lbl:fgcolor    in browse BROWSE-4 = bg
+            ttCtas.lbl:bgcolor    in browse BROWSE-4 = fg
 /*            ttCtas.lbl:font       in browse BROWSE-4 = fn*/
-            ttCtas.dCred:fgcolor  IN BROWSE BROWSE-4 = bg
-            ttCtas.dCred:bgcolor  IN BROWSE BROWSE-4 = fg
+            ttCtas.dCred:fgcolor  in browse BROWSE-4 = bg
+            ttCtas.dCred:bgcolor  in browse BROWSE-4 = fg
 /*            ttCtas.dCred:font     in browse BROWSE-4 = fn*/
-            ttCtas.dDeb:fgcolor   IN BROWSE BROWSE-4 = bg
-            ttCtas.dDeb:bgcolor   IN BROWSE BROWSE-4 = fg
+            ttCtas.dDeb:fgcolor   in browse BROWSE-4 = bg
+            ttCtas.dDeb:bgcolor   in browse BROWSE-4 = fg
 /*            ttCtas.dDeb:font      in browse BROWSE-4 = fn*/
-            ttCtas.dSaldo:fgcolor IN BROWSE BROWSE-4 = bg
-            ttCtas.dSaldo:bgcolor IN BROWSE BROWSE-4 = fg
+            ttCtas.dSaldo:fgcolor in browse BROWSE-4 = bg
+            ttCtas.dSaldo:bgcolor in browse BROWSE-4 = fg
 /*            ttCtas.dSaldo:font    in browse BROWSE-4 = fn*/
         .
-    END.
+    end.
     
-    IF ttCtas.dSaldo < 0 THEN
-        ASSIGN
-            ttCtas.dSaldo:fgcolor IN BROWSE BROWSE-4 = 12.
+    if ttCtas.dSaldo < 0 then
+        assign
+            ttCtas.dSaldo:fgcolor in browse BROWSE-4 = 12.
             
-END.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -297,45 +301,47 @@ END.
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _MAIN-BLOCK C-Win 
 
-ASSIGN 
-    fill-data-saldo = TODAY.
-    
-ON "return" OF fill-data-saldo DO:
-    ASSIGN fill-data-saldo.
-    RUN prCalculaSaldo.
-END.
+subscribe to "prCalculaSaldo" anywhere.
 
-ON "tab" OF fill-data-saldo DO:
-    ASSIGN fill-data-saldo.
-    RUN prCalculaSaldo.
-END.
+assign 
+    fill-data-saldo = today.
     
-RUN prCalculaSaldo.
+on return of fill-data-saldo do:
+    assign fill-data-saldo.
+    run prCalculaSaldo(fill-data-saldo).
+end.
+
+on tab of fill-data-saldo do:
+    assign fill-data-saldo.
+    run prCalculaSaldo(fill-data-saldo).
+end.
+    
+run prCalculaSaldo(today).
 
 {cad/include/menu.i}
 
 /* Set CURRENT-WINDOW: this will parent dialog-boxes and frames.        */
-ASSIGN CURRENT-WINDOW                = {&WINDOW-NAME}
+assign CURRENT-WINDOW                = {&WINDOW-NAME}
        current-window:menu-bar       = menu mBarra:handle
        THIS-PROCEDURE:CURRENT-WINDOW = {&WINDOW-NAME}.
 
 /* The CLOSE event can be used from inside or outside the procedure to  */
 /* terminate it.                                                        */
-ON CLOSE OF THIS-PROCEDURE 
-   RUN disable_UI.
+on close of this-procedure 
+   run disable_UI.
 
 /* Best default for GUI applications is...                              */
-PAUSE 0 BEFORE-HIDE.
+pause 0 before-hide.
 
 /* Now enable the interface and wait for the exit condition.            */
 /* (NOTE: handle ERROR and END-KEY so cleanup code will always fire.    */
 MAIN-BLOCK:
-DO ON ERROR   UNDO MAIN-BLOCK, LEAVE MAIN-BLOCK
-   ON END-KEY UNDO MAIN-BLOCK, LEAVE MAIN-BLOCK:
-  RUN enable_UI.
-  IF NOT THIS-PROCEDURE:PERSISTENT THEN
-    WAIT-FOR CLOSE OF THIS-PROCEDURE.
-END.
+do on error   undo MAIN-BLOCK, leave MAIN-BLOCK
+   on end-key undo MAIN-BLOCK, leave MAIN-BLOCK:
+  run enable_UI.
+  if not this-procedure:persistent then
+    wait-for close of this-procedure.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -344,7 +350,7 @@ END.
 /* **********************  Internal Procedures  *********************** */
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE disable_UI C-Win  _DEFAULT-DISABLE
-PROCEDURE disable_UI :
+procedure disable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     DISABLE the User Interface
   Parameters:  <none>
@@ -354,16 +360,16 @@ PROCEDURE disable_UI :
                we are ready to "clean-up" after running.
 ------------------------------------------------------------------------------*/
   /* Delete the WINDOW we created */
-  IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
-  THEN DELETE WIDGET C-Win.
-  IF THIS-PROCEDURE:PERSISTENT THEN DELETE PROCEDURE THIS-PROCEDURE.
-END PROCEDURE.
+  if session:display-type = "GUI":U and VALID-HANDLE(C-Win)
+  then delete widget C-Win.
+  if this-procedure:persistent then delete procedure this-procedure.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE enable_UI C-Win  _DEFAULT-ENABLE
-PROCEDURE enable_UI :
+procedure enable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     ENABLE the User Interface
   Parameters:  <none>
@@ -373,98 +379,100 @@ PROCEDURE enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  DISPLAY fill-data-saldo 
-      WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
-  ENABLE IMAGE-3 RECT-3 fill-data-saldo 
-      WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
+  display fill-data-saldo 
+      with frame DEFAULT-FRAME in window C-Win.
+  enable IMAGE-3 RECT-3 fill-data-saldo 
+      with frame DEFAULT-FRAME in window C-Win.
   {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
-  VIEW C-Win.
-END PROCEDURE.
+  view C-Win.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prCalculaSaldo C-Win 
-PROCEDURE prCalculaSaldo :
+procedure prCalculaSaldo :
 /*------------------------------------------------------------------------------
  Purpose:
  Notes:
 ------------------------------------------------------------------------------*/
-
-/* --------------------------------------------------------------------------------
-         Cria labels das contas unicas
--------------------------------------------------------------------------------- */ 
-EMPTY TEMP-TABLE ttCtas.
-CREATE ttCtas.
-    ASSIGN 
-        ttCtas.lbl       = cLbl
-        ttCtas.banco-cod = "" 
-        ttCtas.ag        = ""
-        ttCtas.conta     = "".
-
-FOR EACH conta NO-LOCK,
-    EACH banco NO-LOCK
-        WHERE banco.banco-cod = conta.banco-cod:
-            
-    CREATE ttCtas.
-    ASSIGN 
-        ttCtas.lbl       = SUBSTITUTE("   &1 &2 / &3", banco.descricao, conta.ag, conta.conta)
-        ttCtas.banco-cod = conta.banco-cod 
-        ttCtas.ag        = conta.ag
-        ttCtas.conta     = conta.conta.
-END.
-
-/* --------------------------------------------------------------------------------
-         Copia registros do mov para uma tt
--------------------------------------------------------------------------------- */ 
-EMPTY TEMP-TABLE ttMovto.
-FOR EACH movto
-    WHERE movto.data-mvto < fill-data-saldo:
-      //and movto.pendente  = true:
-      
-    CREATE ttMovto.
-    BUFFER-COPY movto TO ttMovto.
-END.
-
-/* --------------------------------------------------------------------------------
-         Calcula total cred e deb por conta e entre contas
--------------------------------------------------------------------------------- */ 
-ASSIGN 
-    dCredT  = 0
-    dDebT   = 0.
+define input  parameter d-mov as date no-undo.
+    message "source-procedure:file-name" source-procedure:file-name skip
+            "target-procedure:file-name" target-procedure:file-name
+    view-as alert-box.
+    /* --------------------------------------------------------------------------------
+             Cria labels das contas unicas
+    -------------------------------------------------------------------------------- */ 
+    empty temp-table ttCtas.
+    create ttCtas.
+        assign 
+            ttCtas.lbl       = cLbl
+            ttCtas.banco-cod = "" 
+            ttCtas.ag        = ""
+            ttCtas.conta     = "".
     
-FOR EACH ttMovto EXCLUSIVE-LOCK:
-    FOR EACH ttCtas NO-LOCK
-        WHERE ttCtas.banco-cod = ttMovto.banco-cod
-          AND ttCtas.ag        = ttMovto.ag
-          AND ttCtas.conta     = ttMovto.conta:
-       
-        IF ttMovto.valor >= 0 
-        THEN
-            ASSIGN
-                ttCtas.dCred = ttCtas.dCred + ttMovto.valor 
-                dCredT       = dCredT + ttMovto.valor.
-        ELSE 
-            ASSIGN 
-                ttCtas.dDeb = ttCtas.dDeb + ttMovto.valor
-                dDebT   = dDebT + ttMovto.valor.
+    for each conta no-lock,
+        each banco no-lock
+            where banco.banco-cod = conta.banco-cod:
                 
-    END.
-END.
+        create ttCtas.
+        assign 
+            ttCtas.lbl       = substitute("   &1 &2 / &3", banco.descricao, conta.ag, conta.conta)
+            ttCtas.banco-cod = conta.banco-cod 
+            ttCtas.ag        = conta.ag
+            ttCtas.conta     = conta.conta.
+    end.
+    
+    /* --------------------------------------------------------------------------------
+             Copia registros do mov para uma tt
+    -------------------------------------------------------------------------------- */ 
+    empty temp-table ttMovto.
+    for each movto
+        where movto.data-mvto <= d-mov:
+          
+        create ttMovto.
+        buffer-copy movto to ttMovto.
+    end.
+    
+    /* --------------------------------------------------------------------------------
+             Calcula total cred e deb por conta e entre contas
+    -------------------------------------------------------------------------------- */ 
+    assign 
+        dCredT  = 0
+        dDebT   = 0.
+        
+    for each ttMovto exclusive-lock:
+        for each ttCtas no-lock
+            where ttCtas.banco-cod = ttMovto.banco-cod
+              and ttCtas.ag        = ttMovto.ag
+              and ttCtas.conta     = ttMovto.conta:
+           
+            if ttMovto.valor >= 0 
+            then
+                assign
+                    ttCtas.dCred = ttCtas.dCred + ttMovto.valor 
+                    dCredT       = dCredT + ttMovto.valor.
+            else 
+                assign 
+                    ttCtas.dDeb = ttCtas.dDeb + ttMovto.valor
+                    dDebT   = dDebT + ttMovto.valor.
+                    
+        end.
+    end.
+    
+    /* --------------------------------------------------------------------------------
+             Calcula saldo total por conta e entre contas
+    -------------------------------------------------------------------------------- */ 
+    for each ttCtas exclusive-lock:
+        assign 
+            ttCtas.dCred  = (if ttCtas.lbl = cLbl then dCredT else ttCtas.dCred)
+            ttCtas.dDeb   = (if ttCtas.lbl = cLbl then dDebT else ttCtas.dDeb)
+            ttCtas.dSaldo = (if ttCtas.lbl = cLbl then dCredT + dDebT else ttCtas.dCred + ttCtas.dDeb).
+    end.
 
-/* --------------------------------------------------------------------------------
-         Calcula saldo total por conta e entre contas
--------------------------------------------------------------------------------- */ 
-FOR EACH ttCtas EXCLUSIVE-LOCK:
-    ASSIGN 
-        ttCtas.dCred  = (IF ttCtas.lbl = cLbl THEN dCredT ELSE ttCtas.dCred)
-        ttCtas.dDeb   = (IF ttCtas.lbl = cLbl THEN dDebT ELSE ttCtas.dDeb)
-        ttCtas.dSaldo = (IF ttCtas.lbl = cLbl THEN dCredT + dDebT ELSE ttCtas.dCred + ttCtas.dDeb).
-END.
+    {&OPEN-QUERY-BROWSE-4}
 
-{&OPEN-QUERY-BROWSE-4}
-
-END PROCEDURE.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME

@@ -1,7 +1,7 @@
 &ANALYZE-SUSPEND _VERSION-NUMBER AB_v10r12 GUI
 &ANALYZE-RESUME
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS Procedure
-USING src.cad.cls.LoginControl FROM PROPATH.
+using src.cad.cls.LoginControl from propath.
 &ANALYZE-RESUME
 &Scoped-define WINDOW-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DEFINITIONS C-Win 
@@ -32,17 +32,17 @@ USING src.cad.cls.LoginControl FROM PROPATH.
      will execute in this procedure's storage, and that proper
      cleanup will occur on deletion of the procedure. */
 
-CREATE WIDGET-POOL.
+create widget-pool.
 
 /* ***************************  Definitions  ************************** */
-ASSIGN 
-    SESSION:DEBUG-ALERT         = YES
-    LOG-MANAGER:LOGFILE-NAME    = 'E:\jobs\realcontrole\out\clientlog\clientlog.txt'
-    LOG-MANAGER:LOGGING-LEVEL   = 4
-    LOG-MANAGER:LOG-ENTRY-TYPES = "4GLMessages,4GLTrace,DB.Connects,DynObjects.DB,DynObjects.XML,DynObjects.Other,DynObjects.CLASS,DynObjects.UI,FileID,ProEvents.UI.CHAR,ProEvents.UI.COMMAND,ProEvents.Other,SAX".
+assign 
+    session:debug-alert         = yes
+    log-manager:logfile-name    = 'E:\jobs\realcontrole\out\clientlog\clientlog.txt'
+    log-manager:logging-level   = 4
+    log-manager:log-entry-types = "4GLMessages,4GLTrace,DB.Connects,DynObjects.DB,DynObjects.XML,DynObjects.Other,DynObjects.CLASS,DynObjects.UI,FileID,ProEvents.UI.CHAR,ProEvents.UI.COMMAND,ProEvents.Other,SAX".
 
 /* Parameters Definitions ---                                           */
-DEFINE VARIABLE controlador-login AS LoginControl NO-UNDO.
+define variable controlador-login as LoginControl no-undo.
 
 /* Local Variable Definitions ---                                       */
 
@@ -76,50 +76,50 @@ btEntrar
 /* ***********************  Control Definitions  ********************** */
 
 /* Define the widget handle for the window                              */
-DEFINE VAR C-Win AS WIDGET-HANDLE NO-UNDO.
+define var C-Win as widget-handle no-undo.
 
 /* Definitions of the field level widgets                               */
-DEFINE BUTTON btCancelar 
-     LABEL "Cancelar" 
-     SIZE 15 BY 1.14.
+define button btCancelar 
+     label "Cancelar" 
+     size 15 by 1.14.
 
-DEFINE BUTTON btEntrar 
-     LABEL "Entrar" 
-     SIZE 15 BY 1.14.
+define button btEntrar 
+     label "Entrar" 
+     size 15 by 1.14.
 
-DEFINE VARIABLE filSenha AS CHARACTER FORMAT "X(256)":U 
-     VIEW-AS FILL-IN 
-     SIZE 42 BY 1
-     FONT 9 NO-UNDO.
+define variable filSenha as character format "X(256)":U 
+     view-as fill-in 
+     size 42 by 1
+     font 9 no-undo.
 
-DEFINE VARIABLE filUsuario AS CHARACTER FORMAT "X(256)":U 
-     VIEW-AS FILL-IN 
-     SIZE 42 BY 1
-     FONT 9 NO-UNDO.
+define variable filUsuario as character format "X(256)":U 
+     view-as fill-in 
+     size 42 by 1
+     font 9 no-undo.
 
-DEFINE IMAGE IMAGE-2
-     FILENAME "Telas/login.bmp":U
-     SIZE 97 BY 24.76.
+define image IMAGE-2
+     filename "Telas/login.bmp":U
+     size 97 by 24.76.
 
 
 /* ************************  Frame Definitions  *********************** */
 
-DEFINE FRAME DEFAULT-FRAME
-     filUsuario AT ROW 17.24 COL 27 COLON-ALIGNED NO-LABEL WIDGET-ID 4
-     filSenha AT ROW 19.38 COL 27 COLON-ALIGNED NO-LABEL WIDGET-ID 6 PASSWORD-FIELD 
-     btCancelar AT ROW 22.71 COL 30 WIDGET-ID 8
-     btEntrar AT ROW 22.71 COL 55 WIDGET-ID 10
-     "Usuário" VIEW-AS TEXT
-          SIZE 12 BY .62 AT ROW 16.48 COL 29 WIDGET-ID 12
-          FONT 9
-     "Senha" VIEW-AS TEXT
-          SIZE 12 BY .62 AT ROW 18.67 COL 29 WIDGET-ID 14
-          FONT 9
-     IMAGE-2 AT ROW 1 COL 1 WIDGET-ID 16
-    WITH 1 DOWN NO-BOX KEEP-TAB-ORDER OVERLAY 
-         SIDE-LABELS NO-UNDERLINE THREE-D 
-         AT COL 1 ROW 1
-         SIZE 97 BY 24.76 WIDGET-ID 100.
+define frame DEFAULT-FRAME
+     filUsuario at row 17.24 col 27 colon-aligned no-label widget-id 4
+     filSenha at row 19.38 col 27 colon-aligned no-label widget-id 6 password-field 
+     btCancelar at row 22.71 col 30 widget-id 8
+     btEntrar at row 22.71 col 55 widget-id 10
+     "Usuário" view-as text
+          size 12 by .62 at row 16.48 col 29 widget-id 12
+          font 9
+     "Senha" view-as text
+          size 12 by .62 at row 18.67 col 29 widget-id 14
+          font 9
+     IMAGE-2 at row 1 col 1 widget-id 16
+    with 1 down no-box keep-tab-order overlay 
+         side-labels no-underline three-d 
+         at col 1 row 1
+         size 97 by 24.76 widget-id 100.
 
 
 /* *********************** Procedure Settings ************************ */
@@ -135,32 +135,32 @@ DEFINE FRAME DEFAULT-FRAME
 /* *************************  Create Window  ************************** */
 
 &ANALYZE-SUSPEND _CREATE-WINDOW
-IF SESSION:DISPLAY-TYPE = "GUI":U THEN
-  CREATE WINDOW C-Win ASSIGN
-         HIDDEN             = YES
-         TITLE              = "Real Controle - Gestão de finanças pessoais"
-         HEIGHT             = 24.76
-         WIDTH              = 97
-         MAX-HEIGHT         = 30.52
-         MAX-WIDTH          = 118.6
-         VIRTUAL-HEIGHT     = 30.52
-         VIRTUAL-WIDTH      = 118.6
-         MAX-BUTTON         = NO
-         RESIZE             = NO
-         SCROLL-BARS        = NO
-         STATUS-AREA        = NO
-         BGCOLOR            = ?
-         FGCOLOR            = ?
-         KEEP-FRAME-Z-ORDER = YES
-         THREE-D            = YES
-         MESSAGE-AREA       = NO
-         SENSITIVE          = YES.
-ELSE {&WINDOW-NAME} = CURRENT-WINDOW.
+if session:display-type = "GUI":U then
+  create window C-Win assign
+         hidden             = yes
+         title              = "Real Controle - Gestão de finanças pessoais"
+         height             = 24.76
+         width              = 97
+         max-height         = 30.52
+         max-width          = 118.6
+         virtual-height     = 30.52
+         virtual-width      = 118.6
+         max-button         = no
+         resize             = no
+         scroll-bars        = no
+         status-area        = no
+         bgcolor            = ?
+         fgcolor            = ?
+         keep-frame-z-order = yes
+         three-d            = yes
+         message-area       = no
+         sensitive          = yes.
+else {&WINDOW-NAME} = current-window.
 
 &IF '{&WINDOW-SYSTEM}' NE 'TTY' &THEN
-IF NOT C-Win:LOAD-ICON("Telas/icorealcontrole2.ico":U) THEN
-    MESSAGE "Unable to load icon: Telas/icorealcontrole2.ico"
-            VIEW-AS ALERT-BOX WARNING BUTTONS OK.
+if not C-Win:load-icon("Telas/icorealcontrole2.ico":U) then
+    message "Unable to load icon: Telas/icorealcontrole2.ico"
+            view-as alert-box warning buttons ok.
 &ENDIF
 /* END WINDOW DEFINITION                                                */
 &ANALYZE-RESUME
@@ -174,8 +174,8 @@ IF NOT C-Win:LOAD-ICON("Telas/icorealcontrole2.ico":U) THEN
   VISIBLE,,RUN-PERSISTENT                                               */
 /* SETTINGS FOR FRAME DEFAULT-FRAME
    FRAME-NAME                                                           */
-IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
-THEN C-Win:HIDDEN = NO.
+if session:display-type = "GUI":U and VALID-HANDLE(C-Win)
+then C-Win:hidden = no.
 
 /* _RUN-TIME-ATTRIBUTES-END */
 &ANALYZE-RESUME
@@ -188,25 +188,25 @@ THEN C-Win:HIDDEN = NO.
 
 &Scoped-define SELF-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON END-ERROR OF C-Win /* Real Controle - Gestão de finanças pessoais */
-OR ENDKEY OF {&WINDOW-NAME} ANYWHERE DO:
+on end-error of C-Win /* Real Controle - Gestão de finanças pessoais */
+or endkey of {&WINDOW-NAME} anywhere do:
   /* This case occurs when the user presses the "Esc" key.
      In a persistently run window, just ignore this.  If we did not, the
      application would exit. */
-  IF THIS-PROCEDURE:PERSISTENT THEN RETURN NO-APPLY.
-END.
+  if this-procedure:persistent then return no-apply.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON WINDOW-CLOSE OF C-Win /* Real Controle - Gestão de finanças pessoais */
-DO:
+on window-close of C-Win /* Real Controle - Gestão de finanças pessoais */
+do:
   /* This event will close the window and terminate the procedure.  */
-  APPLY "CLOSE":U TO THIS-PROCEDURE.
-  RETURN NO-APPLY.
-END.
+  apply "CLOSE":U to this-procedure.
+  return no-apply.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -214,15 +214,15 @@ END.
 
 &Scoped-define SELF-NAME btCancelar
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL btCancelar C-Win
-ON CHOOSE OF btCancelar IN FRAME DEFAULT-FRAME /* Cancelar */
-DO:
-    APPLY "close":u TO THIS-PROCEDURE.
+on choose of btCancelar in frame DEFAULT-FRAME /* Cancelar */
+do:
+    apply "close":u to this-procedure.
     
-    FINALLY:
-        IF VALID-OBJECT (controlador-login) THEN
-            DELETE OBJECT controlador-login.    
-    END FINALLY.
-END.
+    finally:
+        if valid-object (controlador-login) then
+            delete object controlador-login.    
+    end finally.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -230,62 +230,64 @@ END.
 
 &Scoped-define SELF-NAME btEntrar
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL btEntrar C-Win
-ON CHOOSE OF btEntrar IN FRAME DEFAULT-FRAME /* Entrar */
-DO:
-    DEFINE VARIABLE l-exit AS LOGICAL NO-UNDO.
-    DEFINE VARIABLE c-mess AS CHARACTER NO-UNDO.
+on choose of btEntrar in frame DEFAULT-FRAME /* Entrar */
+do:
+    define variable l-exit as logical no-undo.
+    define variable c-mess as character no-undo.
     
-    ASSIGN filUsuario filSenha.
+    assign filUsuario filSenha.
     
-    IF LENGTH(filUsuario) = 0 AND LENGTH(filSenha) > 0 THEN 
-        ASSIGN l-exit = TRUE
+    if length(filUsuario) = 0 and LENGTH(filSenha) > 0 then 
+        assign l-exit = true
                c-mess = "Usuário obrigatório!".
-    ELSE IF LENGTH(filUsuario) > 0 AND LENGTH(filSenha) = 0 THEN 
-        ASSIGN l-exit = TRUE
+    else if length(filUsuario) > 0 and LENGTH(filSenha) = 0 then 
+        assign l-exit = true
                c-mess = "Senha obrigatória!".
-    ELSE IF LENGTH(filUsuario) = 0 AND LENGTH(filSenha) = 0 THEN 
-        ASSIGN l-exit = TRUE
+    else if length(filUsuario) = 0 and LENGTH(filSenha) = 0 then 
+        assign l-exit = true
                c-mess = "Usuário e senha obrigatórios!".
         
-    IF l-exit THEN DO:
-        RUN smr/dialog.w ("error", "Erro de login!", c-mess).
-        APPLY "entry" TO filUsuario.
-        RETURN NO-APPLY.
-    END.
+    if l-exit then do:
+        run smr/dialog.w ("error", "Erro de login!", c-mess).
+        apply "entry" to filUsuario.
+        return no-apply.
+    end.
         
-    IF NOT VALID-OBJECT (controlador-login) THEN 
-        ASSIGN controlador-login = NEW LoginControl().
+    if not valid-object (controlador-login) then 
+        assign controlador-login = new LoginControl().
     
-    filSenha = ENCODE(filSenha).
-    IF NOT controlador-login:logar(filUsuario, filSenha) THEN DO:
+    filSenha = encode(filSenha).
+    if not controlador-login:logar(filUsuario, filSenha) then do:
         
-        RUN smr/dialog.w ("error", "Erro de login!", "Usuário ou senha inválidos!").
+        run smr/dialog.w ("error", "Erro de login!", "Usuário ou senha inválidos!").
         
-        APPLY "entry" TO filUsuario.
-        RETURN NO-APPLY.
-    END. 
+        apply "entry" to filUsuario.
+        return no-apply.
+    end. 
     
-    APPLY "close":u TO THIS-PROCEDURE.
+    apply "close":u to this-procedure.
     
-    RUN cad/vwrs/main.w. 
+    publish "prCalculaSaldo" (today).
     
-    FINALLY:
-        IF VALID-OBJECT (controlador-login) THEN
-            DELETE OBJECT controlador-login.    
-    END FINALLY.
+    run cad/vwrs/main.w. 
+    
+    finally:
+        if valid-object (controlador-login) then
+            delete object controlador-login.    
+    end finally.
      
-END.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &Scoped-define SELF-NAME filSenha
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL filSenha C-Win
-ON RETURN OF filSenha IN FRAME DEFAULT-FRAME
-DO:
-    APPLY "choose" TO btEntrar.
+on return of filSenha in frame DEFAULT-FRAME
+do:
+    apply "choose" to btEntrar.
 
-END.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -299,33 +301,33 @@ END.
 /* ***************************  Main Block  *************************** */
 
 /* Set CURRENT-WINDOW: this will parent dialog-boxes and frames.        */
-ASSIGN CURRENT-WINDOW                = {&WINDOW-NAME} 
+assign CURRENT-WINDOW                = {&WINDOW-NAME} 
        THIS-PROCEDURE:CURRENT-WINDOW = {&WINDOW-NAME}.
 
 /* The CLOSE event can be used from inside or outside the procedure to  */
 /* terminate it.                                                        */
-ON CLOSE OF THIS-PROCEDURE DO:
+on close of this-procedure do:
     
-    IF SESSION:DEBUG-ALERT = TRUE THEN DO:
-        SESSION:DEBUG-ALERT = NO.
-        LOG-MANAGER:CLOSE-LOG().
-    END.
+    if session:debug-alert = true then do:
+        session:debug-alert = no.
+        log-manager:close-log().
+    end.
      
-    RUN disable_UI.
-END.
+    run disable_UI.
+end.
 
 /* Best default for GUI applications is...                              */
-PAUSE 0 BEFORE-HIDE.
+pause 0 before-hide.
 
 /* Now enable the interface and wait for the exit condition.            */
 /* (NOTE: handle ERROR and END-KEY so cleanup code will always fire.    */
 MAIN-BLOCK:
-DO ON ERROR   UNDO MAIN-BLOCK, LEAVE MAIN-BLOCK
-   ON END-KEY UNDO MAIN-BLOCK, LEAVE MAIN-BLOCK:
-  RUN enable_UI.
-  IF NOT THIS-PROCEDURE:PERSISTENT THEN
-    WAIT-FOR CLOSE OF THIS-PROCEDURE.
-END.
+do on error   undo MAIN-BLOCK, leave MAIN-BLOCK
+   on end-key undo MAIN-BLOCK, leave MAIN-BLOCK:
+  run enable_UI.
+  if not this-procedure:persistent then
+    wait-for close of this-procedure.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -334,7 +336,7 @@ END.
 /* **********************  Internal Procedures  *********************** */
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE disable_UI C-Win  _DEFAULT-DISABLE
-PROCEDURE disable_UI :
+procedure disable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     DISABLE the User Interface
   Parameters:  <none>
@@ -344,16 +346,16 @@ PROCEDURE disable_UI :
                we are ready to "clean-up" after running.
 ------------------------------------------------------------------------------*/
   /* Delete the WINDOW we created */
-  IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
-  THEN DELETE WIDGET C-Win.
-  IF THIS-PROCEDURE:PERSISTENT THEN DELETE PROCEDURE THIS-PROCEDURE.
-END PROCEDURE.
+  if session:display-type = "GUI":U and VALID-HANDLE(C-Win)
+  then delete widget C-Win.
+  if this-procedure:persistent then delete procedure this-procedure.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE enable_UI C-Win  _DEFAULT-ENABLE
-PROCEDURE enable_UI :
+procedure enable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     ENABLE the User Interface
   Parameters:  <none>
@@ -363,13 +365,13 @@ PROCEDURE enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  DISPLAY filUsuario filSenha 
-      WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
-  ENABLE IMAGE-2 filUsuario filSenha btCancelar btEntrar 
-      WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
+  display filUsuario filSenha 
+      with frame DEFAULT-FRAME in window C-Win.
+  enable IMAGE-2 filUsuario filSenha btCancelar btEntrar 
+      with frame DEFAULT-FRAME in window C-Win.
   {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
-  VIEW C-Win.
-END PROCEDURE.
+  view C-Win.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME

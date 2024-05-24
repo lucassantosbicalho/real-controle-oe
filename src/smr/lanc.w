@@ -8,7 +8,7 @@
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS lancamento 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS Procedure
-USING src.cad.cls.MovimentoControl FROM PROPATH.
+using src.cad.cls.MovimentoControl from propath.
 /*------------------------------------------------------------------------
 
   File: 
@@ -34,21 +34,21 @@ USING src.cad.cls.MovimentoControl FROM PROPATH.
      will execute in this procedure's storage, and that proper
      cleanup will occur on deletion of the procedure. */
 
-CREATE WIDGET-POOL.
+create widget-pool.
 
 /* ***************************  Definitions  ************************** */
 
 /* Parameters Definitions ---                                           */
 
 /* Local Variable Definitions ---                                       */
-DEFINE VARIABLE controlador AS MovimentoControl     NO-UNDO.
-DEFINE VARIABLE cCCusto     AS CHARACTER            NO-UNDO.
-DEFINE VARIABLE cBanco      AS CHARACTER            NO-UNDO.    
-DEFINE VARIABLE ico-dialog  AS CHARACTER            NO-UNDO.
+define variable controlador as MovimentoControl     no-undo.
+define variable cCCusto     as character            no-undo.
+define variable cBanco      as character            no-undo.    
+define variable ico-dialog  as character            no-undo.
 
-DEFINE BUFFER b-conta FOR conta.
-DEFINE BUFFER b-banco FOR banco.
-DEFINE BUFFER b-ccusto FOR ccusto.
+define buffer b-conta for conta.
+define buffer b-banco for banco.
+define buffer b-ccusto for ccusto.
 
 {src/adm2/widgetprto.i}
 
@@ -140,115 +140,115 @@ fill-descricao cb-ccusto cb-banco fill-narrativa l-parcelar
 /* Define a dialog box                                                  */
 
 /* Definitions of the field level widgets                               */
-DEFINE BUTTON Btn_Cancelar AUTO-GO 
-     LABEL "Cancelar" 
-     SIZE 15 BY 1.14.
+define button Btn_Cancelar auto-go 
+     label "Cancelar" 
+     size 15 by 1.14.
 
-DEFINE BUTTON Btn_Novo AUTO-GO 
-     LABEL "OK" 
-     SIZE 15 BY 1.14 TOOLTIP "Salvar e fechar".
+define button Btn_Novo auto-go 
+     label "OK" 
+     size 15 by 1.14 tooltip "Salvar e fechar".
 
-DEFINE BUTTON Btn_OK_Novo 
-     LABEL "Ok e novo" 
-     SIZE 15 BY 1.14 TOOLTIP "Salvar e realizar novo lançamento".
+define button Btn_OK_Novo 
+     label "Ok e novo" 
+     size 15 by 1.14 tooltip "Salvar e realizar novo lançamento".
 
-DEFINE VARIABLE cb-banco AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Conta bancária" 
-     VIEW-AS COMBO-BOX INNER-LINES 5
-     LIST-ITEM-PAIRS "Item 1","Item 1"
-     DROP-DOWN-LIST
-     SIZE 72 BY 1 NO-UNDO.
+define variable cb-banco as character format "X(256)":U 
+     label "Conta bancária" 
+     view-as combo-box inner-lines 5
+     list-item-pairs "Item 1","Item 1"
+     drop-down-list
+     size 72 by 1 no-undo.
 
-DEFINE VARIABLE cb-ccusto AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Centro de custo" 
-     VIEW-AS COMBO-BOX INNER-LINES 5
-     LIST-ITEM-PAIRS "Item 1","Item 1"
-     DROP-DOWN-LIST
-     SIZE 72 BY 1 NO-UNDO.
+define variable cb-ccusto as character format "X(256)":U 
+     label "Centro de custo" 
+     view-as combo-box inner-lines 5
+     list-item-pairs "Item 1","Item 1"
+     drop-down-list
+     size 72 by 1 no-undo.
 
-DEFINE VARIABLE fill-narrativa AS CHARACTER 
-     VIEW-AS EDITOR MAX-CHARS 300
-     SIZE 72 BY 3.05 NO-UNDO.
+define variable fill-narrativa as character 
+     view-as editor max-chars 300
+     size 72 by 3.05 no-undo.
 
-DEFINE VARIABLE fill-data-movto AS DATE FORMAT "99/99/9999":U 
-     LABEL "Data" 
-     VIEW-AS FILL-IN 
-     SIZE 18 BY 1 NO-UNDO.
+define variable fill-data-movto as date format "99/99/9999":U 
+     label "Data" 
+     view-as fill-in 
+     size 18 by 1 no-undo.
 
-DEFINE VARIABLE fill-descricao AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Descrição" 
-     VIEW-AS FILL-IN 
-     SIZE 72 BY 1 NO-UNDO.
+define variable fill-descricao as character format "X(256)":U 
+     label "Descrição" 
+     view-as fill-in 
+     size 72 by 1 no-undo.
 
-DEFINE VARIABLE fill-interval-dias AS INTEGER FORMAT ">>9":U INITIAL 0 
-     LABEL "Intervalo entre parcelas (dias)" 
-     VIEW-AS FILL-IN 
-     SIZE 14 BY 1 NO-UNDO.
+define variable fill-interval-dias as integer format ">>9":U initial 0 
+     label "Intervalo entre parcelas (dias)" 
+     view-as fill-in 
+     size 14 by 1 no-undo.
 
-DEFINE VARIABLE fill-qtd-parc-repl AS INTEGER FORMAT ">>9":U INITIAL 0 
-     LABEL "Nº de parcelas" 
-     VIEW-AS FILL-IN 
-     SIZE 14 BY 1 NO-UNDO.
+define variable fill-qtd-parc-repl as integer format ">>9":U initial 0 
+     label "Nº de parcelas" 
+     view-as fill-in 
+     size 14 by 1 no-undo.
 
-DEFINE VARIABLE fill-valor AS DECIMAL FORMAT "->>,>>9.99":U INITIAL 0 
-     LABEL "Valor" 
-     VIEW-AS FILL-IN 
-     SIZE 18 BY 1 NO-UNDO.
+define variable fill-valor as decimal format "->>,>>9.99":U initial 0 
+     label "Valor" 
+     view-as fill-in 
+     size 18 by 1 no-undo.
 
-DEFINE IMAGE IMAGE-4
-     FILENAME "Telas/telas.bmp":U
-     SIZE 101 BY 25.71.
+define image IMAGE-4
+     filename "Telas/telas.bmp":U
+     size 101 by 25.71.
 
-DEFINE VARIABLE rs-parcelar AS INTEGER 
-     VIEW-AS RADIO-SET VERTICAL
-     RADIO-BUTTONS 
+define variable rs-parcelar as integer 
+     view-as radio-set vertical
+     radio-buttons 
           "Parcelar", 1,
 "Replicar", 2
-     SIZE 13 BY 2.38 NO-UNDO.
+     size 13 by 2.38 no-undo.
 
-DEFINE VARIABLE rsTpMovto AS INTEGER 
-     VIEW-AS RADIO-SET HORIZONTAL
-     RADIO-BUTTONS 
+define variable rsTpMovto as integer 
+     view-as radio-set horizontal
+     radio-buttons 
           "Crédito", 1,
 "Débito", -1
-     SIZE 28.4 BY 1.19 NO-UNDO.
+     size 28.4 by 1.19 no-undo.
 
-DEFINE RECTANGLE RECT-11
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 87 BY .05.
+define rectangle RECT-11
+     edge-pixels 2 graphic-edge  no-fill   
+     size 87 by .05.
 
-DEFINE RECTANGLE RECT-4
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 98 BY 22.57.
+define rectangle RECT-4
+     edge-pixels 2 graphic-edge  no-fill   
+     size 98 by 22.57.
 
-DEFINE RECTANGLE RECT-5
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 98 BY 2.38.
+define rectangle RECT-5
+     edge-pixels 2 graphic-edge  no-fill   
+     size 98 by 2.38.
 
-DEFINE RECTANGLE RECT-6
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 95 BY 6.52.
+define rectangle RECT-6
+     edge-pixels 2 graphic-edge  no-fill   
+     size 95 by 6.52.
 
-DEFINE RECTANGLE RECT-7
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 95 BY 14.52.
+define rectangle RECT-7
+     edge-pixels 2 graphic-edge  no-fill   
+     size 95 by 14.52.
 
-DEFINE VARIABLE l-parcelar AS LOGICAL INITIAL no 
-     LABEL "Parcelar ou replicar lançamento" 
-     VIEW-AS TOGGLE-BOX
-     SIZE 35 BY .81 NO-UNDO.
+define variable l-parcelar as logical initial no 
+     label "Parcelar ou replicar lançamento" 
+     view-as toggle-box
+     size 35 by .81 no-undo.
 
 /* Query definitions                                                    */
 &ANALYZE-SUSPEND
-DEFINE QUERY brItem FOR 
-      item SCROLLING.
+define query brItem for 
+      item scrolling.
 &ANALYZE-RESUME
 
 /* Browse definitions                                                   */
-DEFINE BROWSE brItem
+define browse brItem
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _DISPLAY-FIELDS brItem lancamento _STRUCTURED
-  QUERY brItem NO-LOCK DISPLAY
-      item.descricao FORMAT "x(30)":U
+  query brItem no-lock display
+      item.descricao format "x(30)":U
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
     WITH NO-ROW-MARKERS SEPARATORS SIZE 92 BY 5.33 FIT-LAST-COLUMN.
@@ -256,37 +256,37 @@ DEFINE BROWSE brItem
 
 /* ************************  Frame Definitions  *********************** */
 
-DEFINE FRAME lancamento
-     brItem AT ROW 3.05 COL 5.6 WIDGET-ID 200
-     fill-data-movto AT ROW 9.67 COL 20.8 COLON-ALIGNED WIDGET-ID 18
-     fill-valor AT ROW 9.62 COL 46.4 COLON-ALIGNED WIDGET-ID 30
-     rsTpMovto AT ROW 9.52 COL 69.6 NO-LABEL WIDGET-ID 32
-     fill-descricao AT ROW 11 COL 20.8 COLON-ALIGNED WIDGET-ID 38
-     cb-ccusto AT ROW 12.38 COL 20.8 COLON-ALIGNED WIDGET-ID 22
-     cb-banco AT ROW 13.81 COL 20.8 COLON-ALIGNED WIDGET-ID 20
-     fill-narrativa AT ROW 15.24 COL 22.8 NO-LABEL WIDGET-ID 36
-     l-parcelar AT ROW 19.33 COL 22.8 WIDGET-ID 42
-     rs-parcelar AT ROW 20.67 COL 22.8 NO-LABEL WIDGET-ID 50
-     fill-qtd-parc-repl AT ROW 20.86 COL 66.2 COLON-ALIGNED WIDGET-ID 56
-     fill-interval-dias AT ROW 22.05 COL 66.2 COLON-ALIGNED WIDGET-ID 58
-     Btn_Novo AT ROW 24.62 COL 4.8 WIDGET-ID 6
-     Btn_OK_Novo AT ROW 24.57 COL 21 WIDGET-ID 62
-     Btn_Cancelar AT ROW 24.62 COL 82.6
-     "Obs:" VIEW-AS TEXT
-          SIZE 5 BY .62 AT ROW 15.76 COL 21.4 RIGHT-ALIGNED WIDGET-ID 40
-     " Item:" VIEW-AS TEXT
-          SIZE 5.6 BY .62 AT ROW 2 COL 7.6 WIDGET-ID 26
-     IMAGE-4 AT ROW 1 COL 1 WIDGET-ID 12
-     RECT-4 AT ROW 1.33 COL 2.6 WIDGET-ID 14
-     RECT-5 AT ROW 24.05 COL 2.6 WIDGET-ID 16
-     RECT-6 AT ROW 2.33 COL 4.2 WIDGET-ID 24
-     RECT-7 AT ROW 9.1 COL 4.2 WIDGET-ID 28
-     RECT-11 AT ROW 18.91 COL 8 WIDGET-ID 60
-     SPACE(7.00) SKIP(7.75)
-    WITH VIEW-AS DIALOG-BOX KEEP-TAB-ORDER NO-HELP 
-         SIDE-LABELS NO-UNDERLINE THREE-D  SCROLLABLE 
-         TITLE "Lançar movimento"
-         DEFAULT-BUTTON Btn_Cancelar WIDGET-ID 100.
+define frame lancamento
+     brItem at row 3.05 col 5.6 widget-id 200
+     fill-data-movto at row 9.67 col 20.8 colon-aligned widget-id 18
+     fill-valor at row 9.62 col 46.4 colon-aligned widget-id 30
+     rsTpMovto at row 9.52 col 69.6 no-label widget-id 32
+     fill-descricao at row 11 col 20.8 colon-aligned widget-id 38
+     cb-ccusto at row 12.38 col 20.8 colon-aligned widget-id 22
+     cb-banco at row 13.81 col 20.8 colon-aligned widget-id 20
+     fill-narrativa at row 15.24 col 22.8 no-label widget-id 36
+     l-parcelar at row 19.33 col 22.8 widget-id 42
+     rs-parcelar at row 20.67 col 22.8 no-label widget-id 50
+     fill-qtd-parc-repl at row 20.86 col 66.2 colon-aligned widget-id 56
+     fill-interval-dias at row 22.05 col 66.2 colon-aligned widget-id 58
+     Btn_Novo at row 24.62 col 4.8 widget-id 6
+     Btn_OK_Novo at row 24.57 col 21 widget-id 62
+     Btn_Cancelar at row 24.62 col 82.6
+     "Obs:" view-as text
+          size 5 by .62 at row 15.76 col 21.4 right-aligned widget-id 40
+     " Item:" view-as text
+          size 5.6 by .62 at row 2 col 7.6 widget-id 26
+     IMAGE-4 at row 1 col 1 widget-id 12
+     RECT-4 at row 1.33 col 2.6 widget-id 14
+     RECT-5 at row 24.05 col 2.6 widget-id 16
+     RECT-6 at row 2.33 col 4.2 widget-id 24
+     RECT-7 at row 9.1 col 4.2 widget-id 28
+     RECT-11 at row 18.91 col 8 widget-id 60
+     space(7.00) skip(7.75)
+    with view-as dialog-box keep-tab-order no-help 
+         side-labels no-underline three-d  scrollable 
+         title "Lançar movimento"
+         default-button Btn_Cancelar widget-id 100.
 
 
 /* *********************** Procedure Settings ************************ */
@@ -317,24 +317,24 @@ DEFINE FRAME lancamento
 /* SETTINGS FOR DIALOG-BOX lancamento
    FRAME-NAME Custom                                                    */
 /* BROWSE-TAB brItem 1 lancamento */
-ASSIGN 
-       FRAME lancamento:SCROLLABLE       = FALSE
-       FRAME lancamento:HIDDEN           = TRUE.
+assign 
+       frame lancamento:SCROLLABLE       = false
+       frame lancamento:HIDDEN           = true.
 
 /* SETTINGS FOR FILL-IN fill-interval-dias IN FRAME lancamento
    NO-DISPLAY                                                           */
-ASSIGN 
-       fill-interval-dias:HIDDEN IN FRAME lancamento           = TRUE.
+assign 
+       fill-interval-dias:HIDDEN in frame lancamento           = true.
 
 /* SETTINGS FOR FILL-IN fill-qtd-parc-repl IN FRAME lancamento
    NO-DISPLAY                                                           */
-ASSIGN 
-       fill-qtd-parc-repl:HIDDEN IN FRAME lancamento           = TRUE.
+assign 
+       fill-qtd-parc-repl:HIDDEN in frame lancamento           = true.
 
 /* SETTINGS FOR RADIO-SET rs-parcelar IN FRAME lancamento
    NO-DISPLAY                                                           */
-ASSIGN 
-       rs-parcelar:HIDDEN IN FRAME lancamento           = TRUE.
+assign 
+       rs-parcelar:HIDDEN in frame lancamento           = true.
 
 /* SETTINGS FOR TEXT-LITERAL "Obs:"
           SIZE 5 BY .62 AT ROW 15.76 COL 21.4 RIGHT-ALIGNED             */
@@ -368,13 +368,16 @@ ASSIGN
 
 /* ************************  Control Triggers  ************************ */
 
+
+
+
 &Scoped-define SELF-NAME lancamento
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL lancamento lancamento
-ON WINDOW-CLOSE OF FRAME lancamento /* Lançar movimento */
-DO:  
+on window-close of frame lancamento /* Lançar movimento */
+do:  
         /* Add Trigger to equate WINDOW-CLOSE to END-ERROR. */
-        APPLY "END-ERROR":U TO SELF.
-    END.
+        apply "END-ERROR":U to self.
+    end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -382,16 +385,16 @@ DO:
 
 &Scoped-define SELF-NAME Btn_Cancelar
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL Btn_Cancelar lancamento
-ON CHOOSE OF Btn_Cancelar IN FRAME lancamento /* Cancelar */
-DO:
+on choose of Btn_Cancelar in frame lancamento /* Cancelar */
+do:
     
-        APPLY "close" TO THIS-PROCEDURE.
+        apply "close" to this-procedure.
     
-        FINALLY:
-            IF VALID-OBJECT (controlador) THEN
-                DELETE OBJECT controlador.
-        END FINALLY.   
-    END.
+        finally:
+            if valid-object (controlador) then
+                delete object controlador.
+        end finally.   
+    end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -399,12 +402,12 @@ DO:
 
 &Scoped-define SELF-NAME Btn_Novo
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL Btn_Novo lancamento
-ON CHOOSE OF Btn_Novo IN FRAME lancamento /* OK */
-DO:
+on choose of Btn_Novo in frame lancamento /* OK */
+do:
 
-    RUN prSalvarRegistro.
+    run prSalvarRegistro.
     
-END.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -412,11 +415,11 @@ END.
 
 &Scoped-define SELF-NAME Btn_OK_Novo
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL Btn_OK_Novo lancamento
-ON CHOOSE OF Btn_OK_Novo IN FRAME lancamento /* Ok e novo */
-DO:
-    RUN prSalvarRegistro.
-    RETURN NO-APPLY.  
-END.
+on choose of Btn_OK_Novo in frame lancamento /* Ok e novo */
+do:
+    run prSalvarRegistro.
+    return no-apply.  
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -424,19 +427,19 @@ END.
 
 &Scoped-define SELF-NAME l-parcelar
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL l-parcelar lancamento
-ON VALUE-CHANGED OF l-parcelar IN FRAME lancamento /* Parcelar ou replicar lançamento */
-DO:
-    IF l-parcelar:input-value THEN DO:
-        fill-qtd-parc-repl:hidden = FALSE.
-        fill-interval-dias:hidden = FALSE.
-        rs-parcelar:hidden = FALSE. 
-    END.
-    ELSE DO:
-        fill-qtd-parc-repl:hidden = TRUE.
-        fill-interval-dias:hidden = TRUE.
-        rs-parcelar:hidden = TRUE.
-    END.  
-END.
+on value-changed of l-parcelar in frame lancamento /* Parcelar ou replicar lançamento */
+do:
+    if l-parcelar:input-value then do:
+        fill-qtd-parc-repl:hidden = false.
+        fill-interval-dias:hidden = false.
+        rs-parcelar:hidden = false. 
+    end.
+    else do:
+        fill-qtd-parc-repl:hidden = true.
+        fill-interval-dias:hidden = true.
+        rs-parcelar:hidden = true.
+    end.  
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -444,18 +447,18 @@ END.
 
 &Scoped-define SELF-NAME rs-parcelar
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL rs-parcelar lancamento
-ON VALUE-CHANGED OF rs-parcelar IN FRAME lancamento
-DO:
-    DEFINE VARIABLE iPosition AS INTEGER NO-UNDO.
+on value-changed of rs-parcelar in frame lancamento
+do:
+    define variable iPosition as integer no-undo.
 
-    iPosition = LOOKUP(SELF:SCREEN-VALUE,SELF:RADIO-BUTTONS).
-    IF iPosition = 2 THEN ASSIGN 
+    iPosition = lookup(self:SCREEN-VALUE,self:RADIO-BUTTONS).
+    if iPosition = 2 then assign 
             fill-qtd-parc-repl:label = "Nº de parcelas"
             fill-interval-dias:label = "Intervalo entre parcelas (dias)".
-    ELSE ASSIGN 
+    else assign 
             fill-qtd-parc-repl:label = "Nº de réplicas"
             fill-interval-dias:label = "Intervalo entre réplicas (dias)".
-END.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -468,21 +471,19 @@ END.
 
 
 /* ***************************  Main Block  *************************** */
-FOR EACH b-conta NO-LOCK,
-    EACH b-banco NO-LOCK
-        WHERE b-banco.banco-cod = b-conta.banco-cod:
-    ASSIGN cBanco = cBanco + "," + substitute("&1 &2 / &3", b-banco.descricao, b-conta.ag, b-conta.conta) + "," + substitute("&1;&2;&3", b-conta.banco-cod, b-conta.ag, b-conta.conta).
-END.
-cBanco = TRIM(cBanco, ",").
+for each b-conta no-lock,
+    each b-banco no-lock
+        where b-banco.banco-cod = b-conta.banco-cod:
+    assign cBanco = cBanco + "," + substitute("&1 &2 / &3", b-banco.descricao, b-conta.ag, b-conta.conta) + "," + substitute("&1;&2;&3", b-conta.banco-cod, b-conta.ag, b-conta.conta).
+end.
+cBanco = trim(cBanco, ",").
 cb-banco:list-item-pairs = cBanco.
-cb-banco = ENTRY(2, cBanco).
 
-FOR EACH b-ccusto NO-LOCK:
-    ASSIGN cCCusto = cCCusto + "," + b-ccusto.cc-cod + " - " + b-ccusto.descricao + "," + b-ccusto.cc-cod.
-END.
-cCCusto = TRIM(cCCusto, ",").
+for each b-ccusto no-lock:
+    assign cCCusto = cCCusto + "," + b-ccusto.cc-cod + " - " + b-ccusto.descricao + "," + b-ccusto.cc-cod.
+end.
+cCCusto = trim(cCCusto, ",").
 cb-ccusto:list-item-pairs = cCCusto.
-cb-ccusto = ENTRY(2, cCCusto).
 
 {src/adm2/dialogmn.i}
 
@@ -493,20 +494,20 @@ cb-ccusto = ENTRY(2, cCCusto).
 /* **********************  Internal Procedures  *********************** */
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE adm-create-objects lancamento  _ADM-CREATE-OBJECTS
-PROCEDURE adm-create-objects :
+procedure adm-create-objects :
 /*------------------------------------------------------------------------------
   Purpose:     Create handles for all SmartObjects used in this procedure.
                After SmartObjects are initialized, then SmartLinks are added.
   Parameters:  <none>
 ------------------------------------------------------------------------------*/
 
-END PROCEDURE.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE disable_UI lancamento  _DEFAULT-DISABLE
-PROCEDURE disable_UI :
+procedure disable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     DISABLE the User Interface
   Parameters:  <none>
@@ -516,14 +517,14 @@ PROCEDURE disable_UI :
                we are ready to "clean-up" after running.
 ------------------------------------------------------------------------------*/
   /* Hide all frames. */
-  HIDE FRAME lancamento.
-END PROCEDURE.
+  hide frame lancamento.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE enable_UI lancamento  _DEFAULT-ENABLE
-PROCEDURE enable_UI :
+procedure enable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     ENABLE the User Interface
   Parameters:  <none>
@@ -533,85 +534,94 @@ PROCEDURE enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  DISPLAY fill-data-movto fill-valor rsTpMovto fill-descricao cb-ccusto cb-banco 
+
+  display fill-data-movto fill-valor rsTpMovto fill-descricao cb-ccusto cb-banco 
           fill-narrativa l-parcelar 
-      WITH FRAME lancamento.
-  ENABLE brItem fill-data-movto fill-valor rsTpMovto fill-descricao cb-ccusto 
+      with frame lancamento.
+  assign
+    fill-data-movto:screen-value in frame {&FRAME-NAME} = string(today, "99/99/9999")
+    cb-banco = entry(2, cBanco)
+    cb-ccusto = entry(2, cCCusto).
+  enable brItem fill-data-movto fill-valor rsTpMovto fill-descricao cb-ccusto 
          cb-banco fill-narrativa l-parcelar rs-parcelar fill-qtd-parc-repl 
          fill-interval-dias Btn_Novo Btn_OK_Novo Btn_Cancelar IMAGE-4 RECT-4 
          RECT-5 RECT-6 RECT-7 RECT-11 
-      WITH FRAME lancamento.
-  VIEW FRAME lancamento.
+      with frame lancamento.
+  view frame lancamento.
+  
+    
+  apply "value-changed" to l-parcelar.
+    
   {&OPEN-BROWSERS-IN-QUERY-lancamento}
-END PROCEDURE.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prSalvarRegistro lancamento 
-PROCEDURE prSalvarRegistro :
+procedure prSalvarRegistro :
 /*------------------------------------------------------------------------------
      Purpose: Utilizado pelos botões OK e OK e novo
      Notes:
     ------------------------------------------------------------------------------*/
-    DO WITH FRAME {&FRAME-NAME}:
-        IF fill-data-movto:input-value = ? THEN 
-        DO:
+    do with frame {&FRAME-NAME}:
+        if fill-data-movto:input-value = ? then 
+        do:
             ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Data obrigatória!").
-            APPLY "entry" TO fill-data-movto.
-            RETURN NO-APPLY.
-        END.
-        IF fill-valor:input-value = 0 THEN 
-        DO:
+            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Data obrigatória!").
+            apply "entry" to fill-data-movto.
+            return no-apply.
+        end.
+        if fill-valor:input-value = 0 then 
+        do:
             ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Valor obrigatório!").
-            APPLY "entry" TO fill-valor.
-            RETURN NO-APPLY.
-        END.
-        IF fill-descricao:input-value = "" THEN 
-        DO:
+            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Valor obrigatório!").
+            apply "entry" to fill-valor.
+            return no-apply.
+        end.
+        if fill-descricao:input-value = "" then 
+        do:
             ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Descrição obrigatória!").
-            APPLY "entry" TO fill-descricao.
-            RETURN NO-APPLY.
-        END.
-        IF cb-ccusto:input-value = "" THEN 
-        DO:
+            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Descrição obrigatória!").
+            apply "entry" to fill-descricao.
+            return no-apply.
+        end.
+        if cb-ccusto:input-value = "" then 
+        do:
             ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Centro de custo obrigatório!").
-            APPLY "entry" TO cb-ccusto.
-            RETURN NO-APPLY.
-        END.
-        IF cb-banco:input-value = "" THEN 
-        DO:
+            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Centro de custo obrigatório!").
+            apply "entry" to cb-ccusto.
+            return no-apply.
+        end.
+        if cb-banco:input-value = "" then 
+        do:
             ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Conta bancária obrigatória!").
-            APPLY "entry" TO cb-banco.
-            RETURN NO-APPLY.
-        END.
-        IF l-parcelar AND fill-qtd-parc-repl:input-value = "" THEN 
-        DO:
+            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Conta bancária obrigatória!").
+            apply "entry" to cb-banco.
+            return no-apply.
+        end.
+        if l-parcelar and fill-qtd-parc-repl:input-value = "" then 
+        do:
             ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", fill-qtd-parc-repl:label + " obrigatória!").
-            APPLY "entry" TO fill-qtd-parc-repl.
-            RETURN NO-APPLY.
-        END.
-        IF l-parcelar AND fill-interval-dias:input-value = "" THEN 
-        DO:
+            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", fill-qtd-parc-repl:label + " obrigatória!").
+            apply "entry" to fill-qtd-parc-repl.
+            return no-apply.
+        end.
+        if l-parcelar and fill-interval-dias:input-value = "" then 
+        do:
             ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", fill-interval-dias:label + " obrigatória!").
-            APPLY "entry" TO fill-interval-dias.
-            RETURN NO-APPLY.
-        END.
+            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", fill-interval-dias:label + " obrigatória!").
+            apply "entry" to fill-interval-dias.
+            return no-apply.
+        end.
         
-        IF NOT VALID-OBJECT (controlador) THEN
-            controlador = NEW MovimentoControl().
+        if not valid-object (controlador) then
+            controlador = new MovimentoControl().
             
         controlador:cadastrar(fill-data-movto:input-value,
-            ENTRY(1, cb-banco:input-value, ";"),
-            ENTRY(2, cb-banco:input-value, ";"),
-            ENTRY(3, cb-banco:input-value, ";"),
+            entry(1, cb-banco:input-value, ";"),
+            entry(2, cb-banco:input-value, ";"),
+            entry(3, cb-banco:input-value, ";"),
             cb-ccusto:input-value,
             item.it-cod, 
             1,
@@ -621,29 +631,29 @@ PROCEDURE prSalvarRegistro :
             "",
             (fill-valor:input-value * integer(rsTpMovto:input-value   ))).
     
-        IF controlador:cReturn BEGINS "Erro" THEN 
-        DO:
+        if controlador:cReturn begins "Erro" then 
+        do:
             ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, controlador:cReturn, "").
-        END.
+            run smr/dialog.w (ico-dialog, controlador:cReturn, "").
+        end.
     
-        cb-banco = ENTRY(2, cBanco).
-        cb-ccusto = ENTRY(2, cCCusto).
+        cb-banco = entry(2, cBanco).
+        cb-ccusto = entry(2, cCCusto).
         fill-data-movto:clear ().   
         fill-descricao:clear ().    
         fill-valor:clear ().        
         fill-qtd-parc-repl:clear ().    
         fill-interval-dias:clear ().
-        l-parcelar = FALSE.
+        l-parcelar = false.
     
-        
-    END.
-    FINALLY:
-        IF VALID-OBJECT (controlador) THEN
-            DELETE OBJECT controlador.
-    END FINALLY.
+        publish "prCalculaSaldo" (today).
+    end.
+    finally:
+        if valid-object (controlador) then
+            delete object controlador.
+    end finally.
 
-END PROCEDURE.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
