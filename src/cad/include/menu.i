@@ -20,28 +20,28 @@
 
 /* ***************************  Main Block  *************************** */
 DEFINE SUB-MENU mArquivo
-   MENU-ITEM m1  LABEL "Importar back-up"
-   MENU-ITEM m2  LABEL "Exportar back-up"
-   MENU-ITEM m3  LABEL "Diretório back-up" RULE
+   MENU-ITEM m1  LABEL "Importar back-up" DISABLED
+   MENU-ITEM m2  LABEL "Exportar back-up" DISABLED
+   MENU-ITEM m3  LABEL "Diretório back-up" DISABLED RULE 
    MENU-ITEM m4  LABEL "Sair".
    
 DEFINE SUB-MENU mSobre
    MENU-ITEM m1  LABEL "Sobre o Real Controle" DISABLED.
 
 DEFINE SUB-MENU mCadastrar
-   MENU-ITEM m1  LABEL "Item (CTRL+I)"
-   MENU-ITEM m2  LABEL "Conta bancária (CTRL+B)"
-   MENU-ITEM m3  LABEL "Centro de custo (CTRL+C)" 
-   MENU-ITEM m4  LABEL "Pessoa física (CTRL+P)" DISABLED
-   MENU-ITEM m5  LABEL "Usuário (CTRL+U)" DISABLED.
+   MENU-ITEM m1  LABEL "Item"
+   MENU-ITEM m2  LABEL "Conta bancária"
+   MENU-ITEM m3  LABEL "Centro de custo" 
+   MENU-ITEM m4  LABEL "Pessoa física" DISABLED
+   MENU-ITEM m5  LABEL "Usuário" DISABLED.
    
 DEFINE SUB-MENU mEditar
-   MENU-ITEM m1  LABEL "Lançar movimento (CTRL+L)" 
-   MENU-ITEM m2  LABEL "Visualiar movimentos (CTRL+M)".
+   MENU-ITEM m1  LABEL "Lançar movimento" 
+   MENU-ITEM m2  LABEL "Visualizar movimentos".
    
 DEFINE SUB-MENU mRelatorios
-   MENU-ITEM m1 LABEL "Extrato consolidado (CTRL+E)" DISABLED
-   MENU-ITEM m2 LABEL "Fluxo de caixa (CTRL+F)" DISABLED.
+   MENU-ITEM m1 LABEL "Extrato consolidado" DISABLED
+   MENU-ITEM m2 LABEL "Fluxo de caixa" DISABLED.
    
 DEFINE MENU mBarra MENUBAR
    SUB-MENU mArquivo    LABEL "Arquivo"

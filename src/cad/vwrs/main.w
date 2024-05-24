@@ -297,23 +297,6 @@ END.
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _MAIN-BLOCK C-Win 
 
-/*
-ON "CTRL-I" ANYWHERE DO:
-    RUN smr/cad-item.w.
-END.
-
-ON "CTRL-B" ANYWHERE DO:
-    RUN smr/cad-conta.w.
-END.
-
-ON "CTRL-C" ANYWHERE DO:
-    RUN smr/cad-ccusto.w.
-END.
-
-ON "CTRL-L" ANYWHERE DO:
-    RUN smr/lanc.w.
-END.
-*/
 ASSIGN 
     fill-data-saldo = TODAY.
     
