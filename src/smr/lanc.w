@@ -122,8 +122,8 @@ DEFINE BUFFER b-ccusto FOR ccusto.
 /* Standard List Definitions                                            */
 &Scoped-Define ENABLED-OBJECTS brItem fill-data-movto fill-valor rsTpMovto ~
 fill-descricao cb-ccusto cb-banco fill-narrativa l-parcelar rs-parcelar ~
-fill-qtd-parc-repl fill-interval-dias Btn_Novo Btn_Cancelar IMAGE-4 RECT-4 ~
-RECT-5 RECT-6 RECT-7 RECT-11 
+fill-qtd-parc-repl fill-interval-dias Btn_Novo Btn_OK_Novo Btn_Cancelar ~
+IMAGE-4 RECT-4 RECT-5 RECT-6 RECT-7 RECT-11 
 &Scoped-Define DISPLAYED-OBJECTS fill-data-movto fill-valor rsTpMovto ~
 fill-descricao cb-ccusto cb-banco fill-narrativa l-parcelar 
 
@@ -146,7 +146,11 @@ DEFINE BUTTON Btn_Cancelar AUTO-GO
 
 DEFINE BUTTON Btn_Novo AUTO-GO 
      LABEL "OK" 
-     SIZE 15 BY 1.14.
+     SIZE 15 BY 1.14 TOOLTIP "Salvar e fechar".
+
+DEFINE BUTTON Btn_OK_Novo 
+     LABEL "Ok e novo" 
+     SIZE 15 BY 1.14 TOOLTIP "Salvar e realizar novo lançamento".
 
 DEFINE VARIABLE cb-banco AS CHARACTER FORMAT "X(256)":U 
      LABEL "Conta bancária" 
@@ -229,7 +233,7 @@ DEFINE RECTANGLE RECT-7
      EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
      SIZE 95 BY 14.52.
 
-DEFINE VARIABLE l-parcelar AS LOGICAL INITIAL NO 
+DEFINE VARIABLE l-parcelar AS LOGICAL INITIAL no 
      LABEL "Parcelar ou replicar lançamento" 
      VIEW-AS TOGGLE-BOX
      SIZE 35 BY .81 NO-UNDO.
@@ -266,6 +270,7 @@ DEFINE FRAME lancamento
      fill-qtd-parc-repl AT ROW 20.86 COL 66.2 COLON-ALIGNED WIDGET-ID 56
      fill-interval-dias AT ROW 22.05 COL 66.2 COLON-ALIGNED WIDGET-ID 58
      Btn_Novo AT ROW 24.62 COL 4.8 WIDGET-ID 6
+     Btn_OK_Novo AT ROW 24.57 COL 21 WIDGET-ID 62
      Btn_Cancelar AT ROW 24.62 COL 82.6
      "Obs:" VIEW-AS TEXT
           SIZE 5 BY .62 AT ROW 15.76 COL 21.4 RIGHT-ALIGNED WIDGET-ID 40
@@ -396,113 +401,22 @@ DO:
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL Btn_Novo lancamento
 ON CHOOSE OF Btn_Novo IN FRAME lancamento /* OK */
 DO:
+
+    RUN prSalvarRegistro.
     
-/*        message item.it-cod item.descricao skip                         */
-/*            "cbBanco           : " cb-banco            :input-value skip*/
-/*            "cbCCusto          : " cb-ccusto           :input-value skip*/
-/*            "fill-data-movto   : " fill-data-movto    :input-value skip */
-/*            "fill-descricao    : " fill-descricao     :input-value skip */
-/*            "fill-valor        : " fill-valor         :input-value skip */
-/*            "fill-narrativa    : " fill-narrativa     :input-value skip */
-/*            "fill-qtd-parc-repl: " fill-qtd-parc-repl :input-value skip */
-/*            "fill-interval-dias: " fill-interval-dias :input-value skip */
-/*            "l-parcelar        : " l-parcelar         :input-value skip */
-/*            "rs-parcelar       : " rs-parcelar        :input-value skip */
-/*            "rsTpMovto         : " rsTpMovto          :input-value      */
-/*            view-as alert-box.                                          */
-/*                                                                        */
-    
-        IF fill-data-movto:input-value = ? THEN DO:
-            ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Data obrigatória!").
-            APPLY "entry" TO fill-data-movto.
-            RETURN NO-APPLY.
-        END.
-        IF fill-valor:input-value = 0 THEN DO:
-            ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Valor obrigatório!").
-            APPLY "entry" TO fill-valor.
-            RETURN NO-APPLY.
-        END.
-        IF fill-descricao:input-value = "" THEN DO:
-            ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Descrição obrigatória!").
-            APPLY "entry" TO fill-descricao.
-            RETURN NO-APPLY.
-        END.
-        IF cb-ccusto:input-value = "" THEN DO:
-            ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Centro de custo obrigatório!").
-            APPLY "entry" TO cb-ccusto.
-            RETURN NO-APPLY.
-        END.
-        IF cb-banco:input-value = "" THEN DO:
-            ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Conta bancária obrigatória!").
-            APPLY "entry" TO cb-banco.
-            RETURN NO-APPLY.
-        END.
-        IF l-parcelar AND fill-qtd-parc-repl:input-value = "" THEN DO:
-            ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", fill-qtd-parc-repl:label + " obrigatória!").
-            APPLY "entry" TO fill-qtd-parc-repl.
-            RETURN NO-APPLY.
-        END.
-        IF l-parcelar AND fill-interval-dias:input-value = "" THEN DO:
-            ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", fill-interval-dias:label + " obrigatória!").
-            APPLY "entry" TO fill-interval-dias.
-            RETURN NO-APPLY.
-        END.
+END.
 
-        controlador = NEW MovimentoControl().
-/*        pData-mvto*/
-/*        pBanco-cod*/
-/*        pAg       */
-/*        pConta    */
-/*        pCc-cod   */
-/*        pIt-cod   */
-/*        pSeq      */
-/*        pDescricao*/
-/*        pMovto-tp */
-/*        pNarrativa*/
-/*        pUsuario  */
-/*        pValor    */
-        controlador:cadastrar(fill-data-movto:input-value,
-                              ENTRY(1, cb-banco:input-value, ";"),
-                              ENTRY(2, cb-banco:input-value, ";"),
-                              ENTRY(3, cb-banco:input-value, ";"),
-                              cb-ccusto:input-value,
-                              item.it-cod, 
-                              1,
-                              fill-descricao:input-value,
-                              rsTpMovto:input-value,
-                              fill-narrativa:input-value,
-                              "",
-                              (fill-valor:input-value * integer(rsTpMovto:input-value   ))).
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
 
-        IF controlador:cReturn BEGINS "Erro" THEN DO:
-            ico-dialog = "error".
-            RUN smr/dialog.w (ico-dialog, controlador:cReturn, "").
-        END.
 
-        cb-banco = ENTRY(2, cBanco).
-        cb-ccusto = ENTRY(2, cCCusto).
-        fill-data-movto:clear ().   
-        fill-descricao:clear ().    
-        fill-valor:clear ().        
-        fill-qtd-parc-repl:clear ().    
-        fill-interval-dias:clear ().
-        l-parcelar = FALSE.
-
-/*        apply "entry" to fill-data-movto.*/
-/*        return no-apply.                 */
-    
-        FINALLY:
-            IF VALID-OBJECT (controlador) THEN
-                DELETE OBJECT controlador.
-        END FINALLY.
-    END.
+&Scoped-define SELF-NAME Btn_OK_Novo
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL Btn_OK_Novo lancamento
+ON CHOOSE OF Btn_OK_Novo IN FRAME lancamento /* Ok e novo */
+DO:
+    RUN prSalvarRegistro.
+    RETURN NO-APPLY.  
+END.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -512,17 +426,17 @@ DO:
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL l-parcelar lancamento
 ON VALUE-CHANGED OF l-parcelar IN FRAME lancamento /* Parcelar ou replicar lançamento */
 DO:
-        IF l-parcelar:input-value THEN DO:
-            fill-qtd-parc-repl:hidden = FALSE.
-            fill-interval-dias:hidden = FALSE.
-            rs-parcelar:hidden = FALSE. 
-        END.
-        ELSE DO:
-            fill-qtd-parc-repl:hidden = TRUE.
-            fill-interval-dias:hidden = TRUE.
-            rs-parcelar:hidden = TRUE.
-        END.  
+    IF l-parcelar:input-value THEN DO:
+        fill-qtd-parc-repl:hidden = FALSE.
+        fill-interval-dias:hidden = FALSE.
+        rs-parcelar:hidden = FALSE. 
     END.
+    ELSE DO:
+        fill-qtd-parc-repl:hidden = TRUE.
+        fill-interval-dias:hidden = TRUE.
+        rs-parcelar:hidden = TRUE.
+    END.  
+END.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -532,16 +446,16 @@ DO:
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL rs-parcelar lancamento
 ON VALUE-CHANGED OF rs-parcelar IN FRAME lancamento
 DO:
-        DEFINE VARIABLE iPosition AS INTEGER NO-UNDO.
+    DEFINE VARIABLE iPosition AS INTEGER NO-UNDO.
 
-        iPosition = LOOKUP(SELF:SCREEN-VALUE,SELF:RADIO-BUTTONS).
-        IF iPosition = 2 THEN ASSIGN 
-                fill-qtd-parc-repl:label = "Nº de parcelas"
-                fill-interval-dias:label = "Intervalo entre parcelas (dias)".
-        ELSE ASSIGN 
-                fill-qtd-parc-repl:label = "Nº de réplicas"
-                fill-interval-dias:label = "Intervalo entre réplicas (dias)".
-    END.
+    iPosition = LOOKUP(SELF:SCREEN-VALUE,SELF:RADIO-BUTTONS).
+    IF iPosition = 2 THEN ASSIGN 
+            fill-qtd-parc-repl:label = "Nº de parcelas"
+            fill-interval-dias:label = "Intervalo entre parcelas (dias)".
+    ELSE ASSIGN 
+            fill-qtd-parc-repl:label = "Nº de réplicas"
+            fill-interval-dias:label = "Intervalo entre réplicas (dias)".
+END.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -624,16 +538,111 @@ PROCEDURE enable_UI :
       WITH FRAME lancamento.
   ENABLE brItem fill-data-movto fill-valor rsTpMovto fill-descricao cb-ccusto 
          cb-banco fill-narrativa l-parcelar rs-parcelar fill-qtd-parc-repl 
-         fill-interval-dias Btn_Novo Btn_Cancelar IMAGE-4 RECT-4 RECT-5 RECT-6 
-         RECT-7 RECT-11 
+         fill-interval-dias Btn_Novo Btn_OK_Novo Btn_Cancelar IMAGE-4 RECT-4 
+         RECT-5 RECT-6 RECT-7 RECT-11 
       WITH FRAME lancamento.
   VIEW FRAME lancamento.
-  
-  ASSIGN
-    fill-data-movto:screen-value IN FRAME {&FRAME-NAME} = STRING(TODAY, "99/99/9999").
-  APPLY "value-changed" TO l-parcelar. 
-    
   {&OPEN-BROWSERS-IN-QUERY-lancamento}
+END PROCEDURE.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prSalvarRegistro lancamento 
+PROCEDURE prSalvarRegistro :
+/*------------------------------------------------------------------------------
+     Purpose: Utilizado pelos botões OK e OK e novo
+     Notes:
+    ------------------------------------------------------------------------------*/
+    DO WITH FRAME {&FRAME-NAME}:
+        IF fill-data-movto:input-value = ? THEN 
+        DO:
+            ico-dialog = "error".
+            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Data obrigatória!").
+            APPLY "entry" TO fill-data-movto.
+            RETURN NO-APPLY.
+        END.
+        IF fill-valor:input-value = 0 THEN 
+        DO:
+            ico-dialog = "error".
+            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Valor obrigatório!").
+            APPLY "entry" TO fill-valor.
+            RETURN NO-APPLY.
+        END.
+        IF fill-descricao:input-value = "" THEN 
+        DO:
+            ico-dialog = "error".
+            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Descrição obrigatória!").
+            APPLY "entry" TO fill-descricao.
+            RETURN NO-APPLY.
+        END.
+        IF cb-ccusto:input-value = "" THEN 
+        DO:
+            ico-dialog = "error".
+            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Centro de custo obrigatório!").
+            APPLY "entry" TO cb-ccusto.
+            RETURN NO-APPLY.
+        END.
+        IF cb-banco:input-value = "" THEN 
+        DO:
+            ico-dialog = "error".
+            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Conta bancária obrigatória!").
+            APPLY "entry" TO cb-banco.
+            RETURN NO-APPLY.
+        END.
+        IF l-parcelar AND fill-qtd-parc-repl:input-value = "" THEN 
+        DO:
+            ico-dialog = "error".
+            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", fill-qtd-parc-repl:label + " obrigatória!").
+            APPLY "entry" TO fill-qtd-parc-repl.
+            RETURN NO-APPLY.
+        END.
+        IF l-parcelar AND fill-interval-dias:input-value = "" THEN 
+        DO:
+            ico-dialog = "error".
+            RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", fill-interval-dias:label + " obrigatória!").
+            APPLY "entry" TO fill-interval-dias.
+            RETURN NO-APPLY.
+        END.
+        
+        IF NOT VALID-OBJECT (controlador) THEN
+            controlador = NEW MovimentoControl().
+            
+        controlador:cadastrar(fill-data-movto:input-value,
+            ENTRY(1, cb-banco:input-value, ";"),
+            ENTRY(2, cb-banco:input-value, ";"),
+            ENTRY(3, cb-banco:input-value, ";"),
+            cb-ccusto:input-value,
+            item.it-cod, 
+            1,
+            fill-descricao:input-value,
+            rsTpMovto:input-value,
+            fill-narrativa:input-value,
+            "",
+            (fill-valor:input-value * integer(rsTpMovto:input-value   ))).
+    
+        IF controlador:cReturn BEGINS "Erro" THEN 
+        DO:
+            ico-dialog = "error".
+            RUN smr/dialog.w (ico-dialog, controlador:cReturn, "").
+        END.
+    
+        cb-banco = ENTRY(2, cBanco).
+        cb-ccusto = ENTRY(2, cCCusto).
+        fill-data-movto:clear ().   
+        fill-descricao:clear ().    
+        fill-valor:clear ().        
+        fill-qtd-parc-repl:clear ().    
+        fill-interval-dias:clear ().
+        l-parcelar = FALSE.
+    
+        
+    END.
+    FINALLY:
+        IF VALID-OBJECT (controlador) THEN
+            DELETE OBJECT controlador.
+    END FINALLY.
+
 END PROCEDURE.
 
 /* _UIB-CODE-BLOCK-END */
