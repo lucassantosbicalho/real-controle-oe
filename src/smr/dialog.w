@@ -77,58 +77,58 @@ define input parameter cMensagem    as character no-undo.
 /* Define a dialog box                                                  */
 
 /* Definitions of the field level widgets                               */
-define button btCancela auto-end-key 
-     label "Cancel" 
-     size 15 by 1.14.
+DEFINE BUTTON btCancela AUTO-END-KEY 
+     LABEL "Cancel" 
+     SIZE 15 BY 1.14.
 
-define button btOk auto-go 
-     label "OK" 
-     size 15 by 1.14.
+DEFINE BUTTON btOk AUTO-GO 
+     LABEL "OK" 
+     SIZE 15 BY 1.14.
 
-define variable filMsg as character 
-     view-as editor no-word-wrap scrollbar-horizontal scrollbar-vertical
-     size 82 by 4.76
-     font 13 no-undo.
+DEFINE VARIABLE filMsg AS CHARACTER 
+     VIEW-AS EDITOR NO-WORD-WRAP SCROLLBAR-HORIZONTAL SCROLLBAR-VERTICAL
+     SIZE 82 BY 4.76
+     FONT 13 NO-UNDO.
 
-define variable filTitulo as character format "X(256)":U 
-      view-as text 
-     size 73 by 1.19
-     font 12 no-undo.
+DEFINE VARIABLE filTitulo AS CHARACTER FORMAT "X(256)":U 
+      VIEW-AS TEXT 
+     SIZE 73 BY 1.19
+     FONT 12 NO-UNDO.
 
-define image ico-alert
-     filename "Telas/circle-alert.ico":U
-     size 7 by 1.67.
+DEFINE IMAGE ico-alert
+     FILENAME "Telas/circle-alert.ico":U
+     SIZE 7 BY 1.67.
 
-define image ico-error
-     filename "Telas/circle-error.ico":U
-     size 7 by 1.67.
+DEFINE IMAGE ico-error
+     FILENAME "Telas/circle-error.ico":U
+     SIZE 7 BY 1.67.
 
-define image ico-success
-     filename "Telas/circle-check.ico":U
-     size 7 by 1.67.
+DEFINE IMAGE ico-success
+     FILENAME "Telas/circle-check.ico":U
+     SIZE 7 BY 1.67.
 
-define rectangle RECT-2
-     edge-pixels 2 graphic-edge  no-fill   
-     size 82 by 2.14
-     bgcolor 15 .
+DEFINE RECTANGLE RECT-2
+     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
+     SIZE 82 BY 2.14
+     BGCOLOR 15 .
 
 
 /* ************************  Frame Definitions  *********************** */
 
-define frame dialog
-     filMsg at row 3.91 col 2.6 no-label widget-id 4
-     btOk at row 9.52 col 5.6
-     btCancela at row 9.52 col 66.6
-     filTitulo at row 1.71 col 9 colon-aligned no-label widget-id 20
-     RECT-2 at row 9 col 2.6 widget-id 8
-     ico-success at row 1.76 col 3 widget-id 14
-     ico-alert at row 1.76 col 3 widget-id 16
-     ico-error at row 1.76 col 3 widget-id 18
-     space(76.19) skip(7.99)
-    with view-as dialog-box keep-tab-order no-help 
-         side-labels no-underline three-d  scrollable 
-         title "Info"
-         default-button btOk cancel-button btCancela widget-id 100.
+DEFINE FRAME dialog
+     filMsg AT ROW 3.91 COL 2.6 NO-LABEL WIDGET-ID 4
+     btOk AT ROW 9.52 COL 5.6
+     btCancela AT ROW 9.52 COL 66.6
+     filTitulo AT ROW 1.71 COL 9 COLON-ALIGNED NO-LABEL WIDGET-ID 20
+     RECT-2 AT ROW 9 COL 2.6 WIDGET-ID 8
+     ico-success AT ROW 1.76 COL 3 WIDGET-ID 14
+     ico-alert AT ROW 1.76 COL 3 WIDGET-ID 16
+     ico-error AT ROW 1.76 COL 3 WIDGET-ID 18
+     SPACE(76.19) SKIP(7.99)
+    WITH VIEW-AS DIALOG-BOX KEEP-TAB-ORDER NO-HELP 
+         SIDE-LABELS NO-UNDERLINE THREE-D  SCROLLABLE 
+         TITLE "Info"
+         DEFAULT-BUTTON btOk CANCEL-BUTTON btCancela WIDGET-ID 100.
 
 
 /* *********************** Procedure Settings ************************ */
@@ -158,32 +158,28 @@ define frame dialog
 &ANALYZE-SUSPEND _RUN-TIME-ATTRIBUTES
 /* SETTINGS FOR DIALOG-BOX dialog
    FRAME-NAME                                                           */
-assign 
-       frame dialog:SCROLLABLE       = false
-       frame dialog:HIDDEN           = true.
+ASSIGN 
+       FRAME dialog:SCROLLABLE       = FALSE
+       FRAME dialog:HIDDEN           = TRUE.
 
 /* SETTINGS FOR EDITOR filMsg IN FRAME dialog
    NO-ENABLE                                                            */
-assign 
-       filMsg:HIDDEN in frame dialog           = true
-       filMsg:READ-ONLY in frame dialog        = true.
-
 /* SETTINGS FOR FILL-IN filTitulo IN FRAME dialog
    NO-ENABLE                                                            */
 /* SETTINGS FOR IMAGE ico-alert IN FRAME dialog
    NO-ENABLE                                                            */
-assign 
-       ico-alert:HIDDEN in frame dialog           = true.
+ASSIGN 
+       ico-alert:HIDDEN IN FRAME dialog           = TRUE.
 
 /* SETTINGS FOR IMAGE ico-error IN FRAME dialog
    NO-ENABLE                                                            */
-assign 
-       ico-error:HIDDEN in frame dialog           = true.
+ASSIGN 
+       ico-error:HIDDEN IN FRAME dialog           = TRUE.
 
 /* SETTINGS FOR IMAGE ico-success IN FRAME dialog
    NO-ENABLE                                                            */
-assign 
-       ico-success:HIDDEN in frame dialog           = true.
+ASSIGN 
+       ico-success:HIDDEN IN FRAME dialog           = TRUE.
 
 /* _RUN-TIME-ATTRIBUTES-END */
 &ANALYZE-RESUME
@@ -206,7 +202,7 @@ assign
 
 &Scoped-define SELF-NAME dialog
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL dialog dialog
-on window-close of frame dialog /* Info */
+ON window-close OF FRAME dialog /* Info */
 do:  
   /* Add Trigger to equate WINDOW-CLOSE to END-ERROR. */
   apply "END-ERROR":U to self.
@@ -261,20 +257,20 @@ assign
 /* **********************  Internal Procedures  *********************** */
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE adm-create-objects dialog  _ADM-CREATE-OBJECTS
-procedure adm-create-objects :
+PROCEDURE adm-create-objects :
 /*------------------------------------------------------------------------------
   Purpose:     Create handles for all SmartObjects used in this procedure.
                After SmartObjects are initialized, then SmartLinks are added.
   Parameters:  <none>
 ------------------------------------------------------------------------------*/
 
-end procedure.
+END PROCEDURE.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE disable_UI dialog  _DEFAULT-DISABLE
-procedure disable_UI :
+PROCEDURE disable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     DISABLE the User Interface
   Parameters:  <none>
@@ -284,14 +280,14 @@ procedure disable_UI :
                we are ready to "clean-up" after running.
 ------------------------------------------------------------------------------*/
   /* Hide all frames. */
-  hide frame dialog.
-end procedure.
+  HIDE FRAME dialog.
+END PROCEDURE.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE enable_UI dialog  _DEFAULT-ENABLE
-procedure enable_UI :
+PROCEDURE enable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     ENABLE the User Interface
   Parameters:  <none>
@@ -301,13 +297,13 @@ procedure enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  display filMsg filTitulo 
-      with frame dialog.
-  enable RECT-2 btOk btCancela 
-      with frame dialog.
-  view frame dialog.
+  DISPLAY filMsg filTitulo 
+      WITH FRAME dialog.
+  ENABLE RECT-2 btOk btCancela 
+      WITH FRAME dialog.
+  VIEW FRAME dialog.
   {&OPEN-BROWSERS-IN-QUERY-dialog}
-end procedure.
+END PROCEDURE.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
