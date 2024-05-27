@@ -396,10 +396,8 @@ procedure prCalculaSaldo :
  Purpose:
  Notes:
 ------------------------------------------------------------------------------*/
-define input  parameter d-mov as date no-undo.
-    message "source-procedure:file-name" source-procedure:file-name skip
-            "target-procedure:file-name" target-procedure:file-name
-    view-as alert-box.
+    define input  parameter d-mov as date no-undo.
+
     /* --------------------------------------------------------------------------------
              Cria labels das contas unicas
     -------------------------------------------------------------------------------- */ 

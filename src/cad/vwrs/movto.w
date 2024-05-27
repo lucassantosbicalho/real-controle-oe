@@ -1,8 +1,5 @@
 &ANALYZE-SUSPEND _VERSION-NUMBER AB_v10r12 GUI
 &ANALYZE-RESUME
-/* Connected Databases 
-          rcdb             PROGRESS
-*/
 &Scoped-define WINDOW-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DEFINITIONS C-Win 
 /*------------------------------------------------------------------------
@@ -38,8 +35,6 @@ create widget-pool.
 /* Parameters Definitions ---                                           */
 
 /* Local Variable Definitions ---                                       */
-//define variable Op as character no-undo.
-define variable l-cinza as logical no-undo init false.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -54,49 +49,12 @@ define variable l-cinza as logical no-undo init false.
 
 /* Name of designated FRAME-NAME and/or first browse and/or first query */
 &Scoped-define FRAME-NAME DEFAULT-FRAME
-&Scoped-define BROWSE-NAME brMovto
-
-/* Internal Tables (found by Frame, Query & Browse Queries)             */
-&Scoped-define INTERNAL-TABLES movto banco ccusto conta item
-
-/* Definitions for BROWSE brMovto                                       */
-&Scoped-define FIELDS-IN-QUERY-brMovto movto.id movto.data-mvto ~
-banco.descricao + " " + conta.ag + " / " + conta.conta ~
-ccusto.cc-cod + " - " + ccusto.descricao item.descricao movto.seq ~
-movto.valor movto.usuario movto.descricao movto.narrativa 
-&Scoped-define ENABLED-FIELDS-IN-QUERY-brMovto 
-&Scoped-define QUERY-STRING-brMovto FOR EACH movto NO-LOCK, ~
-      EACH banco WHERE banco.banco-cod  = movto.banco-cod NO-LOCK, ~
-      EACH ccusto WHERE ccusto.cc-cod = movto.cc-cod NO-LOCK, ~
-      EACH conta WHERE conta.banco-cod = movto.banco-cod ~
-  AND conta.ag = movto.ag ~
-  AND conta.conta = movto.conta NO-LOCK, ~
-      EACH item WHERE item.it-cod = movto.it-cod NO-LOCK ~
-    BY movto.data-mvto INDEXED-REPOSITION
-&Scoped-define OPEN-QUERY-brMovto OPEN QUERY brMovto FOR EACH movto NO-LOCK, ~
-      EACH banco WHERE banco.banco-cod  = movto.banco-cod NO-LOCK, ~
-      EACH ccusto WHERE ccusto.cc-cod = movto.cc-cod NO-LOCK, ~
-      EACH conta WHERE conta.banco-cod = movto.banco-cod ~
-  AND conta.ag = movto.ag ~
-  AND conta.conta = movto.conta NO-LOCK, ~
-      EACH item WHERE item.it-cod = movto.it-cod NO-LOCK ~
-    BY movto.data-mvto INDEXED-REPOSITION.
-&Scoped-define TABLES-IN-QUERY-brMovto movto banco ccusto conta item
-&Scoped-define FIRST-TABLE-IN-QUERY-brMovto movto
-&Scoped-define SECOND-TABLE-IN-QUERY-brMovto banco
-&Scoped-define THIRD-TABLE-IN-QUERY-brMovto ccusto
-&Scoped-define FOURTH-TABLE-IN-QUERY-brMovto conta
-&Scoped-define FIFTH-TABLE-IN-QUERY-brMovto item
-
-
-/* Definitions for FRAME DEFAULT-FRAME                                  */
-&Scoped-define OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME ~
-    ~{&OPEN-QUERY-brMovto}
 
 /* Standard List Definitions                                            */
-&Scoped-Define ENABLED-OBJECTS RECT-1 RECT-2 cbFiltroPeriodo fill-DataI ~
-fill-DataF brMovto 
-&Scoped-Define DISPLAYED-OBJECTS cbFiltroPeriodo fill-DataI fill-DataF 
+&Scoped-Define ENABLED-OBJECTS RECT-2 cbFiltroPeriodo fill-DataI fill-DataF ~
+cbConta gill-geral 
+&Scoped-Define DISPLAYED-OBJECTS cbFiltroPeriodo fill-DataI fill-DataF ~
+cbConta gill-geral 
 
 /* Custom List Definitions                                              */
 /* List-1,List-2,List-3,List-4,List-5,List-6                            */
@@ -112,6 +70,13 @@ fill-DataF brMovto
 DEFINE VAR C-Win AS WIDGET-HANDLE NO-UNDO.
 
 /* Definitions of the field level widgets                               */
+DEFINE VARIABLE cbConta AS CHARACTER FORMAT "X(256)":U 
+     LABEL "Conta" 
+     VIEW-AS COMBO-BOX INNER-LINES 5
+     LIST-ITEM-PAIRS "Item 1","Item 1"
+     DROP-DOWN-LIST
+     SIZE 42 BY 1 TOOLTIP "Filtrar por conta bancária" NO-UNDO.
+
 DEFINE VARIABLE cbFiltroPeriodo AS CHARACTER FORMAT "X(256)":U INITIAL "30 dias" 
      LABEL "Período" 
      VIEW-AS COMBO-BOX INNER-LINES 6
@@ -129,58 +94,28 @@ DEFINE VARIABLE fill-DataI AS DATE FORMAT "99/99/9999":U
      VIEW-AS FILL-IN 
      SIZE 20 BY 1 TOOLTIP "Data inicial" NO-UNDO.
 
-DEFINE RECTANGLE RECT-1
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 260 BY 26.33.
+DEFINE VARIABLE gill-geral AS CHARACTER FORMAT "X(256)":U 
+     VIEW-AS FILL-IN 
+     SIZE 14 BY 1 NO-UNDO.
 
 DEFINE RECTANGLE RECT-2
      EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 260 BY 4.05.
-
-/* Query definitions                                                    */
-&ANALYZE-SUSPEND
-DEFINE QUERY brMovto FOR 
-      movto, 
-      banco, 
-      ccusto, 
-      conta, 
-      item SCROLLING.
-&ANALYZE-RESUME
-
-/* Browse definitions                                                   */
-DEFINE BROWSE brMovto
-&ANALYZE-SUSPEND _UIB-CODE-BLOCK _DISPLAY-FIELDS brMovto C-Win _STRUCTURED
-  QUERY brMovto NO-LOCK DISPLAY
-      movto.id COLUMN-LABEL "ID" FORMAT "->,>>>,>>9":U
-      movto.data-mvto FORMAT "99/99/9999":U
-      banco.descricao + " " + conta.ag + " / " + conta.conta COLUMN-LABEL "Conta bancária" FORMAT "x(40)":U
-      ccusto.cc-cod + " - " + ccusto.descricao COLUMN-LABEL "Centro de custo" FORMAT "x(30)":U
-            WIDTH 25
-      item.descricao COLUMN-LABEL "Item" FORMAT "x(30)":U
-      movto.seq FORMAT ">,>>>,>>9":U WIDTH 10
-      movto.valor FORMAT "->,>>>,>>9.99":U WIDTH 20
-      movto.usuario FORMAT "x(8)":U
-      movto.descricao FORMAT "x(20)":U
-      movto.narrativa FORMAT "x(60)":U
-/* _UIB-CODE-BLOCK-END */
-&ANALYZE-RESUME
-    WITH NO-ROW-MARKERS SEPARATORS SIZE 257 BY 25.24
-         FONT 10 FIT-LAST-COLUMN.
+     SIZE 254.6 BY 4.05.
 
 
 /* ************************  Frame Definitions  *********************** */
 
 DEFINE FRAME DEFAULT-FRAME
-     cbFiltroPeriodo AT ROW 2.19 COL 15 COLON-ALIGNED WIDGET-ID 6
-     fill-DataI AT ROW 4.1 COL 15 COLON-ALIGNED WIDGET-ID 8
-     fill-DataF AT ROW 4.1 COL 41 COLON-ALIGNED WIDGET-ID 10
-     brMovto AT ROW 6.91 COL 5.6 WIDGET-ID 200
-     RECT-1 AT ROW 6.19 COL 4 WIDGET-ID 2
-     RECT-2 AT ROW 1.71 COL 4 WIDGET-ID 4
+     cbFiltroPeriodo AT ROW 1.91 COL 11 COLON-ALIGNED WIDGET-ID 6
+     fill-DataI AT ROW 3.57 COL 11 COLON-ALIGNED WIDGET-ID 8
+     fill-DataF AT ROW 3.57 COL 37 COLON-ALIGNED WIDGET-ID 10
+     cbConta AT ROW 3.57 COL 66.2 COLON-ALIGNED WIDGET-ID 12
+     gill-geral AT ROW 3.62 COL 119 COLON-ALIGNED NO-LABEL WIDGET-ID 14
+     RECT-2 AT ROW 1.19 COL 1.8 WIDGET-ID 4
     WITH 1 DOWN NO-BOX KEEP-TAB-ORDER OVERLAY 
          SIDE-LABELS NO-UNDERLINE THREE-D 
          AT COL 1 ROW 1
-         SIZE 267 BY 32.33 WIDGET-ID 100.
+         SIZE 255.8 BY 26.57 WIDGET-ID 100.
 
 
 /* *********************** Procedure Settings ************************ */
@@ -199,13 +134,13 @@ DEFINE FRAME DEFAULT-FRAME
 IF SESSION:DISPLAY-TYPE = "GUI":U THEN
   CREATE WINDOW C-Win ASSIGN
          HIDDEN             = YES
-         TITLE              = "Movimentos"
-         HEIGHT             = 32.33
-         WIDTH              = 267
-         MAX-HEIGHT         = 32.33
-         MAX-WIDTH          = 270.2
-         VIRTUAL-HEIGHT     = 32.33
-         VIRTUAL-WIDTH      = 270.2
+         TITLE              = "<insert window title>"
+         HEIGHT             = 26.57
+         WIDTH              = 255.8
+         MAX-HEIGHT         = 26.57
+         MAX-WIDTH          = 271
+         VIRTUAL-HEIGHT     = 26.57
+         VIRTUAL-WIDTH      = 271
          RESIZE             = yes
          SCROLL-BARS        = no
          STATUS-AREA        = no
@@ -228,51 +163,10 @@ ELSE {&WINDOW-NAME} = CURRENT-WINDOW.
   VISIBLE,,RUN-PERSISTENT                                               */
 /* SETTINGS FOR FRAME DEFAULT-FRAME
    FRAME-NAME                                                           */
-/* BROWSE-TAB brMovto fill-DataF DEFAULT-FRAME */
-ASSIGN 
-       brMovto:COLUMN-RESIZABLE IN FRAME DEFAULT-FRAME       = TRUE
-       brMovto:COLUMN-MOVABLE IN FRAME DEFAULT-FRAME         = TRUE
-       brMovto:SEPARATOR-FGCOLOR IN FRAME DEFAULT-FRAME      = 15.
-
 IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
 THEN C-Win:HIDDEN = no.
 
 /* _RUN-TIME-ATTRIBUTES-END */
-&ANALYZE-RESUME
-
-
-/* Setting information for Queries and Browse Widgets fields            */
-
-&ANALYZE-SUSPEND _QUERY-BLOCK BROWSE brMovto
-/* Query rebuild information for BROWSE brMovto
-     _TblList          = "rcdb.movto,rcdb.banco WHERE rcdb.movto ...,rcdb.ccusto WHERE rcdb.movto ...,rcdb.conta WHERE rcdb.movto ...,rcdb.item WHERE rcdb.movto ..."
-     _Options          = "NO-LOCK INDEXED-REPOSITION"
-     _TblOptList       = ",,,,"
-     _OrdList          = "rcdb.movto.data-mvto|yes"
-     _JoinCode[2]      = "banco.banco-cod  = movto.banco-cod"
-     _JoinCode[3]      = "ccusto.cc-cod = movto.cc-cod"
-     _JoinCode[4]      = "conta.banco-cod = movto.banco-cod
-  AND conta.ag = movto.ag
-  AND conta.conta = movto.conta"
-     _JoinCode[5]      = "item.it-cod = movto.it-cod"
-     _FldNameList[1]   > rcdb.movto.id
-"movto.id" "ID" ? "int64" ? ? ? ? ? ? no ? no no ? yes no no "U" "" "" "FILL-IN" "," ? ? 5 no 0 no no
-     _FldNameList[2]   = rcdb.movto.data-mvto
-     _FldNameList[3]   > "_<CALC>"
-"banco.descricao + "" "" + conta.ag + "" / "" + conta.conta" "Conta bancária" "x(40)" ? ? ? ? ? ? ? no ? no no ? yes no no "U" "" "" "" "" "" "" 0 no 0 no no
-     _FldNameList[4]   > "_<CALC>"
-"ccusto.cc-cod + "" - "" + ccusto.descricao" "Centro de custo" "x(30)" ? ? ? ? ? ? ? no ? no no "25" yes no no "U" "" "" "" "" "" "" 0 no 0 no no
-     _FldNameList[5]   > rcdb.item.descricao
-"item.descricao" "Item" "x(30)" "character" ? ? ? ? ? ? no ? no no ? yes no no "U" "" "" "" "" "" "" 0 no 0 no no
-     _FldNameList[6]   > rcdb.movto.seq
-"movto.seq" ? ">,>>>,>>9" "integer" ? ? ? ? ? ? no ? no no "10" yes no no "U" "" "" "" "" "" "" 0 no 0 no no
-     _FldNameList[7]   > rcdb.movto.valor
-"movto.valor" ? ? "decimal" ? ? ? ? ? ? no ? no no "20" yes no no "U" "" "" "" "" "" "" 0 no 0 no no
-     _FldNameList[8]   = rcdb.movto.usuario
-     _FldNameList[9]   = rcdb.movto.descricao
-     _FldNameList[10]   = rcdb.movto.narrativa
-     _Query            is OPENED
-*/  /* BROWSE brMovto */
 &ANALYZE-RESUME
 
  
@@ -283,7 +177,7 @@ THEN C-Win:HIDDEN = no.
 
 &Scoped-define SELF-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON end-error OF C-Win /* Movimentos */
+ON end-error OF C-Win /* <insert window title> */
 or endkey of {&WINDOW-NAME} anywhere do:
   /* This case occurs when the user presses the "Esc" key.
      In a persistently run window, just ignore this.  If we did not, the
@@ -296,7 +190,7 @@ end.
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON window-close OF C-Win /* Movimentos */
+ON window-close OF C-Win /* <insert window title> */
 do:
   /* This event will close the window and terminate the procedure.  */
   apply "CLOSE":U to this-procedure.
@@ -307,50 +201,21 @@ end.
 &ANALYZE-RESUME
 
 
-&Scoped-define BROWSE-NAME brMovto
-&Scoped-define SELF-NAME brMovto
-&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
-ON mouse-select-dblclick OF brMovto IN FRAME DEFAULT-FRAME
-do:
-    
-    message "double click" movto.id movto.it-cod
-    view-as alert-box.  
-end.
-
-/* _UIB-CODE-BLOCK-END */
-&ANALYZE-RESUME
-
-
-&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
-ON row-display OF brMovto IN FRAME DEFAULT-FRAME
-do:
-    if movto.movto-tp = 1 then do: 
-//        Op:fgcolor in browse brMovto = 9.
-        movto.valor:fgcolor in browse brMovto = 9.
-    end.
-    else do: 
-  //      Op:fgcolor in browse brMovto = 12.
-        movto.valor:fgcolor in browse brMovto = 12.
-    end.
-    
-    //if movto.pendente then movto.pendente:fgcolor = 12.
-   // else movto.pendente:fgcolor = 0.
-end.
-
-/* _UIB-CODE-BLOCK-END */
-&ANALYZE-RESUME
-
-
 &Scoped-define SELF-NAME cbFiltroPeriodo
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL cbFiltroPeriodo C-Win
-ON VALUE-CHANGED OF cbFiltroPeriodo IN FRAME DEFAULT-FRAME /* Período */
-DO:
-  
-END.
+ON value-changed OF cbFiltroPeriodo IN FRAME DEFAULT-FRAME /* Período */
+do:
+    assign cbFiltroPeriodo.
+    if cbFiltroPeriodo = "Personalizar" then 
+        assign fill-DataI:hidden = true
+               fill-DataF:hidden = true.
+    else   
+        assign fill-DataI:hidden = false
+               fill-DataF:hidden = false.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
-
 
 
 &UNDEFINE SELF-NAME
@@ -377,7 +242,12 @@ pause 0 before-hide.
 MAIN-BLOCK:
 do on error   undo MAIN-BLOCK, leave MAIN-BLOCK
    on end-key undo MAIN-BLOCK, leave MAIN-BLOCK:
+       
   run enable_UI.
+  do with frame {&FRAME-NAME}:
+     assign fill-DataI:hidden = true
+            fill-DataF:hidden = true.
+  end.
   if not this-procedure:persistent then
     wait-for close of this-procedure.
 end.
@@ -418,9 +288,9 @@ PROCEDURE enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  DISPLAY cbFiltroPeriodo fill-DataI fill-DataF 
+  DISPLAY cbFiltroPeriodo fill-DataI fill-DataF cbConta gill-geral 
       WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
-  ENABLE RECT-1 RECT-2 cbFiltroPeriodo fill-DataI fill-DataF brMovto 
+  ENABLE RECT-2 cbFiltroPeriodo fill-DataI fill-DataF cbConta gill-geral 
       WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
   {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
   VIEW C-Win.

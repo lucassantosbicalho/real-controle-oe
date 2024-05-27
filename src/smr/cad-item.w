@@ -7,7 +7,7 @@
 &Scoped-define FRAME-NAME cad-item
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS cad-item 
-USING src.cad.cls.ItemControl.
+using src.cad.cls.ItemControl.
 /*------------------------------------------------------------------------
 
   File: 
@@ -33,15 +33,15 @@ USING src.cad.cls.ItemControl.
      will execute in this procedure's storage, and that proper
      cleanup will occur on deletion of the procedure. */
 
-CREATE WIDGET-POOL.
+create widget-pool.
 
 /* ***************************  Definitions  ************************** */
 
 /* Parameters Definitions ---                                           */
 
 /* Local Variable Definitions ---                                       */
-DEFINE VARIABLE controlador AS ItemControl NO-UNDO.
-DEFINE VARIABLE ico-dialog  AS CHARACTER   NO-UNDO.    
+define variable controlador as ItemControl no-undo.
+define variable ico-dialog  as character   no-undo.    
 
 {src/adm2/widgetprto.i}
 
@@ -132,52 +132,52 @@ fill-desc-it brItem Btn_Novo Btn_Cancelar Btn_Excluir
 /* Define a dialog box                                                  */
 
 /* Definitions of the field level widgets                               */
-DEFINE BUTTON Btn_Cancelar AUTO-GO 
-     LABEL "Cancelar" 
-     SIZE 15 BY 1.14.
+define button Btn_Cancelar auto-go 
+     label "Cancelar" 
+     size 15 by 1.14.
 
-DEFINE BUTTON Btn_Excluir 
-     LABEL "Excluir" 
-     SIZE 15 BY 1.14.
+define button Btn_Excluir 
+     label "Excluir" 
+     size 15 by 1.14.
 
-DEFINE BUTTON Btn_Novo AUTO-GO 
-     LABEL "OK" 
-     SIZE 15 BY 1.14.
+define button Btn_Novo auto-go 
+     label "OK" 
+     size 15 by 1.14.
 
-DEFINE VARIABLE fill-cod-it AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Código" 
-     VIEW-AS FILL-IN 
-     SIZE 20 BY 1 NO-UNDO.
+define variable fill-cod-it as character format "X(256)":U 
+     label "Código" 
+     view-as fill-in 
+     size 20 by 1 no-undo.
 
-DEFINE VARIABLE fill-desc-it AS CHARACTER FORMAT "X(30)":U 
-     LABEL "Descrição" 
-     VIEW-AS FILL-IN 
-     SIZE 52 BY 1 NO-UNDO.
+define variable fill-desc-it as character format "X(30)":U 
+     label "Descrição" 
+     view-as fill-in 
+     size 52 by 1 no-undo.
 
-DEFINE IMAGE IMAGE-4
-     FILENAME "Telas/telas.bmp":U
-     SIZE 100 BY 15.
+define image IMAGE-4
+     filename "Telas/telas.bmp":U
+     size 100 by 15.
 
-DEFINE RECTANGLE RECT-4
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 98 BY 11.62.
+define rectangle RECT-4
+     edge-pixels 2 graphic-edge  no-fill   
+     size 98 by 11.62.
 
-DEFINE RECTANGLE RECT-5
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 98 BY 2.38.
+define rectangle RECT-5
+     edge-pixels 2 graphic-edge  no-fill   
+     size 98 by 2.38.
 
 /* Query definitions                                                    */
 &ANALYZE-SUSPEND
-DEFINE QUERY brItem FOR 
-      item SCROLLING.
+define query brItem for 
+      item scrolling.
 &ANALYZE-RESUME
 
 /* Browse definitions                                                   */
-DEFINE BROWSE brItem
+define browse brItem
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _DISPLAY-FIELDS brItem cad-item _STRUCTURED
-  QUERY brItem NO-LOCK DISPLAY
-      item.it-cod FORMAT "x(35)":U WIDTH 16
-      item.descricao FORMAT "x(30)":U WIDTH 73.4
+  query brItem no-lock display
+      item.it-cod format "x(35)":U width 16
+      item.descricao format "x(30)":U width 73.4
   ENABLE
       item.descricao
 /* _UIB-CODE-BLOCK-END */
@@ -187,21 +187,21 @@ DEFINE BROWSE brItem
 
 /* ************************  Frame Definitions  *********************** */
 
-DEFINE FRAME cad-item
-     fill-cod-it AT ROW 2.38 COL 10.2 COLON-ALIGNED WIDGET-ID 2
-     fill-desc-it AT ROW 2.38 COL 44 COLON-ALIGNED WIDGET-ID 4
-     brItem AT ROW 4.29 COL 4.4 WIDGET-ID 200
-     Btn_Novo AT ROW 13.81 COL 4.4 WIDGET-ID 6
-     Btn_Cancelar AT ROW 13.81 COL 21.6
-     Btn_Excluir AT ROW 13.81 COL 82.8 WIDGET-ID 8
-     IMAGE-4 AT ROW 1 COL 1 WIDGET-ID 12
-     RECT-4 AT ROW 1.29 COL 2.2 WIDGET-ID 14
-     RECT-5 AT ROW 13.24 COL 2.2 WIDGET-ID 16
-     SPACE(0.80) SKIP(0.38)
-    WITH VIEW-AS DIALOG-BOX KEEP-TAB-ORDER NO-HELP 
-         SIDE-LABELS NO-UNDERLINE THREE-D  SCROLLABLE 
-         TITLE "Cadastrar item"
-         DEFAULT-BUTTON Btn_Cancelar WIDGET-ID 100.
+define frame cad-item
+     fill-cod-it at row 2.38 col 10.2 colon-aligned widget-id 2
+     fill-desc-it at row 2.38 col 44 colon-aligned widget-id 4
+     brItem at row 4.29 col 4.4 widget-id 200
+     Btn_Novo at row 13.81 col 4.4 widget-id 6
+     Btn_Cancelar at row 13.81 col 21.6
+     Btn_Excluir at row 13.81 col 82.8 widget-id 8
+     IMAGE-4 at row 1 col 1 widget-id 12
+     RECT-4 at row 1.29 col 2.2 widget-id 14
+     RECT-5 at row 13.24 col 2.2 widget-id 16
+     space(0.80) skip(0.38)
+    with view-as dialog-box keep-tab-order no-help 
+         side-labels no-underline three-d  scrollable 
+         title "Cadastrar item"
+         default-button Btn_Cancelar widget-id 100.
 
 
 /* *********************** Procedure Settings ************************ */
@@ -232,16 +232,16 @@ DEFINE FRAME cad-item
 /* SETTINGS FOR DIALOG-BOX cad-item
    FRAME-NAME                                                           */
 /* BROWSE-TAB brItem fill-desc-it cad-item */
-ASSIGN 
-       FRAME cad-item:SCROLLABLE       = FALSE
-       FRAME cad-item:HIDDEN           = TRUE.
+assign 
+       frame cad-item:SCROLLABLE       = false
+       frame cad-item:HIDDEN           = true.
 
-ASSIGN 
-       brItem:ALLOW-COLUMN-SEARCHING IN FRAME cad-item = TRUE
-       brItem:COLUMN-RESIZABLE IN FRAME cad-item       = TRUE.
+assign 
+       brItem:ALLOW-COLUMN-SEARCHING in frame cad-item = true
+       brItem:COLUMN-RESIZABLE in frame cad-item       = true.
 
-ASSIGN 
-       item.it-cod:AUTO-RESIZE IN BROWSE brItem = TRUE.
+assign 
+       item.it-cod:AUTO-RESIZE in browse brItem = true.
 
 /* _RUN-TIME-ATTRIBUTES-END */
 &ANALYZE-RESUME
@@ -276,11 +276,11 @@ ASSIGN
 
 &Scoped-define SELF-NAME cad-item
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL cad-item cad-item
-ON WINDOW-CLOSE OF FRAME cad-item /* Cadastrar item */
-DO:  
+on window-close of frame cad-item /* Cadastrar item */
+do:  
   /* Add Trigger to equate WINDOW-CLOSE to END-ERROR. */
-  APPLY "END-ERROR":U TO SELF.
-END.
+  apply "END-ERROR":U to self.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -292,16 +292,16 @@ END.
 
 &Scoped-define SELF-NAME Btn_Cancelar
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL Btn_Cancelar cad-item
-ON CHOOSE OF Btn_Cancelar IN FRAME cad-item /* Cancelar */
-DO:
+on choose of Btn_Cancelar in frame cad-item /* Cancelar */
+do:
     
-    APPLY "close" TO THIS-PROCEDURE.
+    apply "close" to this-procedure.
     
-    FINALLY:
-        IF VALID-OBJECT (controlador) THEN
-            DELETE OBJECT controlador.
-    END FINALLY.   
-END.
+    finally:
+        if valid-object (controlador) then
+            delete object controlador.
+    end finally.   
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -309,32 +309,32 @@ END.
 
 &Scoped-define SELF-NAME Btn_Excluir
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL Btn_Excluir cad-item
-ON CHOOSE OF Btn_Excluir IN FRAME cad-item /* Excluir */
-DO:
+on choose of Btn_Excluir in frame cad-item /* Excluir */
+do:
     
-    MESSAGE "Deseja excluir o item selecionado?" SKIP "Ação irreversível!"
-    VIEW-AS ALERT-BOX WARNING BUTTONS YES-NO UPDATE lChoice AS LOGICAL .
-    IF lChoice THEN DO:
-        controlador = NEW ItemControl().
+    message "Deseja excluir o item selecionado?" skip "Ação irreversível!"
+    view-as alert-box warning buttons yes-no update lChoice as logical .
+    if lChoice then do:
+        controlador = new ItemControl().
         controlador:excluir(item.it-cod).
 
-        IF controlador:cReturn BEGINS "Erro" 
-        THEN 
+        if controlador:cReturn begins "Erro" 
+        then 
             ico-dialog = "error".
-        ELSE
+        else
             ico-dialog = "success".
                     
         {&OPEN-QUERY-brItem}
         
-        RUN smr/dialog.w (ico-dialog, controlador:cReturn, "").
+        run smr/dialog.w (ico-dialog, controlador:cReturn, "").
         
-    END.
+    end.
     
-    FINALLY:
-        IF VALID-OBJECT (controlador) THEN
-            DELETE OBJECT controlador.
-    END FINALLY.
-END.
+    finally:
+        if valid-object (controlador) then
+            delete object controlador.
+    end finally.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -342,39 +342,39 @@ END.
 
 &Scoped-define SELF-NAME Btn_Novo
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL Btn_Novo cad-item
-ON CHOOSE OF Btn_Novo IN FRAME cad-item /* OK */
-DO:
+on choose of Btn_Novo in frame cad-item /* OK */
+do:
     
-    IF fill-cod-it:input-value = "" THEN DO:
+    if fill-cod-it:input-value = "" then do:
         ico-dialog = "error".
-        RUN smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Campo Código obrigatório!").
+        run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Campo Código obrigatório!").
         
-        APPLY "entry" TO fill-cod-it.
-        RETURN NO-APPLY.
-    END. 
+        apply "entry" to fill-cod-it.
+        return no-apply.
+    end. 
     
-    controlador = NEW ItemControl().
+    controlador = new ItemControl().
     controlador:cadastrar(fill-cod-it:input-value, 
                           fill-desc-it:input-value).
 
     {&OPEN-QUERY-brItem}
 
-    IF controlador:cReturn BEGINS "Erro" THEN DO:
+    if controlador:cReturn begins "Erro" then do:
         ico-dialog = "error".
-        RUN smr/dialog.w (ico-dialog, controlador:cReturn, "").
-    END.
+        run smr/dialog.w (ico-dialog, controlador:cReturn, "").
+    end.
     
     fill-cod-it:clear ().
     fill-desc-it:clear ().
     
-    APPLY "entry" TO fill-cod-it.
-    RETURN NO-APPLY.
+    apply "entry" to fill-cod-it.
+    return no-apply.
     
-    FINALLY:
-        IF VALID-OBJECT (controlador) THEN
-            DELETE OBJECT controlador.
-    END FINALLY.
-END.
+    finally:
+        if valid-object (controlador) then
+            delete object controlador.
+    end finally.
+end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -396,20 +396,20 @@ END.
 /* **********************  Internal Procedures  *********************** */
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE adm-create-objects cad-item  _ADM-CREATE-OBJECTS
-PROCEDURE adm-create-objects :
+procedure adm-create-objects :
 /*------------------------------------------------------------------------------
   Purpose:     Create handles for all SmartObjects used in this procedure.
                After SmartObjects are initialized, then SmartLinks are added.
   Parameters:  <none>
 ------------------------------------------------------------------------------*/
 
-END PROCEDURE.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE disable_UI cad-item  _DEFAULT-DISABLE
-PROCEDURE disable_UI :
+procedure disable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     DISABLE the User Interface
   Parameters:  <none>
@@ -419,14 +419,14 @@ PROCEDURE disable_UI :
                we are ready to "clean-up" after running.
 ------------------------------------------------------------------------------*/
   /* Hide all frames. */
-  HIDE FRAME cad-item.
-END PROCEDURE.
+  hide frame cad-item.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE enable_UI cad-item  _DEFAULT-ENABLE
-PROCEDURE enable_UI :
+procedure enable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     ENABLE the User Interface
   Parameters:  <none>
@@ -436,14 +436,14 @@ PROCEDURE enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  DISPLAY fill-cod-it fill-desc-it 
-      WITH FRAME cad-item.
-  ENABLE IMAGE-4 RECT-4 RECT-5 fill-cod-it fill-desc-it brItem Btn_Novo 
+  display fill-cod-it fill-desc-it 
+      with frame cad-item.
+  enable IMAGE-4 RECT-4 RECT-5 fill-cod-it fill-desc-it brItem Btn_Novo 
          Btn_Cancelar Btn_Excluir 
-      WITH FRAME cad-item.
-  VIEW FRAME cad-item.
+      with frame cad-item.
+  view frame cad-item.
   {&OPEN-BROWSERS-IN-QUERY-cad-item}
-END PROCEDURE.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
