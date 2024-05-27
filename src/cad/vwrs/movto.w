@@ -136,7 +136,8 @@ define variable cbFiltroPeriodo as character format "X(256)":U initial "30 dias"
 
 define variable edNarrativa as character 
      view-as editor no-word-wrap scrollbar-horizontal scrollbar-vertical
-     size 255 by 3.67 no-undo.
+     size 255 by 3.67
+     font 12 no-undo.
 
 define variable fill-DataF as date format "99/99/9999":U 
      label "Até" 
@@ -357,7 +358,6 @@ end.
 &ANALYZE-RESUME
 
 
-
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
 on mouse-select-dblclick of brMovto in frame DEFAULT-FRAME
 do:
@@ -395,14 +395,16 @@ end.
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL cbFiltroPeriodo C-Win
 on value-changed of cbFiltroPeriodo in frame DEFAULT-FRAME /* Período */
 do:
-    assign cbFiltroPeriodo.
-
+    assign cbFiltroPeriodo
+           fill-DataI:screen-value in frame {&frame-name} = ""
+           fill-DataF:screen-value in frame {&frame-name} = "".
+    
     if cbFiltroPeriodo = "Personalizar" then 
-        assign fill-DataI:hidden = false
-               fill-DataF:hidden = false.
+        assign fill-DataI:read-only = false
+               fill-DataF:read-only = false.
     else   
-        assign fill-DataI:hidden = true
-               fill-DataF:hidden = true.
+        assign fill-DataI:read-only = true
+               fill-DataF:read-only = true.
 end.
 
 /* _UIB-CODE-BLOCK-END */
@@ -436,8 +438,8 @@ do on error   undo MAIN-BLOCK, leave MAIN-BLOCK
        
   run enable_UI.
   do with frame {&FRAME-NAME}:
-     assign fill-DataI:hidden = true
-            fill-DataF:hidden = true.
+     assign fill-DataI:read-only = true
+            fill-DataF:read-only = true.
   end.
   if not this-procedure:persistent then
     wait-for close of this-procedure.
