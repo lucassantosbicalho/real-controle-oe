@@ -399,12 +399,15 @@ do:
            fill-DataI:screen-value in frame {&frame-name} = ""
            fill-DataF:screen-value in frame {&frame-name} = "".
     
-    if cbFiltroPeriodo = "Personalizar" then 
+    if cbFiltroPeriodo = "Personalizar" then do: 
         assign fill-DataI:read-only = false
                fill-DataF:read-only = false.
+        apply "entry" to fill-DataI.
+    end.
     else   
         assign fill-DataI:read-only = true
                fill-DataF:read-only = true.
+               
 end.
 
 /* _UIB-CODE-BLOCK-END */
