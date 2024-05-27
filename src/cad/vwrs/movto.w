@@ -51,10 +51,10 @@ create widget-pool.
 &Scoped-define FRAME-NAME DEFAULT-FRAME
 
 /* Standard List Definitions                                            */
-&Scoped-Define ENABLED-OBJECTS RECT-2 cbFiltroPeriodo fill-DataI fill-DataF ~
-cbConta gill-geral 
-&Scoped-Define DISPLAYED-OBJECTS cbFiltroPeriodo fill-DataI fill-DataF ~
-cbConta gill-geral 
+&Scoped-Define ENABLED-OBJECTS RECT-2 btFiltrar cbFiltroPeriodo ~
+rsOrdenarPor BtLimparFiltro fill-DataI fill-DataF cbConta gill-geral 
+&Scoped-Define DISPLAYED-OBJECTS cbFiltroPeriodo rsOrdenarPor fill-DataI ~
+fill-DataF cbConta gill-geral 
 
 /* Custom List Definitions                                              */
 /* List-1,List-2,List-3,List-4,List-5,List-6                            */
@@ -70,6 +70,14 @@ cbConta gill-geral
 DEFINE VAR C-Win AS WIDGET-HANDLE NO-UNDO.
 
 /* Definitions of the field level widgets                               */
+DEFINE BUTTON btFiltrar 
+     LABEL "Filtrar" 
+     SIZE 15 BY 1.14.
+
+DEFINE BUTTON BtLimparFiltro 
+     LABEL "Limpar" 
+     SIZE 15 BY 1.14.
+
 DEFINE VARIABLE cbConta AS CHARACTER FORMAT "X(256)":U 
      LABEL "Conta" 
      VIEW-AS COMBO-BOX INNER-LINES 5
@@ -96,7 +104,14 @@ DEFINE VARIABLE fill-DataI AS DATE FORMAT "99/99/9999":U
 
 DEFINE VARIABLE gill-geral AS CHARACTER FORMAT "X(256)":U 
      VIEW-AS FILL-IN 
-     SIZE 14 BY 1 NO-UNDO.
+     SIZE 71 BY 1 NO-UNDO.
+
+DEFINE VARIABLE rsOrdenarPor AS INTEGER 
+     VIEW-AS RADIO-SET VERTICAL
+     RADIO-BUTTONS 
+          "Mais novos", 1,
+"Mais antigos", 2
+     SIZE 22 BY 1.91 NO-UNDO.
 
 DEFINE RECTANGLE RECT-2
      EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
@@ -106,11 +121,18 @@ DEFINE RECTANGLE RECT-2
 /* ************************  Frame Definitions  *********************** */
 
 DEFINE FRAME DEFAULT-FRAME
+     btFiltrar AT ROW 1.81 COL 237.6 WIDGET-ID 18
      cbFiltroPeriodo AT ROW 1.91 COL 11 COLON-ALIGNED WIDGET-ID 6
+     rsOrdenarPor AT ROW 2.43 COL 192 NO-LABEL WIDGET-ID 22
+     BtLimparFiltro AT ROW 3.38 COL 237.6 WIDGET-ID 20
      fill-DataI AT ROW 3.57 COL 11 COLON-ALIGNED WIDGET-ID 8
      fill-DataF AT ROW 3.57 COL 37 COLON-ALIGNED WIDGET-ID 10
      cbConta AT ROW 3.57 COL 66.2 COLON-ALIGNED WIDGET-ID 12
-     gill-geral AT ROW 3.62 COL 119 COLON-ALIGNED NO-LABEL WIDGET-ID 14
+     gill-geral AT ROW 3.57 COL 111.4 COLON-ALIGNED NO-LABEL WIDGET-ID 14
+     "Ordenar por" VIEW-AS TEXT
+          SIZE 17 BY .62 AT ROW 1.71 COL 192 WIDGET-ID 26
+     "Filtrar por id, item, descrição ou narrativa" VIEW-AS TEXT
+          SIZE 72 BY .62 AT ROW 2.67 COL 113.4 WIDGET-ID 16
      RECT-2 AT ROW 1.19 COL 1.8 WIDGET-ID 4
     WITH 1 DOWN NO-BOX KEEP-TAB-ORDER OVERLAY 
          SIDE-LABELS NO-UNDERLINE THREE-D 
@@ -288,9 +310,10 @@ PROCEDURE enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  DISPLAY cbFiltroPeriodo fill-DataI fill-DataF cbConta gill-geral 
+  DISPLAY cbFiltroPeriodo rsOrdenarPor fill-DataI fill-DataF cbConta gill-geral 
       WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
-  ENABLE RECT-2 cbFiltroPeriodo fill-DataI fill-DataF cbConta gill-geral 
+  ENABLE RECT-2 btFiltrar cbFiltroPeriodo rsOrdenarPor BtLimparFiltro 
+         fill-DataI fill-DataF cbConta gill-geral 
       WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
   {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
   VIEW C-Win.
