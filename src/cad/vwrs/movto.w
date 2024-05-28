@@ -38,7 +38,7 @@ create widget-pool.
 /* Parameters Definitions ---                                           */
 
 /* Local Variable Definitions ---                                       */
-
+define variable c-conta as character no-undo.
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
@@ -93,10 +93,9 @@ movto.valor movto.usuario movto.descricao
 
 /* Standard List Definitions                                            */
 &Scoped-Define ENABLED-OBJECTS RECT-2 btFiltrar cbFiltroPeriodo ~
-rsOrdenarPor BtLimparFiltro fill-DataI fill-DataF cbConta gill-geral ~
-brMovto 
-&Scoped-Define DISPLAYED-OBJECTS cbFiltroPeriodo rsOrdenarPor fill-DataI ~
-fill-DataF cbConta gill-geral edNarrativa 
+BtLimparFiltro fill-DataI fill-DataF cbConta fill-geral brMovto 
+&Scoped-Define DISPLAYED-OBJECTS cbFiltroPeriodo fill-DataI fill-DataF ~
+cbConta fill-geral edNarrativa 
 
 /* Custom List Definitions                                              */
 /* List-1,List-2,List-3,List-4,List-5,List-6                            */
@@ -149,16 +148,9 @@ define variable fill-DataI as date format "99/99/9999":U
      view-as fill-in 
      size 20 by 1 tooltip "Data inicial" no-undo.
 
-define variable gill-geral as character format "X(256)":U 
+define variable fill-geral as character format "X(256)":U 
      view-as fill-in 
      size 71 by 1 no-undo.
-
-define variable rsOrdenarPor as integer 
-     view-as radio-set vertical
-     radio-buttons 
-          "Mais novos", 1,
-"Mais antigos", 2
-     size 22 by 1.91 no-undo.
 
 define rectangle RECT-2
      edge-pixels 2 graphic-edge  no-fill   
@@ -199,16 +191,13 @@ define browse brMovto
 define frame DEFAULT-FRAME
      btFiltrar at row 1.81 col 237.6 widget-id 18
      cbFiltroPeriodo at row 1.91 col 11 colon-aligned widget-id 6
-     rsOrdenarPor at row 2.43 col 192 no-label widget-id 22
      BtLimparFiltro at row 3.38 col 237.6 widget-id 20
      fill-DataI at row 3.57 col 11 colon-aligned widget-id 8
      fill-DataF at row 3.57 col 37 colon-aligned widget-id 10
      cbConta at row 3.57 col 66.2 colon-aligned widget-id 12
-     gill-geral at row 3.57 col 111.4 colon-aligned no-label widget-id 14
+     fill-geral at row 3.57 col 111.4 colon-aligned no-label widget-id 14
      brMovto at row 5.38 col 1 widget-id 200
      edNarrativa at row 29.81 col 1 no-label widget-id 28
-     "Ordenar por" view-as text
-          size 17 by .62 at row 1.71 col 192 widget-id 26
      "Filtrar por id, item, descrição ou narrativa" view-as text
           size 72 by .62 at row 2.67 col 113.4 widget-id 16
      RECT-2 at row 1.19 col 1.8 widget-id 4
@@ -263,7 +252,7 @@ else {&WINDOW-NAME} = current-window.
   VISIBLE,,RUN-PERSISTENT                                               */
 /* SETTINGS FOR FRAME DEFAULT-FRAME
    FRAME-NAME                                                           */
-/* BROWSE-TAB brMovto gill-geral DEFAULT-FRAME */
+/* BROWSE-TAB brMovto fill-geral DEFAULT-FRAME */
 assign 
        brMovto:COLUMN-RESIZABLE in frame DEFAULT-FRAME       = true
        brMovto:COLUMN-MOVABLE in frame DEFAULT-FRAME         = true
@@ -420,6 +409,12 @@ end.
 
 
 /* ***************************  Main Block  *************************** */
+for each conta no-lock,
+    first banco where banco.banco-cod = conta.banco-cod no-lock:
+    c-conta = c-conta + "," + banco.descricao + " " + conta.ag + " / " + conta.conta + "," + banco.banco-cod + "-" + conta.ag + "-" + conta.conta.
+end.
+c-conta = trim(c-conta, ",").
+cbConta:list-item-pairs = c-conta.
 
 /* Set CURRENT-WINDOW: this will parent dialog-boxes and frames.        */
 assign CURRENT-WINDOW                = {&WINDOW-NAME} 
@@ -484,11 +479,10 @@ procedure enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  display cbFiltroPeriodo rsOrdenarPor fill-DataI fill-DataF cbConta gill-geral 
-          edNarrativa 
+  display cbFiltroPeriodo fill-DataI fill-DataF cbConta fill-geral edNarrativa 
       with frame DEFAULT-FRAME in window C-Win.
-  enable RECT-2 btFiltrar cbFiltroPeriodo rsOrdenarPor BtLimparFiltro 
-         fill-DataI fill-DataF cbConta gill-geral brMovto 
+  enable RECT-2 btFiltrar cbFiltroPeriodo BtLimparFiltro fill-DataI fill-DataF 
+         cbConta fill-geral brMovto 
       with frame DEFAULT-FRAME in window C-Win.
   {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
   view C-Win.
