@@ -35,11 +35,11 @@ using src.cad.cls.LoginControl from propath.
 create widget-pool.
 
 /* ***************************  Definitions  ************************** */
-assign 
+/*assign 
     session:debug-alert         = yes
     log-manager:logfile-name    = 'E:\jobs\realcontrole\out\clientlog\clientlog.txt'
     log-manager:logging-level   = 4
-    log-manager:log-entry-types = "4GLMessages,4GLTrace,DB.Connects,DynObjects.DB,DynObjects.XML,DynObjects.Other,DynObjects.CLASS,DynObjects.UI,FileID,ProEvents.UI.CHAR,ProEvents.UI.COMMAND,ProEvents.Other,SAX".
+    log-manager:log-entry-types = "4GLMessages,4GLTrace,DB.Connects,DynObjects.DB,DynObjects.XML,DynObjects.Other,DynObjects.CLASS,DynObjects.UI,FileID,ProEvents.UI.CHAR,ProEvents.UI.COMMAND,ProEvents.Other,SAX".*/
 
 /* Parameters Definitions ---                                           */
 define variable controlador-login as LoginControl no-undo.

@@ -29,8 +29,8 @@ class src.cad.cls.LoginControl:
             where usuario.usuario = pUsuario.
         
         if (usuario.senha = pSenha) then do:
-            message "Implementar log de ultimo login"
-            view-as alert-box. 
+            /*message "Implementar log de ultimo login"
+            view-as alert-box.*/ 
             return true.
         end.
         

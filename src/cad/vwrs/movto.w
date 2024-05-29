@@ -38,7 +38,17 @@ create widget-pool.
 /* Parameters Definitions ---                                           */
 
 /* Local Variable Definitions ---                                       */
-define variable c-conta as character no-undo.
+define variable c-query   as character no-undo.
+define variable c-order   as character no-undo.
+define variable l-conta   as logical   no-undo.
+define variable l-geral   as logical   no-undo.
+define variable d-dataI   as date      no-undo.
+define variable d-dataF   as date      no-undo.
+define variable c-banco   as character no-undo.
+define variable c-ag      as character no-undo.
+define variable c-cta     as character no-undo.
+define variable h-query   as handle    no-undo.
+
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
@@ -93,9 +103,9 @@ movto.valor movto.usuario movto.descricao
 
 /* Standard List Definitions                                            */
 &Scoped-Define ENABLED-OBJECTS RECT-2 btFiltrar cbFiltroPeriodo ~
-BtLimparFiltro fill-DataI fill-DataF cbConta fill-geral brMovto 
+BtLimparFiltro fill-DataI fill-DataF cbConta fill-geral COMBO-BOX-1 brMovto 
 &Scoped-Define DISPLAYED-OBJECTS cbFiltroPeriodo fill-DataI fill-DataF ~
-cbConta fill-geral edNarrativa 
+cbConta fill-geral COMBO-BOX-1 edNarrativa 
 
 /* Custom List Definitions                                              */
 /* List-1,List-2,List-3,List-4,List-5,List-6                            */
@@ -108,78 +118,84 @@ cbConta fill-geral edNarrativa
 /* ***********************  Control Definitions  ********************** */
 
 /* Define the widget handle for the window                              */
-define var C-Win as widget-handle no-undo.
+DEFINE VAR C-Win AS WIDGET-HANDLE NO-UNDO.
 
 /* Definitions of the field level widgets                               */
-define button btFiltrar 
-     label "Filtrar" 
-     size 15 by 1.14.
+DEFINE BUTTON btFiltrar 
+     LABEL "Filtrar" 
+     SIZE 15 BY 1.14.
 
-define button BtLimparFiltro 
-     label "Limpar" 
-     size 15 by 1.14.
+DEFINE BUTTON BtLimparFiltro 
+     LABEL "Limpar" 
+     SIZE 15 BY 1.14.
 
-define variable cbConta as character format "X(256)":U 
-     label "Conta" 
-     view-as combo-box inner-lines 5
-     list-item-pairs "Item 1","Item 1"
-     drop-down-list
-     size 42 by 1 tooltip "Filtrar por conta bancária" no-undo.
+DEFINE VARIABLE cbConta AS CHARACTER FORMAT "X(256)":U 
+     LABEL "Conta" 
+     VIEW-AS COMBO-BOX INNER-LINES 5
+     DROP-DOWN-LIST
+     SIZE 42 BY 1 TOOLTIP "Filtrar por conta bancária" NO-UNDO.
 
-define variable cbFiltroPeriodo as character format "X(256)":U initial "30 dias" 
-     label "Período" 
-     view-as combo-box inner-lines 6
-     list-items "7 dias","15 dias","30 dias","60 dias","90 dias","Personalizar" 
-     drop-down-list
-     size 20 by 1 tooltip "Filtrar movimentação por período" no-undo.
+DEFINE VARIABLE cbFiltroPeriodo AS CHARACTER FORMAT "X(256)":U INITIAL "30 dias" 
+     LABEL "Período" 
+     VIEW-AS COMBO-BOX INNER-LINES 6
+     LIST-ITEMS "7 dias","15 dias","30 dias","60 dias","90 dias","Personalizar" 
+     DROP-DOWN-LIST
+     SIZE 20 BY 1 TOOLTIP "Filtrar movimentação por período" NO-UNDO.
 
-define variable edNarrativa as character 
-     view-as editor no-word-wrap scrollbar-horizontal scrollbar-vertical
-     size 255 by 3.67
-     font 12 no-undo.
+DEFINE VARIABLE COMBO-BOX-1 AS CHARACTER FORMAT "X(256)":U 
+     LABEL "Combo 1" 
+     VIEW-AS COMBO-BOX INNER-LINES 5
+     LIST-ITEMS "Item 1" 
+     DROP-DOWN-LIST
+     SIZE 16 BY 1 NO-UNDO.
 
-define variable fill-DataF as date format "99/99/9999":U 
-     label "Até" 
-     view-as fill-in 
-     size 20 by 1 tooltip "Data final" no-undo.
+DEFINE VARIABLE edNarrativa AS CHARACTER 
+     VIEW-AS EDITOR NO-WORD-WRAP SCROLLBAR-HORIZONTAL SCROLLBAR-VERTICAL
+     SIZE 255 BY 3.67
+     FONT 12 NO-UNDO.
 
-define variable fill-DataI as date format "99/99/9999":U 
-     label "De" 
-     view-as fill-in 
-     size 20 by 1 tooltip "Data inicial" no-undo.
+DEFINE VARIABLE fill-DataF AS DATE FORMAT "99/99/9999":U 
+     LABEL "Até" 
+     VIEW-AS FILL-IN 
+     SIZE 20 BY 1 TOOLTIP "Data final" NO-UNDO.
 
-define variable fill-geral as character format "X(256)":U 
-     view-as fill-in 
-     size 71 by 1 no-undo.
+DEFINE VARIABLE fill-DataI AS DATE FORMAT "99/99/9999":U 
+     LABEL "De" 
+     VIEW-AS FILL-IN 
+     SIZE 20 BY 1 TOOLTIP "Data inicial" NO-UNDO.
 
-define rectangle RECT-2
-     edge-pixels 2 graphic-edge  no-fill   
-     size 254.6 by 4.05.
+DEFINE VARIABLE fill-geral AS CHARACTER FORMAT "X(256)":U 
+     VIEW-AS FILL-IN 
+     SIZE 71 BY 1 NO-UNDO.
+
+DEFINE RECTANGLE RECT-2
+     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
+     SIZE 254.6 BY 4.05.
 
 /* Query definitions                                                    */
 &ANALYZE-SUSPEND
-define query brMovto for 
+DEFINE QUERY brMovto FOR 
       movto, 
       banco, 
       ccusto, 
       conta, 
-      item scrolling.
+      item SCROLLING.
 &ANALYZE-RESUME
 
 /* Browse definitions                                                   */
-define browse brMovto
+DEFINE BROWSE brMovto
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _DISPLAY-FIELDS brMovto C-Win _STRUCTURED
-  query brMovto no-lock display
-      movto.id column-label "ID" format "->,>>>,>>9":U
-      movto.data-mvto format "99/99/9999":U
-      banco.descricao + " " + conta.ag + " / " + conta.conta column-label "Conta bancária" format "x(40)":U
-      ccusto.cc-cod + " - " + ccusto.descricao column-label "Centro de custo" format "x(30)":U
-            width 25
-      item.descricao column-label "Item" format "x(30)":U
-      movto.seq format ">,>>>,>>9":U width 10
-      movto.valor format "->,>>>,>>9.99":U width 20
-      movto.usuario format "x(8)":U
-      movto.descricao format "x(20)":U
+  QUERY brMovto NO-LOCK DISPLAY
+      movto.id COLUMN-LABEL "ID" FORMAT "->,>>>,>>9":U
+      movto.data-mvto FORMAT "99/99/9999":U
+      banco.descricao + " " + conta.ag + " / " + conta.conta COLUMN-LABEL "Conta bancária" FORMAT "x(40)":U
+      ccusto.cc-cod + " - " + ccusto.descricao COLUMN-LABEL "Centro de custo" FORMAT "x(30)":U
+            WIDTH 25
+      item.descricao COLUMN-LABEL "Item" FORMAT "x(30)":U
+      movto.seq FORMAT ">,>>>,>>9":U WIDTH 10
+      movto.valor FORMAT "->,>>>,>>9.99":U WIDTH 20
+      movto.usuario FORMAT "x(8)":U
+      movto.descricao FORMAT "x(20)":U
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
     WITH NO-ROW-MARKERS SEPARATORS SIZE 255 BY 24.29
@@ -188,23 +204,24 @@ define browse brMovto
 
 /* ************************  Frame Definitions  *********************** */
 
-define frame DEFAULT-FRAME
-     btFiltrar at row 1.81 col 237.6 widget-id 18
-     cbFiltroPeriodo at row 1.91 col 11 colon-aligned widget-id 6
-     BtLimparFiltro at row 3.38 col 237.6 widget-id 20
-     fill-DataI at row 3.57 col 11 colon-aligned widget-id 8
-     fill-DataF at row 3.57 col 37 colon-aligned widget-id 10
-     cbConta at row 3.57 col 66.2 colon-aligned widget-id 12
-     fill-geral at row 3.57 col 111.4 colon-aligned no-label widget-id 14
-     brMovto at row 5.38 col 1 widget-id 200
-     edNarrativa at row 29.81 col 1 no-label widget-id 28
-     "Filtrar por id, item, descrição ou narrativa" view-as text
-          size 72 by .62 at row 2.67 col 113.4 widget-id 16
-     RECT-2 at row 1.19 col 1.8 widget-id 4
-    with 1 down no-box keep-tab-order overlay 
-         side-labels no-underline three-d 
-         at col 1 row 1
-         size 255.4 by 32.48 widget-id 100.
+DEFINE FRAME DEFAULT-FRAME
+     btFiltrar AT ROW 1.81 COL 237.6 WIDGET-ID 18
+     cbFiltroPeriodo AT ROW 1.91 COL 11 COLON-ALIGNED WIDGET-ID 6
+     BtLimparFiltro AT ROW 3.38 COL 237.6 WIDGET-ID 20
+     fill-DataI AT ROW 3.57 COL 11 COLON-ALIGNED WIDGET-ID 8
+     fill-DataF AT ROW 3.57 COL 37 COLON-ALIGNED WIDGET-ID 10
+     cbConta AT ROW 3.57 COL 66.2 COLON-ALIGNED WIDGET-ID 12
+     fill-geral AT ROW 3.57 COL 162 COLON-ALIGNED NO-LABEL WIDGET-ID 14
+     COMBO-BOX-1 AT ROW 3.62 COL 122 COLON-ALIGNED WIDGET-ID 30
+     brMovto AT ROW 5.38 COL 1 WIDGET-ID 200
+     edNarrativa AT ROW 29.81 COL 1 NO-LABEL WIDGET-ID 28
+     "Filtrar por item" VIEW-AS TEXT
+          SIZE 70.6 BY .62 AT ROW 2.67 COL 164 WIDGET-ID 16
+     RECT-2 AT ROW 1.19 COL 1.8 WIDGET-ID 4
+    WITH 1 DOWN NO-BOX KEEP-TAB-ORDER OVERLAY 
+         SIDE-LABELS NO-UNDERLINE THREE-D 
+         AT COL 1 ROW 1
+         SIZE 255.4 BY 32.48 WIDGET-ID 100.
 
 
 /* *********************** Procedure Settings ************************ */
@@ -220,26 +237,26 @@ define frame DEFAULT-FRAME
 /* *************************  Create Window  ************************** */
 
 &ANALYZE-SUSPEND _CREATE-WINDOW
-if session:display-type = "GUI":U then
-  create window C-Win assign
-         hidden             = yes
-         title              = "<insert window title>"
-         height             = 32.48
-         width              = 255.4
-         max-height         = 32.48
-         max-width          = 271
-         virtual-height     = 32.48
-         virtual-width      = 271
-         resize             = yes
-         scroll-bars        = no
-         status-area        = no
-         bgcolor            = ?
-         fgcolor            = ?
-         keep-frame-z-order = yes
-         three-d            = yes
-         message-area       = no
-         sensitive          = yes.
-else {&WINDOW-NAME} = current-window.
+IF SESSION:DISPLAY-TYPE = "GUI":U THEN
+  CREATE WINDOW C-Win ASSIGN
+         HIDDEN             = YES
+         TITLE              = "<insert window title>"
+         HEIGHT             = 32.48
+         WIDTH              = 255.4
+         MAX-HEIGHT         = 32.48
+         MAX-WIDTH          = 271
+         VIRTUAL-HEIGHT     = 32.48
+         VIRTUAL-WIDTH      = 271
+         RESIZE             = yes
+         SCROLL-BARS        = no
+         STATUS-AREA        = no
+         BGCOLOR            = ?
+         FGCOLOR            = ?
+         KEEP-FRAME-Z-ORDER = yes
+         THREE-D            = yes
+         MESSAGE-AREA       = no
+         SENSITIVE          = yes.
+ELSE {&WINDOW-NAME} = CURRENT-WINDOW.
 /* END WINDOW DEFINITION                                                */
 &ANALYZE-RESUME
 
@@ -252,16 +269,16 @@ else {&WINDOW-NAME} = current-window.
   VISIBLE,,RUN-PERSISTENT                                               */
 /* SETTINGS FOR FRAME DEFAULT-FRAME
    FRAME-NAME                                                           */
-/* BROWSE-TAB brMovto fill-geral DEFAULT-FRAME */
-assign 
-       brMovto:COLUMN-RESIZABLE in frame DEFAULT-FRAME       = true
-       brMovto:COLUMN-MOVABLE in frame DEFAULT-FRAME         = true
-       brMovto:SEPARATOR-FGCOLOR in frame DEFAULT-FRAME      = 15.
+/* BROWSE-TAB brMovto COMBO-BOX-1 DEFAULT-FRAME */
+ASSIGN 
+       brMovto:COLUMN-RESIZABLE IN FRAME DEFAULT-FRAME       = TRUE
+       brMovto:COLUMN-MOVABLE IN FRAME DEFAULT-FRAME         = TRUE
+       brMovto:SEPARATOR-FGCOLOR IN FRAME DEFAULT-FRAME      = 15.
 
 /* SETTINGS FOR EDITOR edNarrativa IN FRAME DEFAULT-FRAME
    NO-ENABLE                                                            */
-if session:display-type = "GUI":U and VALID-HANDLE(C-Win)
-then C-Win:hidden = no.
+IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
+THEN C-Win:HIDDEN = no.
 
 /* _RUN-TIME-ATTRIBUTES-END */
 &ANALYZE-RESUME
@@ -308,7 +325,7 @@ then C-Win:hidden = no.
 
 &Scoped-define SELF-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-on end-error of C-Win /* <insert window title> */
+ON end-error OF C-Win /* <insert window title> */
 or endkey of {&WINDOW-NAME} anywhere do:
   /* This case occurs when the user presses the "Esc" key.
      In a persistently run window, just ignore this.  If we did not, the
@@ -321,7 +338,7 @@ end.
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-on window-close of C-Win /* <insert window title> */
+ON window-close OF C-Win /* <insert window title> */
 do:
   /* This event will close the window and terminate the procedure.  */
   apply "CLOSE":U to this-procedure.
@@ -335,7 +352,7 @@ end.
 &Scoped-define BROWSE-NAME brMovto
 &Scoped-define SELF-NAME brMovto
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
-on mouse-select-click of brMovto in frame DEFAULT-FRAME
+ON mouse-select-click OF brMovto IN FRAME DEFAULT-FRAME
 do:
     if length(movto.narrativa) > 0 then 
         assign edNarrativa:screen-value in frame {&FRAME-NAME} = movto.narrativa.
@@ -348,7 +365,7 @@ end.
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
-on mouse-select-dblclick of brMovto in frame DEFAULT-FRAME
+ON mouse-select-dblclick OF brMovto IN FRAME DEFAULT-FRAME
 do:
     
     message "double click" movto.id movto.it-cod
@@ -360,7 +377,7 @@ end.
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
-on row-display of brMovto in frame DEFAULT-FRAME
+ON row-display OF brMovto IN FRAME DEFAULT-FRAME
 do:
     if movto.movto-tp = 1 then do: 
 //        Op:fgcolor in browse brMovto = 9.
@@ -380,9 +397,21 @@ end.
 &ANALYZE-RESUME
 
 
+&Scoped-define SELF-NAME btFiltrar
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL btFiltrar C-Win
+ON choose OF btFiltrar IN FRAME DEFAULT-FRAME /* Filtrar */
+do:
+    assign cbFiltroPeriodo fill-DataI fill-DataF cbConta fill-geral.
+    run prFiltrar.  
+end.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+
 &Scoped-define SELF-NAME cbFiltroPeriodo
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL cbFiltroPeriodo C-Win
-on value-changed of cbFiltroPeriodo in frame DEFAULT-FRAME /* Período */
+ON value-changed OF cbFiltroPeriodo IN FRAME DEFAULT-FRAME /* Período */
 do:
     assign cbFiltroPeriodo
            fill-DataI:screen-value in frame {&frame-name} = ""
@@ -409,12 +438,7 @@ end.
 
 
 /* ***************************  Main Block  *************************** */
-for each conta no-lock,
-    first banco where banco.banco-cod = conta.banco-cod no-lock:
-    c-conta = c-conta + "," + banco.descricao + " " + conta.ag + " / " + conta.conta + "," + banco.banco-cod + "-" + conta.ag + "-" + conta.conta.
-end.
-c-conta = trim(c-conta, ",").
-cbConta:list-item-pairs = c-conta.
+run prSetComboContas.
 
 /* Set CURRENT-WINDOW: this will parent dialog-boxes and frames.        */
 assign CURRENT-WINDOW                = {&WINDOW-NAME} 
@@ -435,10 +459,14 @@ do on error   undo MAIN-BLOCK, leave MAIN-BLOCK
    on end-key undo MAIN-BLOCK, leave MAIN-BLOCK:
        
   run enable_UI.
+  
   do with frame {&FRAME-NAME}:
      assign fill-DataI:read-only = true
             fill-DataF:read-only = true.
+     apply "choose" to btFiltrar.
   end.
+  
+  
   if not this-procedure:persistent then
     wait-for close of this-procedure.
 end.
@@ -450,7 +478,7 @@ end.
 /* **********************  Internal Procedures  *********************** */
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE disable_UI C-Win  _DEFAULT-DISABLE
-procedure disable_UI :
+PROCEDURE disable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     DISABLE the User Interface
   Parameters:  <none>
@@ -460,16 +488,16 @@ procedure disable_UI :
                we are ready to "clean-up" after running.
 ------------------------------------------------------------------------------*/
   /* Delete the WINDOW we created */
-  if session:display-type = "GUI":U and VALID-HANDLE(C-Win)
-  then delete widget C-Win.
-  if this-procedure:persistent then delete procedure this-procedure.
-end procedure.
+  IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
+  THEN DELETE WIDGET C-Win.
+  IF THIS-PROCEDURE:PERSISTENT THEN DELETE PROCEDURE THIS-PROCEDURE.
+END PROCEDURE.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE enable_UI C-Win  _DEFAULT-ENABLE
-procedure enable_UI :
+PROCEDURE enable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     ENABLE the User Interface
   Parameters:  <none>
@@ -479,13 +507,168 @@ procedure enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  display cbFiltroPeriodo fill-DataI fill-DataF cbConta fill-geral edNarrativa 
-      with frame DEFAULT-FRAME in window C-Win.
-  enable RECT-2 btFiltrar cbFiltroPeriodo BtLimparFiltro fill-DataI fill-DataF 
-         cbConta fill-geral brMovto 
-      with frame DEFAULT-FRAME in window C-Win.
+  DISPLAY cbFiltroPeriodo fill-DataI fill-DataF cbConta fill-geral COMBO-BOX-1 
+          edNarrativa 
+      WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
+  ENABLE RECT-2 btFiltrar cbFiltroPeriodo BtLimparFiltro fill-DataI fill-DataF 
+         cbConta fill-geral COMBO-BOX-1 brMovto 
+      WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
   {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
-  view C-Win.
+  VIEW C-Win.
+END PROCEDURE.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prFiltrar C-Win 
+PROCEDURE prFiltrar :
+/*------------------------------------------------------------------------------
+ Purpose:
+ Notes:
+------------------------------------------------------------------------------*/
+
+    /* --------------------------------------------------------------------------------
+             SOLUCAO 1 - USANDO HANDLE DA QUERY DO BROWSER
+    -------------------------------------------------------------------------------- */ 
+
+    assign 
+        l-conta = (if cbConta <> "Todas" then true else false)
+        l-geral = (if length(fill-geral) > 0 then true else false).
+    
+    do with frame {&FRAME-NAME}:
+        assign 
+            h-query = brMovto:handle.
+        if l-conta then 
+            assign c-banco = entry(1, entry(lookup(cbConta:screen-value, cbConta:list-item-pairs), cbConta:list-item-pairs), ";")
+                   c-ag    = entry(2, entry(lookup(cbConta:screen-value, cbConta:list-item-pairs), cbConta:list-item-pairs), ";")
+                   c-cta   = entry(3, entry(lookup(cbConta:screen-value, cbConta:list-item-pairs), cbConta:list-item-pairs), ";").
+    end.
+                   
+    case cbFiltroPeriodo:
+        when "7 dias"  then 
+            assign d-dataI = today - 7
+                   d-dataF = today.
+        when "15 dias" then
+            assign d-dataI = today - 15
+                   d-dataF = today.
+        when "30 dias" then
+            assign d-dataI = today - 30
+                   d-dataF = today.
+        when "60 dias" then
+            assign d-dataI = today - 60
+                   d-dataF = today.
+        when "90 dias" then
+            assign d-dataI = today - 90
+                   d-dataF = today.
+        otherwise 
+            assign d-dataI = fill-DataI
+                   d-dataF = fill-DataF.
+    end case. 
+    
+    run prFiltrarPorBrowserQueryHandle.
+    // run prFiltrarPorPreprocessador. 
+    
+end procedure.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prFiltrarPorBrowserQueryHandle C-Win 
+PROCEDURE prFiltrarPorBrowserQueryHandle :
+/*------------------------------------------------------------------------------
+ Purpose:
+ Notes:
+------------------------------------------------------------------------------*/
+    
+    /* --------------------------------------------------------------------------------
+             SOLUCAO 1 - USANDO HANDLE DA QUERY DO BROWSER
+    -------------------------------------------------------------------------------- */ 
+    
+    assign 
+        c-query = "for each movto no-lock"
+        c-order = "by movto.data-mvto indexed-reposition"
+        c-query = substitute("&1 where movto.data-mvto >= date('&2') and movto.data-mvto <= date('&3'),", c-query, d-dataI, d-dataF)
+        c-query = substitute("&1 each banco no-lock where banco.banco-cod = movto.banco-cod,", c-query)
+        c-query = substitute("&1 each ccusto no-lock where ccusto.cc-cod = movto.cc-cod,", c-query).
+    
+    if l-conta then
+        assign c-query = substitute("&1 each conta no-lock where (conta.banco-cod = movto.banco-cod and conta.banco-cod = '&2') and (conta.ag = movto.ag and conta.ag = '&3') and (conta.conta = movto.conta and conta.conta = '&4'),", c-query, c-banco, c-ag, c-cta).
+    else 
+        assign c-query = substitute("&1 each conta no-lock where conta.banco-cod = movto.banco-cod and conta.ag = movto.ag and conta.conta = movto.conta,", c-query).
+    
+    if l-geral then 
+        assign c-query = substitute("&1 each item no-lock where item.it-cod = movto.it-cod and item.descricao matches('*&2*')", c-query, fill-geral).
+    else 
+        assign c-query = substitute("&1 each item no-lock where item.it-cod = movto.it-cod ", c-query).
+    
+    assign 
+        c-query = c-query + c-order.
+        
+    /* https://community.progress.com/s/article/000049501 */
+    define variable hQuery as handle no-undo.
+    hQuery = query brMovto:handle. 
+    hQuery:query-prepare(c-query).
+    hQuery:query-open().
+
+end procedure.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prFiltrarPorPreprocessador C-Win 
+PROCEDURE prFiltrarPorPreprocessador :
+/*------------------------------------------------------------------------------
+ Purpose:
+ Notes:
+------------------------------------------------------------------------------*/
+    &scoped-define re true
+
+    /* --------------------------------------------------------------------------------
+             SOLUCAO 2 - USANDO PREPROCESSORS
+    -------------------------------------------------------------------------------- */
+    
+    &undefine OPEN-QUERY-brMovto
+    &Scoped-define OPEN-QUERY-brMovto OPEN QUERY brMovto ~
+    for each movto no-lock~
+        where movto.data-mvto >= d-dataI ~
+          and movto.data-mvto <= d-dataF, ~
+    each banco no-lock ~
+        where banco.banco-cod = movto.banco-cod, ~
+    each ccusto no-lock ~
+        where ccusto.cc-cod = movto.cc-cod, ~
+    each conta no-lock ~
+        where (conta.banco-cod = movto.banco-cod and (if l-conta then conta.banco-cod = c-banco else true)) ~
+          and (conta.ag = movto.ag and (if l-conta then conta.ag = c-ag else true)) ~
+          and (conta.conta = movto.conta and (if l-conta then conta.conta = c-cta else true)), ~
+    each item no-lock ~
+        where item.it-cod = movto.it-cod ~
+          and (if l-geral then movto.descricao matches('*' + fill-geral + '*') else true) ~
+    by movto.data-mvto ~
+    indexed-reposition.
+    
+    {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
+    
+end procedure.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prSetComboContas C-Win 
+PROCEDURE prSetComboContas :
+/*------------------------------------------------------------------------------
+ Purpose:
+ Notes:
+------------------------------------------------------------------------------*/
+    define variable c-conta as character no-undo.
+    for each conta no-lock,
+        first banco where banco.banco-cod = conta.banco-cod no-lock:
+        c-conta = c-conta + "," + banco.descricao + " " + conta.ag + " / " + conta.conta + "," + banco.banco-cod + ";" + conta.ag + ";" + conta.conta.
+    end.
+    c-conta = "Todas as contas,Todas" + "," + trim(c-conta, ",").
+    cbConta:list-item-pairs in frame {&FRAME-NAME} = c-conta.
+    assign cbConta:screen-value in frame {&FRAME-NAME} = entry(lookup("Todas as contas", cbConta:list-item-pairs in frame {&FRAME-NAME}) + 1, c-conta).
+
+
 end procedure.
 
 /* _UIB-CODE-BLOCK-END */
