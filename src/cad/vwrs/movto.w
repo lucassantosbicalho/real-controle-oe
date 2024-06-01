@@ -41,9 +41,11 @@ create widget-pool.
 define variable c-query   as character no-undo.
 define variable c-order   as character no-undo.
 define variable l-conta   as logical   no-undo.
+define variable l-cc      as logical   no-undo.
 define variable l-geral   as logical   no-undo.
 define variable d-dataI   as date      no-undo.
 define variable d-dataF   as date      no-undo.
+define variable c-cc      as character no-undo.
 define variable c-banco   as character no-undo.
 define variable c-ag      as character no-undo.
 define variable c-cta     as character no-undo.
@@ -271,7 +273,7 @@ else {&WINDOW-NAME} = current-window.
 assign 
        brMovto:COLUMN-RESIZABLE in frame DEFAULT-FRAME       = true
        brMovto:COLUMN-MOVABLE in frame DEFAULT-FRAME         = true
-       brMovto:SEPARATOR-FGCOLOR in frame DEFAULT-FRAME      = 8.
+       brMovto:SEPARATOR-FGCOLOR in frame DEFAULT-FRAME      = 15.
 
 /* SETTINGS FOR EDITOR edNarrativa IN FRAME DEFAULT-FRAME
    NO-ENABLE                                                            */
@@ -385,7 +387,6 @@ do:
   //      Op:fgcolor in browse brMovto = 12.
         movto.valor:fgcolor in browse brMovto = 12.
     end.
-    
     //if movto.pendente then movto.pendente:fgcolor = 12.
    // else movto.pendente:fgcolor = 0.
    
@@ -399,7 +400,7 @@ end.
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL btFiltrar C-Win
 on choose of btFiltrar in frame DEFAULT-FRAME /* Filtrar */
 do:
-    assign cbFiltroPeriodo fill-DataI fill-DataF cbConta fill-item.
+    assign cbFiltroPeriodo cbFiltroCC cbConta fill-DataI fill-DataF fill-item.
     run prFiltrar.  
 end.
 
@@ -416,7 +417,6 @@ end.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
-
 
 
 &Scoped-define SELF-NAME cbFiltroPeriodo
@@ -448,7 +448,7 @@ end.
 
 
 /* ***************************  Main Block  *************************** */
-run prSetComboContas.
+run prSetCombos.
 
 /* Set CURRENT-WINDOW: this will parent dialog-boxes and frames.        */
 assign CURRENT-WINDOW                = {&WINDOW-NAME} 
@@ -536,15 +536,19 @@ procedure prFiltrar :
  Purpose:
  Notes:
 ------------------------------------------------------------------------------*/
-
-    /* --------------------------------------------------------------------------------
-             SOLUCAO 1 - USANDO HANDLE DA QUERY DO BROWSER
-    -------------------------------------------------------------------------------- */ 
-
+    
+    if cbFiltroPeriodo = "Personalizar" and fill-DataI = ? and fill-DataF = ? then do:
+        run smr/dialog.w ("error", "Período obrigatário!" ,"Informe data inicial e final!").
+        apply "entry" to fill-DataI in frame {&FRAME-NAME}.
+        return no-apply.            
+    end.
+    
     assign 
         l-conta = (if cbConta <> "Todas" then true else false)
+        l-cc    = (if cbFiltroCC <> "Todos" then true else false)
         l-geral = (if length(fill-item) > 0 then true else false).
-    
+    message "l-cc" l-cc
+    view-as alert-box.
     do with frame {&FRAME-NAME}:
         assign 
             h-query = brMovto:handle.
@@ -552,8 +556,10 @@ procedure prFiltrar :
             assign c-banco = entry(1, entry(lookup(cbConta:screen-value, cbConta:list-item-pairs), cbConta:list-item-pairs), ";")
                    c-ag    = entry(2, entry(lookup(cbConta:screen-value, cbConta:list-item-pairs), cbConta:list-item-pairs), ";")
                    c-cta   = entry(3, entry(lookup(cbConta:screen-value, cbConta:list-item-pairs), cbConta:list-item-pairs), ";").
+        if l-cc then
+            assign c-cc    = entry(lookup(cbFiltroCC:screen-value, cbFiltroCC:list-item-pairs), cbFiltroCC:list-item-pairs). 
     end.
-                   
+    
     case cbFiltroPeriodo:
         when "7 dias"  then 
             assign d-dataI = today - 7
@@ -598,14 +604,18 @@ procedure prFiltrarPorBrowserQueryHandle :
         c-query = "for each movto no-lock"
         c-order = "by movto.data-mvto indexed-reposition"
         c-query = substitute("&1 where movto.data-mvto >= date('&2') and movto.data-mvto <= date('&3'),", c-query, d-dataI, d-dataF)
-        c-query = substitute("&1 each banco no-lock where banco.banco-cod = movto.banco-cod,", c-query)
-        c-query = substitute("&1 each ccusto no-lock where ccusto.cc-cod = movto.cc-cod,", c-query).
+        c-query = substitute("&1 each banco no-lock where banco.banco-cod = movto.banco-cod,", c-query).
     
+    if l-cc then 
+        assign c-query = substitute("&1 each ccusto no-lock where ccusto.cc-cod = movto.cc-cod and ccusto.cc-cod = '&2',", c-query, c-cc).
+    else 
+        assign c-query = substitute("&1 each ccusto no-lock where ccusto.cc-cod = movto.cc-cod,", c-query).
+
     if l-conta then
         assign c-query = substitute("&1 each conta no-lock where (conta.banco-cod = movto.banco-cod and conta.banco-cod = '&2') and (conta.ag = movto.ag and conta.ag = '&3') and (conta.conta = movto.conta and conta.conta = '&4'),", c-query, c-banco, c-ag, c-cta).
     else 
         assign c-query = substitute("&1 each conta no-lock where conta.banco-cod = movto.banco-cod and conta.ag = movto.ag and conta.conta = movto.conta,", c-query).
-    
+        
     if l-geral then 
         assign c-query = substitute("&1 each item no-lock where item.it-cod = movto.it-cod and item.descricao matches('*&2*')", c-query, fill-item).
     else 
@@ -663,13 +673,15 @@ end procedure.
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
-&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prSetComboContas C-Win 
-procedure prSetComboContas :
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prSetCombos C-Win 
+procedure prSetCombos :
 /*------------------------------------------------------------------------------
  Purpose:
  Notes:
 ------------------------------------------------------------------------------*/
-    define variable c-conta as character no-undo.
+    define variable c-conta  as character no-undo.
+    define variable c-ccusto as character no-undo.
+    
     for each conta no-lock,
         first banco where banco.banco-cod = conta.banco-cod no-lock:
         c-conta = c-conta + "," + banco.descricao + " " + conta.ag + " / " + conta.conta + "," + banco.banco-cod + ";" + conta.ag + ";" + conta.conta.
@@ -677,8 +689,15 @@ procedure prSetComboContas :
     c-conta = "Todas as contas,Todas" + "," + trim(c-conta, ",").
     cbConta:list-item-pairs in frame {&FRAME-NAME} = c-conta.
     assign cbConta:screen-value in frame {&FRAME-NAME} = entry(lookup("Todas as contas", cbConta:list-item-pairs in frame {&FRAME-NAME}) + 1, c-conta).
-
-
+    
+    for each ccusto no-lock:
+        c-ccusto = c-ccusto + "," + ccusto.cc-cod + " - " + ccusto.descricao + "," + ccusto.cc-cod.        
+    end.
+    c-ccusto = "Todos os centros de custo,Todos" + "," + trim(c-ccusto, ",").
+    cbFiltroCC:list-item-pairs in frame {&FRAME-NAME} = c-ccusto.
+    assign cbFiltroCC:screen-value in frame {&FRAME-NAME} = entry(lookup("Todos os centros de custo", cbFiltroCC:list-item-pairs in frame {&FRAME-NAME}) + 1, c-ccusto).
+    
+    
 end procedure.
 
 /* _UIB-CODE-BLOCK-END */
