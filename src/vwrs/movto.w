@@ -120,84 +120,84 @@ cbConta cbFiltroCC fill-item edNarrativa
 /* ***********************  Control Definitions  ********************** */
 
 /* Define the widget handle for the window                              */
-DEFINE VAR C-Win AS WIDGET-HANDLE NO-UNDO.
+define var C-Win as widget-handle no-undo.
 
 /* Definitions of the field level widgets                               */
-DEFINE BUTTON btFiltrar 
-     LABEL "Filtrar" 
-     SIZE 15 BY 1.14.
+define button btFiltrar 
+     label "Filtrar" 
+     size 15 by 1.14.
 
-DEFINE BUTTON BtLimparFiltro 
-     LABEL "Limpar" 
-     SIZE 15 BY 1.14.
+define button BtLimparFiltro 
+     label "Limpar" 
+     size 15 by 1.14.
 
-DEFINE VARIABLE cbConta AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Conta" 
-     VIEW-AS COMBO-BOX INNER-LINES 5
-     DROP-DOWN-LIST
-     SIZE 42 BY 1 TOOLTIP "Filtrar por conta bancária" NO-UNDO.
+define variable cbConta as character format "X(256)":U 
+     label "Conta" 
+     view-as combo-box inner-lines 5
+     drop-down-list
+     size 42 by 1 tooltip "Filtrar por conta bancária" no-undo.
 
-DEFINE VARIABLE cbFiltroCC AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Centro de custo" 
-     VIEW-AS COMBO-BOX INNER-LINES 5
-     DROP-DOWN-LIST
-     SIZE 35 BY 1 NO-UNDO.
+define variable cbFiltroCC as character format "X(256)":U 
+     label "Centro de custo" 
+     view-as combo-box inner-lines 5
+     drop-down-list
+     size 35 by 1 no-undo.
 
-DEFINE VARIABLE cbFiltroPeriodo AS CHARACTER FORMAT "X(256)":U INITIAL "30 dias" 
-     LABEL "Período" 
-     VIEW-AS COMBO-BOX INNER-LINES 6
-     LIST-ITEMS "7 dias","15 dias","30 dias","60 dias","90 dias","Personalizar" 
-     DROP-DOWN-LIST
-     SIZE 20 BY 1 TOOLTIP "Filtrar movimentação por período" NO-UNDO.
+define variable cbFiltroPeriodo as character format "X(256)":U initial "30 dias" 
+     label "Período" 
+     view-as combo-box inner-lines 6
+     list-items "7 dias","15 dias","30 dias","60 dias","90 dias","Personalizar" 
+     drop-down-list
+     size 20 by 1 tooltip "Filtrar movimentação por período" no-undo.
 
-DEFINE VARIABLE edNarrativa AS CHARACTER 
-     VIEW-AS EDITOR NO-WORD-WRAP SCROLLBAR-HORIZONTAL SCROLLBAR-VERTICAL
-     SIZE 255 BY 3.67
-     FONT 12 NO-UNDO.
+define variable edNarrativa as character 
+     view-as editor no-word-wrap scrollbar-horizontal scrollbar-vertical
+     size 255 by 3.67
+     font 12 no-undo.
 
-DEFINE VARIABLE fill-DataF AS DATE FORMAT "99/99/9999":U 
-     LABEL "Até" 
-     VIEW-AS FILL-IN 
-     SIZE 20 BY 1 TOOLTIP "Data final" NO-UNDO.
+define variable fill-DataF as date format "99/99/9999":U 
+     label "Até" 
+     view-as fill-in 
+     size 20 by 1 tooltip "Data final" no-undo.
 
-DEFINE VARIABLE fill-DataI AS DATE FORMAT "99/99/9999":U 
-     LABEL "De" 
-     VIEW-AS FILL-IN 
-     SIZE 20 BY 1 TOOLTIP "Data inicial" NO-UNDO.
+define variable fill-DataI as date format "99/99/9999":U 
+     label "De" 
+     view-as fill-in 
+     size 20 by 1 tooltip "Data inicial" no-undo.
 
-DEFINE VARIABLE fill-item AS CHARACTER FORMAT "X(256)":U 
-     LABEL "Item" 
-     VIEW-AS FILL-IN 
-     SIZE 64 BY 1 TOOLTIP "Filtrar pela descrição do item" NO-UNDO.
+define variable fill-item as character format "X(256)":U 
+     label "Item" 
+     view-as fill-in 
+     size 64 by 1 tooltip "Filtrar pela descrição do item" no-undo.
 
-DEFINE RECTANGLE RECT-2
-     EDGE-PIXELS 2 GRAPHIC-EDGE  NO-FILL   
-     SIZE 254.6 BY 4.05.
+define rectangle RECT-2
+     edge-pixels 2 graphic-edge  no-fill   
+     size 254.6 by 4.05.
 
 /* Query definitions                                                    */
 &ANALYZE-SUSPEND
-DEFINE QUERY brMovto FOR 
+define query brMovto for 
       movto, 
       banco, 
       ccusto, 
       conta, 
-      item SCROLLING.
+      item scrolling.
 &ANALYZE-RESUME
 
 /* Browse definitions                                                   */
-DEFINE BROWSE brMovto
+define browse brMovto
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _DISPLAY-FIELDS brMovto C-Win _STRUCTURED
-  QUERY brMovto NO-LOCK DISPLAY
-      movto.id COLUMN-LABEL "ID" FORMAT "->,>>>,>>9":U
-      movto.data-mvto FORMAT "99/99/9999":U
-      banco.descricao + " " + conta.ag + " / " + conta.conta COLUMN-LABEL "Conta bancária" FORMAT "x(40)":U
-      ccusto.cc-cod + " - " + ccusto.descricao COLUMN-LABEL "Centro de custo" FORMAT "x(30)":U
-            WIDTH 25
-      item.descricao COLUMN-LABEL "Item" FORMAT "x(30)":U
-      movto.seq FORMAT ">,>>>,>>9":U WIDTH 10
-      movto.valor FORMAT "->,>>>,>>9.99":U WIDTH 20
-      movto.usuario FORMAT "x(8)":U
-      movto.descricao FORMAT "x(20)":U
+  query brMovto no-lock display
+      movto.id column-label "ID" format "->,>>>,>>9":U
+      movto.data-mvto format "99/99/9999":U
+      banco.descricao + " " + conta.ag + " / " + conta.conta column-label "Conta bancária" format "x(40)":U
+      ccusto.cc-cod + " - " + ccusto.descricao column-label "Centro de custo" format "x(30)":U
+            width 25
+      item.descricao column-label "Item" format "x(30)":U
+      movto.seq format ">,>>>,>>9":U width 10
+      movto.valor format "->,>>>,>>9.99":U width 20
+      movto.usuario format "x(8)":U
+      movto.descricao format "x(20)":U
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
     WITH SEPARATORS SIZE 255 BY 24.29
@@ -206,22 +206,22 @@ DEFINE BROWSE brMovto
 
 /* ************************  Frame Definitions  *********************** */
 
-DEFINE FRAME DEFAULT-FRAME
-     cbFiltroPeriodo AT ROW 1.91 COL 11 COLON-ALIGNED WIDGET-ID 6
-     fill-DataI AT ROW 3.62 COL 11 COLON-ALIGNED WIDGET-ID 8
-     fill-DataF AT ROW 3.62 COL 37 COLON-ALIGNED WIDGET-ID 10
-     cbConta AT ROW 3.62 COL 66.2 COLON-ALIGNED WIDGET-ID 12
-     cbFiltroCC AT ROW 3.62 COL 127 COLON-ALIGNED WIDGET-ID 30
-     fill-item AT ROW 3.62 COL 169 COLON-ALIGNED WIDGET-ID 14
-     btFiltrar AT ROW 1.81 COL 237.6 WIDGET-ID 18
-     BtLimparFiltro AT ROW 3.48 COL 237.6 WIDGET-ID 20
-     brMovto AT ROW 5.38 COL 1 WIDGET-ID 200
-     edNarrativa AT ROW 29.81 COL 1 NO-LABEL WIDGET-ID 28
-     RECT-2 AT ROW 1.19 COL 1.8 WIDGET-ID 4
-    WITH 1 DOWN NO-BOX KEEP-TAB-ORDER OVERLAY 
-         SIDE-LABELS NO-UNDERLINE THREE-D 
-         AT COL 1 ROW 1
-         SIZE 255.4 BY 32.48 WIDGET-ID 100.
+define frame DEFAULT-FRAME
+     cbFiltroPeriodo at row 1.91 col 11 colon-aligned widget-id 6
+     fill-DataI at row 3.62 col 11 colon-aligned widget-id 8
+     fill-DataF at row 3.62 col 37 colon-aligned widget-id 10
+     cbConta at row 3.62 col 66.2 colon-aligned widget-id 12
+     cbFiltroCC at row 3.62 col 127 colon-aligned widget-id 30
+     fill-item at row 3.62 col 169 colon-aligned widget-id 14
+     btFiltrar at row 1.81 col 237.6 widget-id 18
+     BtLimparFiltro at row 3.48 col 237.6 widget-id 20
+     brMovto at row 5.38 col 1 widget-id 200
+     edNarrativa at row 29.81 col 1 no-label widget-id 28
+     RECT-2 at row 1.19 col 1.8 widget-id 4
+    with 1 down no-box keep-tab-order overlay 
+         side-labels no-underline three-d 
+         at col 1 row 1
+         size 255.4 by 32.48 widget-id 100.
 
 
 /* *********************** Procedure Settings ************************ */
@@ -237,31 +237,31 @@ DEFINE FRAME DEFAULT-FRAME
 /* *************************  Create Window  ************************** */
 
 &ANALYZE-SUSPEND _CREATE-WINDOW
-IF SESSION:DISPLAY-TYPE = "GUI":U THEN
-  CREATE WINDOW C-Win ASSIGN
-         HIDDEN             = YES
-         TITLE              = "Movimentos"
-         HEIGHT             = 32.48
-         WIDTH              = 255.4
-         MAX-HEIGHT         = 32.48
-         MAX-WIDTH          = 271
-         VIRTUAL-HEIGHT     = 32.48
-         VIRTUAL-WIDTH      = 271
-         RESIZE             = yes
-         SCROLL-BARS        = no
-         STATUS-AREA        = no
-         BGCOLOR            = ?
-         FGCOLOR            = ?
-         KEEP-FRAME-Z-ORDER = yes
-         THREE-D            = yes
-         MESSAGE-AREA       = no
-         SENSITIVE          = yes.
-ELSE {&WINDOW-NAME} = CURRENT-WINDOW.
+if session:display-type = "GUI":U then
+  create window C-Win assign
+         hidden             = yes
+         title              = "Movimentos"
+         height             = 32.48
+         width              = 255.4
+         max-height         = 32.48
+         max-width          = 271
+         virtual-height     = 32.48
+         virtual-width      = 271
+         resize             = yes
+         scroll-bars        = no
+         status-area        = no
+         bgcolor            = ?
+         fgcolor            = ?
+         keep-frame-z-order = yes
+         three-d            = yes
+         message-area       = no
+         sensitive          = yes.
+else {&WINDOW-NAME} = current-window.
 
 &IF '{&WINDOW-SYSTEM}' NE 'TTY' &THEN
-IF NOT C-Win:LOAD-ICON("icorealcontrole2.ico":U) THEN
-    MESSAGE "Unable to load icon: icorealcontrole2.ico"
-            VIEW-AS ALERT-BOX WARNING BUTTONS OK.
+if not C-Win:load-icon("icorealcontrole2.ico":U) then
+    message "Unable to load icon: icorealcontrole2.ico"
+            view-as alert-box warning buttons ok.
 &ENDIF
 /* END WINDOW DEFINITION                                                */
 &ANALYZE-RESUME
@@ -276,15 +276,15 @@ IF NOT C-Win:LOAD-ICON("icorealcontrole2.ico":U) THEN
 /* SETTINGS FOR FRAME DEFAULT-FRAME
    FRAME-NAME Custom                                                    */
 /* BROWSE-TAB brMovto BtLimparFiltro DEFAULT-FRAME */
-ASSIGN 
-       brMovto:COLUMN-RESIZABLE IN FRAME DEFAULT-FRAME       = TRUE
-       brMovto:COLUMN-MOVABLE IN FRAME DEFAULT-FRAME         = TRUE
-       brMovto:SEPARATOR-FGCOLOR IN FRAME DEFAULT-FRAME      = 15.
+assign 
+       brMovto:COLUMN-RESIZABLE in frame DEFAULT-FRAME       = true
+       brMovto:COLUMN-MOVABLE in frame DEFAULT-FRAME         = true
+       brMovto:SEPARATOR-FGCOLOR in frame DEFAULT-FRAME      = 15.
 
 /* SETTINGS FOR EDITOR edNarrativa IN FRAME DEFAULT-FRAME
    NO-ENABLE                                                            */
-IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
-THEN C-Win:HIDDEN = no.
+if session:display-type = "GUI":U and VALID-HANDLE(C-Win)
+then C-Win:hidden = no.
 
 /* _RUN-TIME-ATTRIBUTES-END */
 &ANALYZE-RESUME
@@ -331,7 +331,7 @@ THEN C-Win:HIDDEN = no.
 
 &Scoped-define SELF-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON end-error OF C-Win /* Movimentos */
+on end-error of C-Win /* Movimentos */
 or endkey of {&WINDOW-NAME} anywhere do:
   /* This case occurs when the user presses the "Esc" key.
      In a persistently run window, just ignore this.  If we did not, the
@@ -344,7 +344,7 @@ end.
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON window-close OF C-Win /* Movimentos */
+on window-close of C-Win /* Movimentos */
 do:
   /* This event will close the window and terminate the procedure.  */
   apply "CLOSE":U to this-procedure.
@@ -358,7 +358,7 @@ end.
 &Scoped-define BROWSE-NAME brMovto
 &Scoped-define SELF-NAME brMovto
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
-ON mouse-select-click OF brMovto IN FRAME DEFAULT-FRAME
+on mouse-select-click of brMovto in frame DEFAULT-FRAME
 do:
     if length(movto.narrativa) > 0 then 
         assign edNarrativa:screen-value in frame {&FRAME-NAME} = movto.narrativa.
@@ -371,11 +371,14 @@ end.
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
-ON mouse-select-dblclick OF brMovto IN FRAME DEFAULT-FRAME
+on mouse-select-dblclick of brMovto in frame DEFAULT-FRAME
 do:
     
     message "double click" movto.id movto.it-cod
     view-as alert-box.  
+    
+    run vwrs/lanc-edit.
+    
 end.
 
 /* _UIB-CODE-BLOCK-END */
@@ -383,7 +386,7 @@ end.
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL brMovto C-Win
-ON row-display OF brMovto IN FRAME DEFAULT-FRAME
+on row-display of brMovto in frame DEFAULT-FRAME
 do:
     if movto.movto-tp = 1 then do: 
 //        Op:fgcolor in browse brMovto = 9.
@@ -404,7 +407,7 @@ end.
 
 &Scoped-define SELF-NAME btFiltrar
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL btFiltrar C-Win
-ON choose OF btFiltrar IN FRAME DEFAULT-FRAME /* Filtrar */
+on choose of btFiltrar in frame DEFAULT-FRAME /* Filtrar */
 do:
     assign cbFiltroPeriodo cbFiltroCC cbConta fill-DataI fill-DataF fill-item.
     run prFiltrar.  
@@ -416,7 +419,7 @@ end.
 
 &Scoped-define SELF-NAME BtLimparFiltro
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BtLimparFiltro C-Win
-ON choose OF BtLimparFiltro IN FRAME DEFAULT-FRAME /* Limpar */
+on choose of BtLimparFiltro in frame DEFAULT-FRAME /* Limpar */
 do:
     do with frame {&FRAME-NAME}:
         assign 
@@ -438,7 +441,7 @@ end.
 
 &Scoped-define SELF-NAME cbFiltroPeriodo
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL cbFiltroPeriodo C-Win
-ON value-changed OF cbFiltroPeriodo IN FRAME DEFAULT-FRAME /* Período */
+on value-changed of cbFiltroPeriodo in frame DEFAULT-FRAME /* Período */
 do:
     assign cbFiltroPeriodo
            fill-DataI:screen-value in frame {&frame-name} = ""
@@ -505,7 +508,7 @@ end.
 /* **********************  Internal Procedures  *********************** */
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE disable_UI C-Win  _DEFAULT-DISABLE
-PROCEDURE disable_UI :
+procedure disable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     DISABLE the User Interface
   Parameters:  <none>
@@ -515,16 +518,16 @@ PROCEDURE disable_UI :
                we are ready to "clean-up" after running.
 ------------------------------------------------------------------------------*/
   /* Delete the WINDOW we created */
-  IF SESSION:DISPLAY-TYPE = "GUI":U AND VALID-HANDLE(C-Win)
-  THEN DELETE WIDGET C-Win.
-  IF THIS-PROCEDURE:PERSISTENT THEN DELETE PROCEDURE THIS-PROCEDURE.
-END PROCEDURE.
+  if session:display-type = "GUI":U and VALID-HANDLE(C-Win)
+  then delete widget C-Win.
+  if this-procedure:persistent then delete procedure this-procedure.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE enable_UI C-Win  _DEFAULT-ENABLE
-PROCEDURE enable_UI :
+procedure enable_UI :
 /*------------------------------------------------------------------------------
   Purpose:     ENABLE the User Interface
   Parameters:  <none>
@@ -534,21 +537,21 @@ PROCEDURE enable_UI :
                These statements here are based on the "Other 
                Settings" section of the widget Property Sheets.
 ------------------------------------------------------------------------------*/
-  DISPLAY cbFiltroPeriodo fill-DataI fill-DataF cbConta cbFiltroCC fill-item 
+  display cbFiltroPeriodo fill-DataI fill-DataF cbConta cbFiltroCC fill-item 
           edNarrativa 
-      WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
-  ENABLE cbFiltroPeriodo fill-DataI fill-DataF cbConta cbFiltroCC fill-item 
+      with frame DEFAULT-FRAME in window C-Win.
+  enable cbFiltroPeriodo fill-DataI fill-DataF cbConta cbFiltroCC fill-item 
          btFiltrar BtLimparFiltro brMovto RECT-2 
-      WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
+      with frame DEFAULT-FRAME in window C-Win.
   {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
-  VIEW C-Win.
-END PROCEDURE.
+  view C-Win.
+end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prFiltrar C-Win 
-PROCEDURE prFiltrar :
+procedure prFiltrar :
 /*------------------------------------------------------------------------------
  Purpose:
  Notes:
@@ -606,7 +609,7 @@ end procedure.
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prFiltrarPorBrowserQueryHandle C-Win 
-PROCEDURE prFiltrarPorBrowserQueryHandle :
+procedure prFiltrarPorBrowserQueryHandle :
 /*------------------------------------------------------------------------------
  Purpose:
  Notes:
@@ -652,7 +655,7 @@ end procedure.
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prFiltrarPorPreprocessador C-Win 
-PROCEDURE prFiltrarPorPreprocessador :
+procedure prFiltrarPorPreprocessador :
 /*------------------------------------------------------------------------------
  Purpose:
  Notes:
@@ -690,7 +693,7 @@ end procedure.
 &ANALYZE-RESUME
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prSetCombos C-Win 
-PROCEDURE prSetCombos :
+procedure prSetCombos :
 /*------------------------------------------------------------------------------
  Purpose:
  Notes:
