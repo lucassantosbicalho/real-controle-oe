@@ -155,7 +155,7 @@ define variable fill-desc-cc as character format "X(30)":U
      size 52 by 1 no-undo.
 
 define image IMAGE-4
-     filename "Telas/telas.bmp":U
+     filename "images/telas.bmp":U
      size 100 by 15.
 
 define rectangle RECT-4

@@ -159,7 +159,8 @@ class src.cad.cls.CentroDeCustoControl:
         if can-find(ccusto no-lock
                     where ccusto.cc-cod = pCC:Codigo)
             then return true.
-            else return false.
+        
+        return false.
             
     end method.
 

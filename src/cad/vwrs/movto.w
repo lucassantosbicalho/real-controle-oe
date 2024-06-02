@@ -104,8 +104,8 @@ movto.valor movto.usuario movto.descricao
     ~{&OPEN-QUERY-brMovto}
 
 /* Standard List Definitions                                            */
-&Scoped-Define ENABLED-OBJECTS cbFiltroPeriodo RECT-2 fill-DataI fill-DataF ~
-cbConta cbFiltroCC fill-item btFiltrar BtLimparFiltro brMovto 
+&Scoped-Define ENABLED-OBJECTS cbFiltroPeriodo fill-DataI fill-DataF ~
+cbConta cbFiltroCC fill-item btFiltrar BtLimparFiltro brMovto RECT-2 
 &Scoped-Define DISPLAYED-OBJECTS cbFiltroPeriodo fill-DataI fill-DataF ~
 cbConta cbFiltroCC fill-item edNarrativa 
 
@@ -240,7 +240,7 @@ DEFINE FRAME DEFAULT-FRAME
 IF SESSION:DISPLAY-TYPE = "GUI":U THEN
   CREATE WINDOW C-Win ASSIGN
          HIDDEN             = YES
-         TITLE              = "<insert window title>"
+         TITLE              = "Movimentos"
          HEIGHT             = 32.48
          WIDTH              = 255.4
          MAX-HEIGHT         = 32.48
@@ -257,6 +257,12 @@ IF SESSION:DISPLAY-TYPE = "GUI":U THEN
          MESSAGE-AREA       = no
          SENSITIVE          = yes.
 ELSE {&WINDOW-NAME} = CURRENT-WINDOW.
+
+&IF '{&WINDOW-SYSTEM}' NE 'TTY' &THEN
+IF NOT C-Win:LOAD-ICON("icorealcontrole2.ico":U) THEN
+    MESSAGE "Unable to load icon: icorealcontrole2.ico"
+            VIEW-AS ALERT-BOX WARNING BUTTONS OK.
+&ENDIF
 /* END WINDOW DEFINITION                                                */
 &ANALYZE-RESUME
 
@@ -325,7 +331,7 @@ THEN C-Win:HIDDEN = no.
 
 &Scoped-define SELF-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON end-error OF C-Win /* <insert window title> */
+ON end-error OF C-Win /* Movimentos */
 or endkey of {&WINDOW-NAME} anywhere do:
   /* This case occurs when the user presses the "Esc" key.
      In a persistently run window, just ignore this.  If we did not, the
@@ -338,7 +344,7 @@ end.
 
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL C-Win C-Win
-ON window-close OF C-Win /* <insert window title> */
+ON window-close OF C-Win /* Movimentos */
 do:
   /* This event will close the window and terminate the procedure.  */
   apply "CLOSE":U to this-procedure.
@@ -531,8 +537,8 @@ PROCEDURE enable_UI :
   DISPLAY cbFiltroPeriodo fill-DataI fill-DataF cbConta cbFiltroCC fill-item 
           edNarrativa 
       WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
-  ENABLE cbFiltroPeriodo RECT-2 fill-DataI fill-DataF cbConta cbFiltroCC 
-         fill-item btFiltrar BtLimparFiltro brMovto 
+  ENABLE cbFiltroPeriodo fill-DataI fill-DataF cbConta cbFiltroCC fill-item 
+         btFiltrar BtLimparFiltro brMovto RECT-2 
       WITH FRAME DEFAULT-FRAME IN WINDOW C-Win.
   {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
   VIEW C-Win.

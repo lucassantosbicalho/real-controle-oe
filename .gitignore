@@ -1,2 +1,6 @@
 *.r
 ut/
+.propath
+.project
+.dbconnection
+ubpf.config

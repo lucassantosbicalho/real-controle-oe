@@ -110,7 +110,7 @@ define variable fill-data-saldo as date format "99/99/9999":U
      size 16 by .95 tooltip "Escolha a data final para cálculo do saldo das contas" no-undo.
 
 define image IMAGE-3
-     filename "Telas/menu.bmp":U
+     filename "images/menu.bmp":U
      size 133 by 22.38.
 
 define rectangle RECT-3
@@ -188,8 +188,8 @@ if session:display-type = "GUI":U then
 else {&WINDOW-NAME} = current-window.
 
 &IF '{&WINDOW-SYSTEM}' NE 'TTY' &THEN
-if not C-Win:load-icon("Telas/icorealcontrole2.ico":U) then
-    message "Unable to load icon: Telas/icorealcontrole2.ico"
+if not C-Win:load-icon("images/icorealcontrole2.ico":U) then
+    message "Unable to load icon: images/icorealcontrole2.ico"
             view-as alert-box warning buttons ok.
 &ENDIF
 /* END WINDOW DEFINITION                                                */

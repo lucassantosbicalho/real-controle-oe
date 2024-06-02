@@ -187,7 +187,7 @@ define variable fill-conta as character format "X(256)":U
      size 27.8 by 1 no-undo.
 
 define image IMAGE-4
-     filename "Telas/telas.bmp":U
+     filename "images/telas.bmp":U
      size 101 by 19.05.
 
 define variable tg-tpConta as character 

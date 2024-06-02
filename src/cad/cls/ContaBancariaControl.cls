@@ -194,7 +194,8 @@ class src.cad.cls.ContaBancariaControl:
                       and conta.ag        = pConta:Agencia
                       and conta.conta     = pConta:Conta)
             then return true.
-            else return false.
+        
+        return false.
             
     end method.
 

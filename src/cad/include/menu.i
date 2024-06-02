@@ -19,113 +19,113 @@
 
 
 /* ***************************  Main Block  *************************** */
-DEFINE SUB-MENU mArquivo
-   MENU-ITEM m1  LABEL "Importar back-up" DISABLED
-   MENU-ITEM m2  LABEL "Exportar back-up" DISABLED
-   MENU-ITEM m3  LABEL "Diretório back-up" DISABLED RULE 
-   MENU-ITEM m4  LABEL "Sair".
+define sub-menu mArquivo
+   menu-item m1  label "Importar back-up" disabled
+   menu-item m2  label "Exportar back-up" disabled
+   menu-item m3  label "Diretório back-up" disabled rule 
+   menu-item m4  label "Sair".
    
-DEFINE SUB-MENU mSobre
-   MENU-ITEM m1  LABEL "Sobre o Real Controle" DISABLED.
+define sub-menu mSobre
+   menu-item m1  label "Sobre o Real Controle" disabled.
 
-DEFINE SUB-MENU mCadastrar
-   MENU-ITEM m1  LABEL "Item"
-   MENU-ITEM m2  LABEL "Conta bancária"
-   MENU-ITEM m3  LABEL "Centro de custo" 
-   MENU-ITEM m4  LABEL "Pessoa física" DISABLED
-   MENU-ITEM m5  LABEL "Usuário" DISABLED.
+define sub-menu mCadastrar
+   menu-item m1  label "Item"
+   menu-item m2  label "Conta bancária"
+   menu-item m3  label "Centro de custo" 
+   menu-item m4  label "Pessoa física" disabled
+   menu-item m5  label "Usuário" disabled.
    
-DEFINE SUB-MENU mEditar
-   MENU-ITEM m1  LABEL "Lançar movimento" 
-   MENU-ITEM m2  LABEL "Visualizar movimentos".
+define sub-menu mEditar
+   menu-item m1  label "Lançar movimento" 
+   menu-item m2  label "Visualizar movimentos".
    
-DEFINE SUB-MENU mRelatorios
-   MENU-ITEM m1 LABEL "Extrato consolidado" DISABLED
-   MENU-ITEM m2 LABEL "Fluxo de caixa" DISABLED.
+define sub-menu mRelatorios
+   menu-item m1 label "Extrato consolidado" disabled
+   menu-item m2 label "Fluxo de caixa" disabled.
    
-DEFINE MENU mBarra MENUBAR
-   SUB-MENU mArquivo    LABEL "Arquivo"
-   SUB-MENU mCadastrar  LABEL "Cadastrar"
-   SUB-MENU mEditar     LABEL "Editar"
-   SUB-MENU mRelatorios LABEL "Relatórios"
-   SUB-MENU mSobre      LABEL "Ajuda" .
+define menu mBarra menubar
+   sub-menu mArquivo    label "Arquivo"
+   sub-menu mCadastrar  label "Cadastrar"
+   sub-menu mEditar     label "Editar"
+   sub-menu mRelatorios label "Relatórios"
+   sub-menu mSobre      label "Ajuda" .
    
    
 /* --------------------------------------------------------------------------------
          Triggers Menu Arquivo
 -------------------------------------------------------------------------------- */ 
-ON CHOOSE OF MENU-ITEM m1 IN MENU mArquivo
-DO:
-    MESSAGE "Clicou " MENU-ITEM m1:LABEL IN MENU mArquivo
-        VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
-    RETURN.
-END.
+on choose of menu-item m1 in menu mArquivo
+do:
+    message "Clicou " menu-item m1:LABEL in menu mArquivo
+        view-as alert-box information buttons ok.
+    return.
+end.
    
-ON CHOOSE OF MENU-ITEM m2 IN MENU mArquivo
-DO:
-    MESSAGE "Clicou " MENU-ITEM m2:LABEL IN MENU mArquivo
-        VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
-    RETURN.
-END.
+on choose of menu-item m2 in menu mArquivo
+do:
+    message "Clicou " menu-item m2:LABEL in menu mArquivo
+        view-as alert-box information buttons ok.
+    return.
+end.
    
-ON CHOOSE OF MENU-ITEM m3 IN MENU mArquivo
-DO:
-    APPLY "close":u TO THIS-PROCEDURE.
-END.
+on choose of menu-item m3 in menu mArquivo
+do:
+    apply "close":u to this-procedure.
+end.
 
 /* --------------------------------------------------------------------------------
          Triggers Menu Sobre
 -------------------------------------------------------------------------------- */ 
-ON CHOOSE OF MENU-ITEM m1 IN MENU mSobre
-DO:
-    MESSAGE "Clicou " MENU-ITEM m1:LABEL IN MENU mSobre
-        VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
-    RETURN.
-END.
+on choose of menu-item m1 in menu mSobre
+do:
+    message "Clicou " menu-item m1:LABEL in menu mSobre
+        view-as alert-box information buttons ok.
+    return.
+end.
 
 /* --------------------------------------------------------------------------------
          Triggers Menu Cadastrar
 -------------------------------------------------------------------------------- */ 
-ON CHOOSE OF MENU-ITEM m1 IN MENU mCadastrar
-DO:
-    RUN smr/cad-item.w.
-    RETURN.
-END.
+on choose of menu-item m1 in menu mCadastrar
+do:
+    run smr/cad-item.w.
+    return.
+end.
    
-ON CHOOSE OF MENU-ITEM m2 IN MENU mCadastrar
-DO:
-    RUN smr/cad-conta.w.
-    RETURN.
-END.
+on choose of menu-item m2 in menu mCadastrar
+do:
+    run smr/cad-conta.w.
+    return.
+end.
    
-ON CHOOSE OF MENU-ITEM m3 IN MENU mCadastrar
-DO:
-    RUN smr/cad-ccusto.w.
-    RETURN.
-END.
+on choose of menu-item m3 in menu mCadastrar
+do:
+    run smr/cad-ccusto.w.
+    return.
+end.
 
-ON CHOOSE OF MENU-ITEM m4 IN MENU mCadastrar
-DO:
-    MESSAGE "Clicou " MENU-ITEM m4:LABEL IN MENU mCadastrar
-        VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
-    RETURN.
-END.
+on choose of menu-item m4 in menu mCadastrar
+do:
+    message "Clicou " menu-item m4:LABEL in menu mCadastrar
+        view-as alert-box information buttons ok.
+    return.
+end.
 
-ON CHOOSE OF MENU-ITEM m5 IN MENU mCadastrar
-DO:
-    MESSAGE "Clicou " MENU-ITEM m5:LABEL IN MENU mCadastrar
-        VIEW-AS ALERT-BOX INFORMATION BUTTONS OK.
-    RETURN.
-END.
+on choose of menu-item m5 in menu mCadastrar
+do:
+    message "Clicou " menu-item m5:LABEL in menu mCadastrar
+        view-as alert-box information buttons ok.
+    return.
+end.
 
 /* --------------------------------------------------------------------------------
          Triggers Menu Editar
 -------------------------------------------------------------------------------- */ 
-ON CHOOSE OF MENU-ITEM m1 IN MENU mEditar
-DO:
-    RUN smr/lanc.w.
-END.
-ON CHOOSE OF MENU-ITEM m2 IN MENU mEditar
-DO:
-    RUN cad/vwrs/mov.w.
-END.
+on choose of menu-item m1 in menu mEditar
+do:
+    run smr/lanc.w.
+end.
+on choose of menu-item m2 in menu mEditar
+do:
+    run cad/vwrs/movto.w.
+end.

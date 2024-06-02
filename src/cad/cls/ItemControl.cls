@@ -155,7 +155,8 @@ class src.cad.cls.ItemControl:
         if can-find(item no-lock
                     where item.it-cod = pItem:Codigo)
             then return true.
-            else return false.
+        
+        return false.
             
     end method.
 

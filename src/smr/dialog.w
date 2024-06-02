@@ -96,15 +96,15 @@ DEFINE VARIABLE filTitulo AS CHARACTER FORMAT "X(256)":U
      FONT 12 NO-UNDO.
 
 DEFINE IMAGE ico-alert
-     FILENAME "Telas/circle-alert.ico":U
+     FILENAME "images/circle-alert.ico":U
      SIZE 7 BY 1.67.
 
 DEFINE IMAGE ico-error
-     FILENAME "Telas/circle-error.ico":U
+     FILENAME "images/circle-error.ico":U
      SIZE 7 BY 1.67.
 
 DEFINE IMAGE ico-success
-     FILENAME "Telas/circle-check.ico":U
+     FILENAME "images/circle-check.ico":U
      SIZE 7 BY 1.67.
 
 DEFINE RECTANGLE RECT-2

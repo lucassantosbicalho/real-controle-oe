@@ -35,11 +35,11 @@ using src.cad.cls.LoginControl from propath.
 create widget-pool.
 
 /* ***************************  Definitions  ************************** */
-/*assign 
+assign 
     session:debug-alert         = yes
     log-manager:logfile-name    = 'E:\jobs\realcontrole\out\clientlog\clientlog.txt'
-    log-manager:logging-level   = 4
-    log-manager:log-entry-types = "4GLMessages,4GLTrace,DB.Connects,DynObjects.DB,DynObjects.XML,DynObjects.Other,DynObjects.CLASS,DynObjects.UI,FileID,ProEvents.UI.CHAR,ProEvents.UI.COMMAND,ProEvents.Other,SAX".*/
+    log-manager:logging-level   = 5
+    log-manager:log-entry-types = "4GLMessages,4GLTrace,DB.Connects,DynObjects.DB,DynObjects.XML,DynObjects.Other,DynObjects.CLASS,DynObjects.UI,FileID,ProEvents.UI.CHAR,ProEvents.UI.COMMAND,ProEvents.Other,SAX".
 
 /* Parameters Definitions ---                                           */
 define variable controlador-login as LoginControl no-undo.
@@ -98,7 +98,7 @@ define variable filUsuario as character format "X(256)":U
      font 9 no-undo.
 
 define image IMAGE-2
-     filename "Telas/login.bmp":U
+     filename "images/login.bmp":U
      size 97 by 24.76.
 
 
@@ -158,8 +158,8 @@ if session:display-type = "GUI":U then
 else {&WINDOW-NAME} = current-window.
 
 &IF '{&WINDOW-SYSTEM}' NE 'TTY' &THEN
-if not C-Win:load-icon("Telas/icorealcontrole2.ico":U) then
-    message "Unable to load icon: Telas/icorealcontrole2.ico"
+if not C-Win:load-icon("images/icorealcontrole2.ico":U) then
+    message "Unable to load icon: images/icorealcontrole2.ico"
             view-as alert-box warning buttons ok.
 &ENDIF
 /* END WINDOW DEFINITION                                                */

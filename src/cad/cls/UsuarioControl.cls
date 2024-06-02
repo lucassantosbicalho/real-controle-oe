@@ -224,7 +224,8 @@ class src.cad.cls.UsuarioControl:
         if can-find(usuario no-lock 
                     where usuario.usuario = pUsuario:Usuario)
             then return true.
-            else return false.
+        
+        return false.
 
     end method.    
 

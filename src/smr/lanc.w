@@ -196,7 +196,7 @@ define variable fill-valor as decimal format "->>,>>9.99":U initial 0
      size 18 by 1 no-undo.
 
 define image IMAGE-4
-     filename "Telas/telas.bmp":U
+     filename "images/telas.bmp":U
      size 101 by 25.71.
 
 define variable rs-parcelar as integer 
