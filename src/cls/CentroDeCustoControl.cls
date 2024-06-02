@@ -1,25 +1,25 @@
  
  /*------------------------------------------------------------------------
-    File        : ItemControl
+    File        : CentroDeCustoControl
     Purpose     : 
     Syntax      : 
     Description : 
     Author(s)   : Lucas Bicalho
-    Created     : Sun Sep 17 17:08:01 BRT 2023
+    Created     : Sun Sep 26 19:07:11 BRT 2023
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.ItemBuilder.
+using src.cls.CentroDeCustoBuilder.
 
 block-level on error undo, throw.
 
-class src.cad.cls.ItemControl: 
+class src.cls.CentroDeCustoControl: 
     
     define public property cReturn as character no-undo 
     get.
     private set.
     
-    define private property pItem as ItemBuilder no-undo
+    define private property pCC as CentroDeCustoBuilder no-undo
     private get.
     private set.
 
@@ -28,24 +28,26 @@ class src.cad.cls.ItemControl:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public character cadastrar(input codItem as character, 
-                                      input descItem as character):
+    method public character cadastrar(input pCodigo       as character,
+                                      input pDescricao    as character):
         
         init().
         
-        pItem = new ItemBuilder(codItem, descItem).
         
-        if itemExistente(pItem) then do:
-            cReturn = substitute("Erro! Item existente! (&1)", pItem:Codigo).
+        pCC = new CentroDeCustoBuilder(pCodigo,
+                                       pDescricao).
+
+        if centroDeCustoExistente(pCC) then do:
+            cReturn = substitute("Erro! Centro de custo existente! (&1)", pCC:Codigo).
             return cReturn.
         end.
-       
-        create item.
-        assign
-            item.it-cod     = pItem:Codigo 
-            item.descricao  = pItem:Descricao. 
+
+        create ccusto.
+        assign 
+            ccusto.cc-cod    = pCodigo
+            ccusto.descricao = pDescricao.     
         
-        cReturn = substitute("Item &1 cadastrado com sucesso!", pItem:Codigo).
+        cReturn = substitute("Centro de custo cadastrado com sucesso! (&1 - &2)", pCC:Codigo, pCC:Descricao).
         
         catch e as Progress.Lang.Error:
             message substitute("Erro! &1 &2", 
@@ -64,25 +66,25 @@ class src.cad.cls.ItemControl:
      Purpose:
      Notes:
     ------------------------------------------------------------------------------*/
-
-    method public character excluir(input codItem as character):
+    method public character excluir(input pCodigo       as character):
         
         init().
         
-        pItem = new ItemBuilder(codItem, "").
         
-        if not itemExistente(pItem) then do:
-            cReturn = substitute("Erro! Item não encontrado! (&1)", pItem:Codigo).
+        pCC = new CentroDeCustoBuilder(pCodigo, 
+                                       "").
+
+        if not centroDeCustoExistente(pCC) then do:
+            cReturn = substitute("Erro! Centro de custo inexistente! (&1)", pCC:Codigo).
             return cReturn.
         end.
-            
-        find item exclusive-lock
-            where item.it-cod = pItem:Codigo.
-            
-        delete item.
-        release item.
-        
-        cReturn = substitute("Item &1 excluído com sucesso!", pItem:Codigo).
+
+        find ccusto exclusive-lock
+            where ccusto.cc-cod = pCodigo.
+        delete ccusto.
+        release ccusto.
+                
+        cReturn = substitute("Centro de custo &1 excluído com sucesso!", pCC:Codigo).
         
         catch e as Progress.Lang.Error:
             message substitute("Erro! &1 &2", 
@@ -92,6 +94,7 @@ class src.cad.cls.ItemControl:
         end catch.
 
         finally:
+            return cReturn.
         end finally.
 
     end method.
@@ -100,26 +103,26 @@ class src.cad.cls.ItemControl:
      Purpose:
      Notes:
     ------------------------------------------------------------------------------*/
-
-    method public character alterar(input codItem as character, 
-                                    input descItem as character):
+    method public character alterar(input pCodigo       as character,
+                                    input pDescricao    as character):
         
         init().
         
-        pItem = new ItemBuilder(codItem, descItem).
-        
-        if not itemExistente(pItem) then do:
-            cReturn = substitute("Erro! Item não encontrado! (&1)", pItem:Codigo).
+        pCC = new CentroDeCustoBuilder(pCodigo,
+                                       pDescricao).
+
+        if not centroDeCustoExistente(pCC) then do:
+            cReturn = substitute("Erro! Centro de custo inexistente! (&1)", pCC:Codigo).
             return cReturn.
         end.
-            
-        find item exclusive-lock
-            where item.it-cod = pItem:Codigo.
-            
-        assign item.descricao = pItem:Descricao.
-        release item.
-        
-        cReturn = substitute("Item &1 alterado com sucesso!", pItem:Codigo).
+
+        find ccusto exclusive-lock
+            where ccusto.cc-cod = pCodigo.
+        assign 
+            ccusto.descricao = (if ccusto.descricao       <> pDescricao    then pDescricao    else ccusto.descricao      ).
+        release ccusto.
+                
+        cReturn = substitute("Centro de custo alterado com sucesso! (&1)", pCC:Codigo).
         
         catch e as Progress.Lang.Error:
             message substitute("Erro! &1 &2", 
@@ -129,6 +132,7 @@ class src.cad.cls.ItemControl:
         end catch.
 
         finally:
+            return cReturn.
         end finally.
 
     end method.
@@ -150,10 +154,10 @@ class src.cad.cls.ItemControl:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method private logical itemExistente(input pItem as ItemBuilder):
+    method private logical centroDeCustoExistente(input pCC as CentroDeCustoBuilder):
         
-        if can-find(item no-lock
-                    where item.it-cod = pItem:Codigo)
+        if can-find(ccusto no-lock
+                    where ccusto.cc-cod = pCC:Codigo)
             then return true.
         
         return false.

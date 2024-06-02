@@ -9,10 +9,10 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.ContaBancariaBuilder.
-using src.cad.cls.ContaBancaria from propath.
+using src.cls.ContaBancariaBuilder.
+using src.cls.ContaBancaria from propath.
 
-class src.cad.cls.ContaBancaria: 
+class src.cls.ContaBancaria: 
     
     /* obrigatorios */
     define public property Banco as character no-undo 

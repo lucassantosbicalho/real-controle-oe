@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.Usuario.
+using src.cls.Usuario.
 
-class src.cad.cls.UsuarioBuilder: 
+class src.cls.UsuarioBuilder: 
 
     define public property Usuario as character no-undo 
     get.
@@ -62,7 +62,7 @@ class src.cad.cls.UsuarioBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public src.cad.cls.UsuarioBuilder alterarNome(input pNome as character):
+    method public src.cls.UsuarioBuilder alterarNome(input pNome as character):
         assign
             this-object:Nome = pNome.
         return this-object.
@@ -74,7 +74,7 @@ class src.cad.cls.UsuarioBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public src.cad.cls.UsuarioBuilder alterarSobrenome(input pSobrenome as character):
+    method public src.cls.UsuarioBuilder alterarSobrenome(input pSobrenome as character):
         assign
             this-object:Sobrenome = pSobrenome.
         return this-object.

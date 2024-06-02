@@ -9,11 +9,11 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.UsuarioBuilder.
+using src.cls.UsuarioBuilder.
 
 block-level on error undo, throw.
 
-class src.cad.cls.LoginControl: 
+class src.cls.LoginControl: 
     
     /*------------------------------------------------------------------------------
      Purpose:

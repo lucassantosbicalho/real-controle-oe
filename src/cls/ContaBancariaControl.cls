@@ -9,11 +9,11 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.ContaBancariaBuilder.
+using src.cls.ContaBancariaBuilder.
 
 block-level on error undo, throw.
 
-class src.cad.cls.ContaBancariaControl: 
+class src.cls.ContaBancariaControl: 
     
     define public property cReturn as character no-undo 
     get.

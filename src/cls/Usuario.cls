@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.UsuarioBuilder.
+using src.cls.UsuarioBuilder.
 
-class src.cad.cls.Usuario: 
+class src.cls.Usuario: 
     
     /* obrigatorios */
     define public property Usuario as character no-undo 

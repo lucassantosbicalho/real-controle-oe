@@ -1,6 +1,6 @@
  
  /*------------------------------------------------------------------------
-    File        : ItemBuilder
+    File        : CentroDeCustoBuilder
     Purpose     : 
     Syntax      : 
     Description : 
@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.Item.
+using src.cls.CentroDeCusto.
 
-class src.cad.cls.ItemBuilder: 
+class src.cls.CentroDeCustoBuilder: 
     
 
     define public property Codigo as character no-undo 
@@ -27,8 +27,8 @@ class src.cad.cls.ItemBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    constructor public ItemBuilder (input pCod as character,
-                                    input pDesc as character):
+    constructor public CentroDeCustoBuilder (input pCod as character,
+                                             input pDesc as character):
         assign 
             this-object:Codigo    = pCod
             this-object:Descricao = pDesc.
@@ -40,8 +40,8 @@ class src.cad.cls.ItemBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public Item build(  ):
-        return new Item(this-object).
+    method public CentroDeCusto build(  ):
+        return new CentroDeCusto(this-object).
     end method.    
 
 end class.

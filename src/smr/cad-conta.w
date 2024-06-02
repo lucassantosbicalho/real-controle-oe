@@ -7,7 +7,7 @@
 &Scoped-define FRAME-NAME cad-conta
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS cad-conta 
-using src.cad.cls.ContaBancariaControl.
+using src.cls.ContaBancariaControl.
 /*------------------------------------------------------------------------
 
   File: 

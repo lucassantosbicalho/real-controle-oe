@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.ItemBuilder.
+using src.cls.ItemBuilder.
 
-class src.cad.cls.Item: 
+class src.cls.Item: 
 
     /* obrigatorios */
     define public property Codigo as character no-undo 

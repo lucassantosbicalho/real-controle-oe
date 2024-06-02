@@ -7,7 +7,7 @@
 &Scoped-define FRAME-NAME cad-item
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS cad-item 
-using src.cad.cls.ItemControl.
+using src.cls.ItemControl.
 /*------------------------------------------------------------------------
 
   File: 

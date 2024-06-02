@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.PessoaFisica.
+using src.cls.PessoaFisica.
 
-class src.cad.cls.PessoaFisicaBuilder: 
+class src.cls.PessoaFisicaBuilder: 
 
     define public property CPF as character no-undo 
     get.
@@ -64,7 +64,7 @@ class src.cad.cls.PessoaFisicaBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public src.cad.cls.PessoaFisicaBuilder setEmail(input pEmail as character):
+    method public src.cls.PessoaFisicaBuilder setEmail(input pEmail as character):
         
         assign
             this-object:Email = pEmail.
@@ -78,7 +78,7 @@ class src.cad.cls.PessoaFisicaBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public src.cad.cls.PessoaFisicaBuilder setTelCelular(input pCelular as character):
+    method public src.cls.PessoaFisicaBuilder setTelCelular(input pCelular as character):
         
         assign 
             this-object:TelCelular = pCelular.
@@ -92,7 +92,7 @@ class src.cad.cls.PessoaFisicaBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public src.cad.cls.PessoaFisicaBuilder setOutroTelefone2(input pTelOutro as character):
+    method public src.cls.PessoaFisicaBuilder setOutroTelefone2(input pTelOutro as character):
         
         assign 
             this-object:TelOutro = pTelOutro.
@@ -106,7 +106,7 @@ class src.cad.cls.PessoaFisicaBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public src.cad.cls.PessoaFisica build(  ):
+    method public src.cls.PessoaFisica build(  ):
         return new PessoaFisica(this-object).            
     end method.    
 

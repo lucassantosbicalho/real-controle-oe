@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.ContaBancaria.
+using src.cls.ContaBancaria.
 
-class src.cad.cls.ContaBancariaBuilder: 
+class src.cls.ContaBancariaBuilder: 
 
     define public property Banco as character no-undo 
     get.
@@ -66,7 +66,7 @@ class src.cad.cls.ContaBancariaBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public src.cad.cls.ContaBancariaBuilder setApelidoConta(input pApelido as character):
+    method public src.cls.ContaBancariaBuilder setApelidoConta(input pApelido as character):
         
         assign 
             this-object:Apelido = substring (pApelido, 1 , 25).

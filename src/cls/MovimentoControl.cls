@@ -9,11 +9,11 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.MovimentoBuilder.
+using src.cls.MovimentoBuilder.
 
 block-level on error undo, throw.
 
-class src.cad.cls.MovimentoControl: 
+class src.cls.MovimentoControl: 
 
     define public property cReturn as character no-undo 
     get.

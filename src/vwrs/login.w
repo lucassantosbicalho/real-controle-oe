@@ -1,7 +1,7 @@
 &ANALYZE-SUSPEND _VERSION-NUMBER AB_v10r12 GUI
 &ANALYZE-RESUME
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS Procedure
-using src.cad.cls.LoginControl from propath.
+using src.cls.LoginControl from propath.
 &ANALYZE-RESUME
 &Scoped-define WINDOW-NAME C-Win
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DEFINITIONS C-Win 
@@ -269,7 +269,7 @@ do:
     
     publish "prCalculaSaldo" (today).
     
-    run cad/vwrs/main.w. 
+    run vwrs/main.w. 
     
     finally:
         if valid-object (controlador-login) then

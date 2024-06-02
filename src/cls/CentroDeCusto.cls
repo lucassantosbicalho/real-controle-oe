@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.CentroDeCustoBuilder.
+using src.cls.CentroDeCustoBuilder.
 
-class src.cad.cls.CentroDeCusto: 
+class src.cls.CentroDeCusto: 
     
     /* obrigatorios */
     define public property Codigo as character no-undo 

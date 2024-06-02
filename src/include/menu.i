@@ -127,5 +127,5 @@ do:
 end.
 on choose of menu-item m2 in menu mEditar
 do:
-    run cad/vwrs/movto.w.
+    run vwrs/movto.w.
 end.

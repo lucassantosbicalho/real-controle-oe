@@ -7,7 +7,7 @@
 &Scoped-define FRAME-NAME cad-ccusto
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS cad-ccusto 
-using src.cad.cls.CentroDeCustoControl.
+using src.cls.CentroDeCustoControl.
 /*------------------------------------------------------------------------
 
   File: 

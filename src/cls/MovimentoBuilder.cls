@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.Movimento.
+using src.cls.Movimento.
 
-class src.cad.cls.MovimentoBuilder: 
+class src.cls.MovimentoBuilder: 
     
     /* obrigatorios */    
     define public property DataMvto as date no-undo
@@ -92,7 +92,7 @@ class src.cad.cls.MovimentoBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
     
-    method public src.cad.cls.MovimentoBuilder setNarrativa(input pNarrativa as character):
+    method public src.cls.MovimentoBuilder setNarrativa(input pNarrativa as character):
         assign
             this-object:Narrativa = pNarrativa.
     
@@ -104,7 +104,7 @@ class src.cad.cls.MovimentoBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
     
-    method public src.cad.cls.MovimentoBuilder setDataCriacao(input pDataCriacao as date):
+    method public src.cls.MovimentoBuilder setDataCriacao(input pDataCriacao as date):
         assign
             this-object:DataCriacao = pDataCriacao.
     
@@ -116,7 +116,7 @@ class src.cad.cls.MovimentoBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
     
-    method public src.cad.cls.MovimentoBuilder setHoraCriacao(input pHoraCriacao as character):
+    method public src.cls.MovimentoBuilder setHoraCriacao(input pHoraCriacao as character):
         assign
             this-object:HoraCriacao = pHoraCriacao.
     
@@ -128,7 +128,7 @@ class src.cad.cls.MovimentoBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
     
-    method public src.cad.cls.MovimentoBuilder setDescricao(input pDescricao as character):
+    method public src.cls.MovimentoBuilder setDescricao(input pDescricao as character):
         assign
             this-object:Descricao = pDescricao.
     
@@ -140,7 +140,7 @@ class src.cad.cls.MovimentoBuilder:
      Notes:
     ------------------------------------------------------------------------------*/
 
-    method public src.cad.cls.Movimento build(  ):
+    method public src.cls.Movimento build(  ):
         return new Movimento(this-object).            
     end method.
     

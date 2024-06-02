@@ -318,7 +318,7 @@ end.
     
 run prCalculaSaldo(today).
 
-{cad/include/menu.i}
+{include/menu.i}
 
 /* Set CURRENT-WINDOW: this will parent dialog-boxes and frames.        */
 assign CURRENT-WINDOW                = {&WINDOW-NAME}

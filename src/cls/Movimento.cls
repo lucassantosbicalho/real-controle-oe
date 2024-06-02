@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.MovimentoBuilder.
+using src.cls.MovimentoBuilder.
 
-class src.cad.cls.Movimento: 
+class src.cls.Movimento: 
     
     /* obrigatorios */    
     define public property DataMvto as date no-undo

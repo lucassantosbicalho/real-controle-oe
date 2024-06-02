@@ -8,7 +8,7 @@
 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS lancamento 
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CUSTOM _DECLARATIONS Procedure
-using src.cad.cls.MovimentoControl from propath.
+using src.cls.MovimentoControl from propath.
 /*------------------------------------------------------------------------
 
   File: 

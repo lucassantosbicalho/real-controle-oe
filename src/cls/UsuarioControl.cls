@@ -9,11 +9,11 @@
    Notes       : 
  ----------------------------------------------------------------------*/
 
-using src.cad.cls.UsuarioBuilder.
+using src.cls.UsuarioBuilder.
 
 block-level on error undo, throw.
 
-class src.cad.cls.UsuarioControl: 
+class src.cls.UsuarioControl: 
     
     define public property cReturn as character no-undo 
     get.

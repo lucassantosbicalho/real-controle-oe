@@ -9,9 +9,9 @@
     Notes       : 
   ----------------------------------------------------------------------*/
 
-using src.cad.cls.PessoaFisicaBuilder.
+using src.cls.PessoaFisicaBuilder.
 
-class src.cad.cls.PessoaFisica: 
+class src.cls.PessoaFisica: 
 
     /* obrigatorios */
     define public property CPF as character no-undo 
