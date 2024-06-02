@@ -412,7 +412,18 @@ end.
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BtLimparFiltro C-Win
 on choose of BtLimparFiltro in frame DEFAULT-FRAME /* Limpar */
 do:
-      
+    do with frame {&FRAME-NAME}:
+        assign 
+            cbFiltroPeriodo:screen-value = "30 dias"
+            fill-dataI:screen-value      = ?
+            fill-dataF:screen-value      = ?
+            cbConta:screen-value         = "Todas"
+            cbFiltroCC:screen-value      = "Todos"
+            fill-item:screen-value       = ""
+            fill-DataI:read-only         = true 
+            fill-DataF:read-only         = true.
+    end.
+    apply "choose" to btFiltrar. 
 end.
 
 /* _UIB-CODE-BLOCK-END */
@@ -547,8 +558,7 @@ procedure prFiltrar :
         l-conta = (if cbConta <> "Todas" then true else false)
         l-cc    = (if cbFiltroCC <> "Todos" then true else false)
         l-geral = (if length(fill-item) > 0 then true else false).
-    message "l-cc" l-cc
-    view-as alert-box.
+
     do with frame {&FRAME-NAME}:
         assign 
             h-query = brMovto:handle.
