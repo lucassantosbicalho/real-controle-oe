@@ -138,26 +138,22 @@ class src.cls.MovimentoControl:
             return cReturn.                        
         end.
         
-        message pValor * pMovto-tp skip pValor skip pMovto-tp
-        view-as alert-box.
-        
         find movto exclusive-lock
             where movto.id = pId.
 
         assign 
-            movto.data-mvto    = (if movto.data-mvto <> pData-mvto then pData-mvto           else movto.data-mvto)
-            movto.banco-cod    = (if movto.banco-cod <> pBanco-cod then pBanco-cod           else movto.banco-cod)
-            movto.ag           = (if movto.ag        <> pAg        then pAg                  else movto.ag       )
-            movto.conta        = (if movto.conta     <> pConta     then pConta               else movto.conta    )
-            movto.cc-cod       = (if movto.cc-cod    <> pCc-cod    then pCc-cod              else movto.cc-cod   )
-            movto.it-cod       = (if movto.it-cod    <> pIt-cod    then pIt-cod              else movto.it-cod   )
-            movto.descricao    = (if movto.descricao <> pDescricao then pDescricao           else movto.descricao)
-            movto.movto-tp     = (if movto.movto-tp  <> pMovto-tp  then pMovto-tp            else movto.movto-tp )
-            movto.narrativa    = (if movto.narrativa <> pNarrativa then pNarrativa           else movto.narrativa)
-            movto.usuario      = (if movto.usuario   <> pUsuario   then pUsuario             else movto.usuario  )
-            movto.valor        = (if movto.valor     <> pValor     then (pValor * pMovto-tp) else movto.valor    ).
-        if pSeq > 0 then 
-            assign movto.seq   = (if movto.seq       <> pSeq       then pSeq       else movto.seq      ).
+            movto.data-mvto    = pData-mvto          
+            movto.banco-cod    = pBanco-cod          
+            movto.ag           = pAg                 
+            movto.conta        = pConta              
+            movto.cc-cod       = pCc-cod             
+            movto.it-cod       = pIt-cod             
+            movto.seq          = (if movto.seq <> pSeq and pSeq > 0 then pSeq else movto.seq)
+            movto.descricao    = pDescricao          
+            movto.movto-tp     = pMovto-tp           
+            movto.narrativa    = pNarrativa          
+            movto.usuario      = pUsuario            
+            movto.valor        = (abs(pValor) * pMovto-tp).
         
         release movto.
             

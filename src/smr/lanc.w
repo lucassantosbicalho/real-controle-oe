@@ -190,7 +190,7 @@ define variable fill-qtd-parc-repl as integer format ">>9":U initial 0
      view-as fill-in 
      size 14 by 1 no-undo.
 
-define variable fill-valor as decimal format "->>,>>9.99":U initial 0 
+define variable fill-valor as decimal format "->>,>>>,>>9.99":U initial 0 
      label "Valor" 
      view-as fill-in 
      size 18 by 1 no-undo.

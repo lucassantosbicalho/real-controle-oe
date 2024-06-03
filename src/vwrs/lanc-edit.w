@@ -151,7 +151,7 @@ define variable fill-descricao as character format "X(256)":U
      view-as fill-in 
      size 72 by 1 no-undo.
 
-define variable fill-valor as decimal format "->>,>>9.99":U initial 0 
+define variable fill-valor as decimal format "->>,>>>,>>9.99":U initial 0 
      label "Valor" 
      view-as fill-in 
      size 18 by 1 no-undo.
