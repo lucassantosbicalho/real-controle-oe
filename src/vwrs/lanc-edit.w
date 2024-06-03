@@ -335,7 +335,7 @@ do:
     view-as alert-box warning buttons yes-no update lChoice as logical .
     if lChoice then do:
         controlador = new MovimentoControl().
-        controlador:excluir(movto.id).
+        controlador:excluir(ip-id).
 
         if controlador:cReturn begins "Erro" 
         then 
@@ -345,6 +345,9 @@ do:
                     
         run smr/dialog.w (ico-dialog, controlador:cReturn, "").
     end.
+    
+    publish "prUpdateBrowser".
+    apply "choose" to BtnCancel.
     
     finally:
         if valid-object (controlador) then

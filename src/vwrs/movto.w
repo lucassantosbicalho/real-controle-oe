@@ -473,6 +473,8 @@ end.
 
 
 /* ***************************  Main Block  *************************** */
+subscribe to "prUpdateBrowser" anywhere.
+
 run prSetCombos.
 
 /* Set CURRENT-WINDOW: this will parent dialog-boxes and frames.        */
@@ -726,4 +728,18 @@ end procedure.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
+
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prUpdateBrowser C-Win
+procedure prUpdateBrowser:
+/*------------------------------------------------------------------------------
+ Purpose:
+ Notes:
+------------------------------------------------------------------------------*/
+    {&OPEN-BROWSERS-IN-QUERY-DEFAULT-FRAME}
+    
+end procedure.
+    
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
 
