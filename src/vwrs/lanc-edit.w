@@ -38,14 +38,24 @@ create widget-pool.
 /* Parameters Definitions ---                                           */
 
 /* Local Variable Definitions ---                                       */
-define variable controlador as MovimentoControl     no-undo.
-define variable cCCusto     as character            no-undo.
-define variable cBanco      as character            no-undo.    
-define variable ico-dialog  as character            no-undo.
-
 define buffer b-conta for conta.
 define buffer b-banco for banco.
 define buffer b-ccusto for ccusto.
+
+define variable controlador         as MovimentoControl     no-undo.
+define variable cCCusto             as character            no-undo.
+define variable cBanco              as character            no-undo.    
+define variable ico-dialog          as character            no-undo.
+
+define input  parameter ip-id       as integer              no-undo.
+define input  parameter ip-row-item as rowid                no-undo.
+define input  parameter ip-data     as date                 no-undo.
+define input  parameter ip-valor    as decimal              no-undo.
+define input  parameter ip-op       as integer              no-undo.
+define input  parameter ip-desc     as character            no-undo.
+define input  parameter ip-cta      as character            no-undo.
+define input  parameter ip-cc       as character            no-undo.
+define input  parameter ip-narr     as character            no-undo.
 
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
@@ -368,6 +378,15 @@ end.
 cCCusto = trim(cCCusto, ",").
 cb-ccusto:list-item-pairs = cCCusto.
 
+assign
+    cb-banco        = ip-cta
+    cb-ccusto       = ip-cc
+    fill-data-movto = ip-data
+    fill-valor      = ip-valor
+    fill-descricao  = ip-desc
+    fill-narrativa  = ip-narr
+    rsTpMovto       = ip-op.
+
 /* Set CURRENT-WINDOW: this will parent dialog-boxes and frames.        */
 assign CURRENT-WINDOW                = {&WINDOW-NAME} 
        THIS-PROCEDURE:CURRENT-WINDOW = {&WINDOW-NAME}.
@@ -386,6 +405,9 @@ MAIN-BLOCK:
 do on error   undo MAIN-BLOCK, leave MAIN-BLOCK
    on end-key undo MAIN-BLOCK, leave MAIN-BLOCK:
   run enable_UI.
+  
+  reposition brItem to rowid ip-row-item.
+  
   if not this-procedure:persistent then
     wait-for close of this-procedure.
 end.

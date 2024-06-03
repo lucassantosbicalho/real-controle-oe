@@ -374,10 +374,15 @@ end.
 on mouse-select-dblclick of brMovto in frame DEFAULT-FRAME
 do:
     
-    message "double click" movto.id movto.it-cod
-    view-as alert-box.  
-    
-    run vwrs/lanc-edit.
+    run vwrs/lanc-edit(movto.id, 
+                       rowid(item),
+                       movto.data-mvto,
+                       movto.valor,
+                       movto.movto-tp,
+                       movto.descricao,
+                       substitute("&1;&2;&3", movto.banco-cod,movto.ag, movto.conta),
+                       movto.cc-cod,
+                       movto.narrativa).
     
 end.
 
