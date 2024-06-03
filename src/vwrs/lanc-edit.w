@@ -47,7 +47,7 @@ define variable cCCusto             as character            no-undo.
 define variable cBanco              as character            no-undo.    
 define variable ico-dialog          as character            no-undo.
 
-define input  parameter ip-id       as integer              no-undo.
+define input  parameter ip-id       as int64                no-undo.
 define input  parameter ip-row-item as rowid                no-undo.
 define input  parameter ip-data     as date                 no-undo.
 define input  parameter ip-valor    as decimal              no-undo.
@@ -348,6 +348,60 @@ do:
     
     publish "prUpdateBrowser".
     apply "choose" to BtnCancel.
+    
+    finally:
+        if valid-object (controlador) then
+            delete object controlador.
+    end finally.
+end.
+
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+
+&Scoped-define SELF-NAME BtnOK
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _CONTROL BtnOK C-Win
+on choose of BtnOK in frame DEFAULT-FRAME /* Alterar */
+do:
+    assign 
+        fill-data-movto fill-descricao fill-narrativa fill-valor
+        rsTpMovto cb-banco cb-ccusto.
+    
+    do with frame {&FRAME-NAME}:
+        
+        {include/valida-lanc-fields.i}
+        message "Deseja alterar o movimento?" skip "Ação irreversível!"
+        view-as alert-box warning buttons yes-no update lChoice as logical .
+        if lChoice then do:
+            if not valid-object (controlador) then
+                controlador = new MovimentoControl().
+            controlador:alterar(input ip-id, 
+                                input date(fill-data-movto:input-value), 
+                                input entry(1, cb-banco:input-value, ";"),
+                                input entry(2, cb-banco:input-value, ";"),
+                                input entry(3, cb-banco:input-value, ";"), 
+                                input cb-ccusto:input-value, 
+                                input item.it-cod, 
+                                input 0, 
+                                input fill-descricao:input-value, 
+                                input integer(rsTpMovto:input-value), 
+                                input fill-narrativa:input-value, 
+                                input "", 
+                                input decimal(fill-valor:input-value)).
+            
+            if controlador:cReturn begins "Erro" 
+            then 
+                ico-dialog = "error".
+            else
+                ico-dialog = "success".
+                        
+            run smr/dialog.w (ico-dialog, controlador:cReturn, "").
+        end.
+        
+        publish "prUpdateBrowser".
+        apply "choose" to BtnCancel.
+    end.
+    
     
     finally:
         if valid-object (controlador) then

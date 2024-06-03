@@ -565,41 +565,7 @@ procedure prSalvarRegistro :
      Notes:
     ------------------------------------------------------------------------------*/
     do with frame {&FRAME-NAME}:
-        if fill-data-movto:input-value = ? then 
-        do:
-            ico-dialog = "error".
-            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Data obrigatória!").
-            apply "entry" to fill-data-movto.
-            return no-apply.
-        end.
-        if fill-valor:input-value = 0 then 
-        do:
-            ico-dialog = "error".
-            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Valor obrigatório!").
-            apply "entry" to fill-valor.
-            return no-apply.
-        end.
-        if fill-descricao:input-value = "" then 
-        do:
-            ico-dialog = "error".
-            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Descrição obrigatória!").
-            apply "entry" to fill-descricao.
-            return no-apply.
-        end.
-        if cb-ccusto:input-value = "" then 
-        do:
-            ico-dialog = "error".
-            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Centro de custo obrigatório!").
-            apply "entry" to cb-ccusto.
-            return no-apply.
-        end.
-        if cb-banco:input-value = "" then 
-        do:
-            ico-dialog = "error".
-            run smr/dialog.w (ico-dialog, "Erro ao criar registro!", "Conta bancária obrigatória!").
-            apply "entry" to cb-banco.
-            return no-apply.
-        end.
+        {include/valida-lanc-fields.i}
         if l-parcelar and fill-qtd-parc-repl:input-value = "" then 
         do:
             ico-dialog = "error".
@@ -629,7 +595,7 @@ procedure prSalvarRegistro :
             rsTpMovto:input-value,
             fill-narrativa:input-value,
             "",
-            (fill-valor:input-value * integer(rsTpMovto:input-value   ))).
+            fill-valor:input-value).
     
         if controlador:cReturn begins "Erro" then 
         do:
