@@ -425,7 +425,7 @@ procedure prCalculaSaldo :
              Copia registros do mov para uma tt
     -------------------------------------------------------------------------------- */ 
     empty temp-table ttMovto.
-    for each movto
+    for each movto no-lock
         where movto.data-mvto <= d-mov:
           
         create ttMovto.
@@ -439,7 +439,7 @@ procedure prCalculaSaldo :
         dCredT  = 0
         dDebT   = 0.
         
-    for each ttMovto exclusive-lock:
+    for each ttMovto:
         for each ttCtas no-lock
             where ttCtas.banco-cod = ttMovto.banco-cod
               and ttCtas.ag        = ttMovto.ag
@@ -461,7 +461,7 @@ procedure prCalculaSaldo :
     /* --------------------------------------------------------------------------------
              Calcula saldo total por conta e entre contas
     -------------------------------------------------------------------------------- */ 
-    for each ttCtas exclusive-lock:
+    for each ttCtas:
         assign 
             ttCtas.dCred  = (if ttCtas.lbl = cLbl then dCredT else ttCtas.dCred)
             ttCtas.dDeb   = (if ttCtas.lbl = cLbl then dDebT else ttCtas.dDeb)
