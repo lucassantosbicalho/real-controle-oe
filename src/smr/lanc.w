@@ -50,6 +50,20 @@ define buffer b-conta for conta.
 define buffer b-banco for banco.
 define buffer b-ccusto for ccusto.
 
+define temp-table tt-parc-repl no-undo
+    field dt-Data-mvto as date   
+    field c-Banco-cod as character
+    field c-Ag        as character
+    field c-Conta     as character
+    field c-Cc-cod    as character
+    field c-It-cod    as character
+    field i-Seq       as integer  
+    field c-Descricao as character
+    field i-Movto-tp  as integer  
+    field c-Narrativa as character
+    field c-Usuario   as character
+    field d-Valor     as decimal.
+
 {src/adm2/widgetprto.i}
 
 /* _UIB-CODE-BLOCK-END */
@@ -471,6 +485,8 @@ end.
 
 
 /* ***************************  Main Block  *************************** */
+empty temp-table tt-parc-repl.
+
 for each b-conta no-lock,
     each b-banco no-lock
         where b-banco.banco-cod = b-conta.banco-cod:
@@ -558,6 +574,63 @@ end procedure.
 /* _UIB-CODE-BLOCK-END */
 &ANALYZE-RESUME
 
+
+&ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prCriarParcelasReplicas lancamento
+procedure prCriarParcelasReplicas:
+/*------------------------------------------------------------------------------
+ Purpose:
+ Notes:
+------------------------------------------------------------------------------*/
+    define variable i-parc              as integer   no-undo.
+    define variable d-valor-parc-repl   as decimal   no-undo.
+    define variable c-desc              as character no-undo.
+    define variable d-data-mov          as date      no-undo.
+    
+    do with frame {&FRAME-NAME}:
+        do i-parc = 1 to fill-qtd-parc-repl:input-value:
+            
+            if rs-parcelar:input-value = 1 then 
+                assign 
+                    d-valor-parc-repl = fill-valor:input-value / fill-qtd-parc-repl:input-value
+                    c-desc            = substitute("&1 (&2/&3)", fill-descricao:input-value, i-parc, fill-qtd-parc-repl:input-value).
+            else 
+                assign 
+                    d-valor-parc-repl = fill-valor:input-value
+                    c-desc            = fill-descricao:input-value.
+            
+            if i-parc = 1 then 
+                assign 
+                    d-data-mov = fill-data-movto:input-value.
+            else 
+                assign
+                    d-data-mov = (fill-data-movto:input-value + fill-interval-dias:input-value).
+              
+            create tt-parc-repl.
+            assign 
+                tt-parc-repl.dt-Data-mvto = d-data-mov
+                tt-parc-repl.c-Banco-cod  = entry(1, cb-banco:input-value, ";")
+                tt-parc-repl.c-Ag         = entry(2, cb-banco:input-value, ";")
+                tt-parc-repl.c-Conta      = entry(3, cb-banco:input-value, ";")
+                tt-parc-repl.c-Cc-cod     = cb-ccusto:input-value
+                tt-parc-repl.c-It-cod     = item.it-cod
+                tt-parc-repl.i-Seq        = i-parc
+                tt-parc-repl.c-Descricao  = c-desc
+                tt-parc-repl.i-Movto-tp   = rsTpMovto:input-value
+                tt-parc-repl.c-Narrativa  = fill-narrativa:input-value
+                tt-parc-repl.c-Usuario    = ""
+                tt-parc-repl.d-Valor      = d-valor-parc-repl.
+                
+        end.
+    end.
+    
+    
+end procedure.
+    
+/* _UIB-CODE-BLOCK-END */
+&ANALYZE-RESUME
+
+
+
 &ANALYZE-SUSPEND _UIB-CODE-BLOCK _PROCEDURE prSalvarRegistro lancamento 
 procedure prSalvarRegistro :
 /*------------------------------------------------------------------------------
@@ -583,25 +656,29 @@ procedure prSalvarRegistro :
         
         if not valid-object (controlador) then
             controlador = new MovimentoControl().
-            
-        controlador:cadastrar(fill-data-movto:input-value,
-            entry(1, cb-banco:input-value, ";"),
-            entry(2, cb-banco:input-value, ";"),
-            entry(3, cb-banco:input-value, ";"),
-            cb-ccusto:input-value,
-            item.it-cod, 
-            1,
-            fill-descricao:input-value,
-            rsTpMovto:input-value,
-            fill-narrativa:input-value,
-            "",
-            fill-valor:input-value).
-    
-        if controlador:cReturn begins "Erro" then 
-        do:
-            ico-dialog = "error".
-            run smr/dialog.w (ico-dialog, controlador:cReturn, "").
+        
+        run prCriarParcelasReplicas.
+        
+        for each tt-parc-repl:
+            controlador:cadastrar(tt-parc-repl.dt-Data-mvto,
+                                  tt-parc-repl.c-Banco-cod, 
+                                  tt-parc-repl.c-Ag,        
+                                  tt-parc-repl.c-Conta,     
+                                  tt-parc-repl.c-Cc-cod,
+                                  tt-parc-repl.c-It-cod,    
+                                  tt-parc-repl.i-Seq,       
+                                  tt-parc-repl.c-Descricao, 
+                                  tt-parc-repl.i-Movto-tp,  
+                                  tt-parc-repl.c-Narrativa ,
+                                  tt-parc-repl.c-Usuario,   
+                                  tt-parc-repl.d-Valor).
+            if controlador:cReturn begins "Erro" then 
+            do:
+                ico-dialog = "error".
+                run smr/dialog.w (ico-dialog, controlador:cReturn, "").
+            end.
         end.
+    
     
         cb-banco = entry(2, cBanco).
         cb-ccusto = entry(2, cCCusto).
@@ -611,7 +688,8 @@ procedure prSalvarRegistro :
         fill-qtd-parc-repl:clear ().    
         fill-interval-dias:clear ().
         l-parcelar = false.
-    
+        
+        publish "prUpdateBrowser".
         publish "prCalculaSaldo" (today).
     end.
     finally:

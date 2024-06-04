@@ -347,6 +347,7 @@ do:
     end.
     
     publish "prUpdateBrowser".
+    publish "prCalculaSaldo" (today).
     apply "choose" to BtnCancel.
     
     finally:
@@ -399,6 +400,7 @@ do:
         end.
         
         publish "prUpdateBrowser".
+        publish "prCalculaSaldo" (today).
         apply "choose" to BtnCancel.
     end.
     

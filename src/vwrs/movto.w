@@ -377,7 +377,7 @@ do:
     run vwrs/lanc-edit(movto.id, 
                        rowid(item),
                        movto.data-mvto,
-                       movto.valor,
+                       abs(movto.valor),
                        movto.movto-tp,
                        movto.descricao,
                        substitute("&1;&2;&3", movto.banco-cod,movto.ag, movto.conta),
@@ -589,19 +589,19 @@ procedure prFiltrar :
     case cbFiltroPeriodo:
         when "7 dias"  then 
             assign d-dataI = today - 7
-                   d-dataF = today.
+                   d-dataF = today + 5000.
         when "15 dias" then
             assign d-dataI = today - 15
-                   d-dataF = today.
+                   d-dataF = today + 5000.
         when "30 dias" then
             assign d-dataI = today - 30
-                   d-dataF = today.
+                   d-dataF = today + 5000.
         when "60 dias" then
             assign d-dataI = today - 60
-                   d-dataF = today.
+                   d-dataF = today + 5000.
         when "90 dias" then
             assign d-dataI = today - 90
-                   d-dataF = today.
+                   d-dataF = today + 5000.
         otherwise 
             assign d-dataI = fill-DataI
                    d-dataF = fill-DataF.
