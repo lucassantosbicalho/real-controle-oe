@@ -598,12 +598,13 @@ procedure prCriarParcelasReplicas:
                     d-valor-parc-repl = fill-valor:input-value
                     c-desc            = fill-descricao:input-value.
             
-            if i-parc = 1 then 
+            if d-data-mov = ? then
                 assign 
                     d-data-mov = fill-data-movto:input-value.
-            else 
+                
+            if i-parc > 1 then 
                 assign
-                    d-data-mov = (fill-data-movto:input-value + fill-interval-dias:input-value).
+                    d-data-mov = (d-data-mov + fill-interval-dias:input-value).
               
             create tt-parc-repl.
             assign 
